@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Personel>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">PERSONEL LİSTESİ</h4>
+                    <a asp-controller="Personel" asp-action="PersonelEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fas fa-user-friends me-2"></i>+ Personel Ekle</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example3" class="display" style="min-width: 845px">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th></th>
+                                    <th>Ad-Soyad</th>
+                                    <th>Doğum Tarihi</th>
+                                    <th>E-Posta</th>
+                                    <th>Telefon</th>
+                                    <th>Rol</th>
+                                    <th>Maaş</th>
+                                    <th>Başlama Tarihi</th>
+                                    <th class="text-end">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pers in Model)
+                                {
+                                    <tr>
+                                        <td>@pers.Id</td>
+                                        <td>
+                                            <a asp-action="Index" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/admin/images/avatar/@pers.PersonelFotograf" alt="User Image" height="50" width="50"></a>
+                                        </td>
+                                        <td>@pers.Ad @pers.Soyad</td>
+                                        <td>@pers.DogumTarihi</td>
+                                        <td>@pers.Eposta</td>
+                                        <td>@pers.Telefon</td>
+                                        <td>
+                                            @if (pers.Rol == null)
+                                            {
+                                                <span>Yok</span>
+                                            }
+                                            else
+                                            {
+                                                @pers.Rol.Ad
+                                            }
+                                        </td>
+                                        <td>@pers.Maas</td>
+                                        <td>@pers.BaslamaTarihi</td>
+                                        <td class="text-end">                                           
+                                            <div class="d-end">
+                                                <a asp-action="PersonelEkle" asp-route-id="@pers.Id" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

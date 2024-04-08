@@ -1,0 +1,4 @@
+.deznav .metismenu > li:hover a > i {
+    color: #4885ed !important;
+    z-index:99999;
+}

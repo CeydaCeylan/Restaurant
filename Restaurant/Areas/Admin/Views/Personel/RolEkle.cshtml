@@ -1,0 +1,37 @@
+﻿@model Rol
+
+<div class="content-body ">
+    <div class="container-fluid ">       
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Rol Ekle</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-validation">
+                            <form asp-action="RolEkle" asp-controller="Personel" method="post" novalidate>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="mb-3 ">
+                                            <label class="text-label form-label " style="color:black;">Rol Ekle</label>
+                                            <input asp-for="Ad" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Ad" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">                  
+                                        <div class="mb-3 mt-4">
+                                            <div class="col-lg-10 ms-auto">
+                                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </div>
+</div>

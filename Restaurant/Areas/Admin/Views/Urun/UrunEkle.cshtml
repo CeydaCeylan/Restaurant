@@ -1,0 +1,100 @@
+﻿@model Urun
+
+<head>
+    <link href="~/admin/vendor/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/admin/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/admin/css/style.css" rel="stylesheet">
+
+</head>
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">           
+            <form asp-action="UrunEkle" asp-controller="Urun" enctype="multipart/form-data" method="post" novalidate>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">ÜRÜN EKLE</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-validation">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="mb-3 ">
+                                            <label class="text-label form-label " style="color:black;">Ad</label>
+                                            <input asp-for="Ad" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Ad" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Açıklama</label>
+                                            <input asp-for="Acıklama" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Acıklama" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Detay</label>
+                                            <input asp-for="Detay" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Detay" class="text-danger"></span>
+                                        </div>                                       
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="mb-3 mt-2">
+                                            <label class="text-label form-label" style="color:black;">Aktif</label>
+                                            <input asp-for="Aktif" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Aktif" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Fiyat</label>
+                                            <input asp-for="Fiyat" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Fiyat" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 mt-2">
+                                            <label class="text-label form-label" style="color:black;">İndirimli Fiyat</label>
+                                            <input asp-for="IndirimliFiyat" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="IndirimliFiyat" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="container" style="width:364px;">
+                                            <p style="color:black;">Fotoğraf Yükle</p>
+                                            <div class="input-group">
+                                                <div class="form-file">
+                                                    @if (Model != null)
+                                                    {
+                                                        <input asp-for="Fotograf" value="@Model.Fotograf" type="hidden" />
+                                                    }
+                                                    <label for="files" class="form-label" style="color:black;"></label>
+                                                    <input id="files" name="file" type="file" class="dropify" data-height="100" />
+                                                    <span asp-validation-for="Fotograf" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
+    <script src="~/admin/js/plugins-init/select2-init.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
+
+    <script>
+        $('.dropify').dropify();
+
+    </script>
+}               
