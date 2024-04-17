@@ -2,23 +2,21 @@
 
 namespace Restaurant.Areas.Admin.Controllers
 {
-
     [Area("Admin")]
 
-    public class MenuController : Controller
+    public class MasaController : Controller
     {
-
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult MenuEkle()
+        public IActionResult MasaEkle()
         {
             return View();
         }
 
-        public IActionResult MenuListele()
+        public IActionResult MasaListele()
         {
             return View();
         }

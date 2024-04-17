@@ -8531,7 +8531,7 @@ p {
   :root {
     font-size: 0.875rem; } }
 
-h1, .h1,
+/*h1, .h1,
 h2,
 .h2,
 h3,
@@ -8542,7 +8542,7 @@ h5,
 .h5,
 h6,
 .h6 {
-  font-family: var(--font-family-title); }
+  font-family: var(--font-family-title); }*/
 
 .box-shadow-none {
   box-shadow: none !important; }
@@ -12752,11 +12752,11 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li {
   padding: 0 1.25rem; }
   [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
-    font-size: 1.125rem;
+    font-size: 19px;
     padding: 0.5rem 2.1875rem;
     border-radius: 2rem;
     padding-left: 0.625rem;
-    font-family: var(--font-family-title);
+    /*font-family: var(--font-family-title);*/
     -webkit-transition: all 0.5s;
     -ms-transition: all 0.5s;
     transition: all 0.5s; }

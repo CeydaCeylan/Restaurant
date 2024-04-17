@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Personel>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">PERSONELLER</h4>                  
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example3" class="display" style="min-width: 845px">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ad-Soyad</th>   
+                                    <th>Maaş</th>
+                                    <th>Başlama Tarihi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var person in Model)
+                                {
+                                    <tr>
+                                        <td>@person.Id</td>
+                                        <td>@person.Ad</td>
+                                        <td>@person.Maas</td>
+                                        <td>@person.BaslamaTarihi</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

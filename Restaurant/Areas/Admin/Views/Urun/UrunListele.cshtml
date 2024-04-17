@@ -1,102 +1,50 @@
-﻿<div class="content-body">
-	<div class="container-fluid">		
-		<div class="row">
-			<div class="col-lg-12 col-xl-6">
-				<div class="card">
-					<div class="card-body">
-						<div class="menu-product d-flex">
-							<img src="/admin/images/product/pizz1.jpg">
-							<div class="content-detail-wrap">
-								<div>
-									<h4>Margherita Pizza</h4>
-									<span>Lots of cheese</span>
-								</div>
-								<div class="mt-4 d-flex justify-content-between align-items-center">
-									<div>
-										<h5 class="mb-0"><span class="fs-14 me-2">start From</span>$15.00</h5>
-										<span class="text-danger">Customization available</span>
-									</div>
-									<div>
-										<a href="javascript:void(0);" class="btn btn-danger">Add</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-12 col-xl-6">
-				<div class="card">
-					<div class="card-body">
-						<div class="menu-product d-flex">
-							<img src="/admin/images/product/pizz2.jpg">
-							<div class="content-detail-wrap">
-								<div>
-									<h4>Vegitarian Bite Pizza</h4>
-									<span>Cheese, Green Pepper, Tomato, Onions.</span>
-								</div>
-								<div class="mt-4 d-flex justify-content-between align-items-center">
-									<div>
-										<h5 class="mb-0"><span class="fs-14 me-2">start From</span>Rs 165.00</h5>
-										<span class="text-danger">Customization available</span>
-									</div>
-									<div>
-										<a href="javascript:void(0);" class="btn btn-danger">Add</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-12 col-xl-6">
-				<div class="card">
-					<div class="card-body">
-						<div class="menu-product d-flex">
-							<img src="/admin/images/product/pizz3.jpg">
-							<div class="content-detail-wrap">
-								<div>
-									<h4>Mushroom Riot Pizza</h4>
-									<span>Cheese, Mushroom, Cheese, Garlic, Chili</span>
-								</div>
-								<div class="mt-4 d-flex justify-content-between align-items-center">
-									<div>
-										<h5 class="mb-0"><span class="fs-14 me-2">start From</span>$15.00</h5>
-										<span class="text-danger">Customization available</span>
-									</div>
-									<div>
-										<a href="javascript:void(0);" class="btn btn-danger">Add</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-12 col-xl-6">
-				<div class="card">
-					<div class="card-body">
-						<div class="menu-product d-flex">
-							<img src="/admin/images/product/pizza4.jpg">
-							<div class="content-detail-wrap">
-								<div>
-									<h4>American Heat Pizza</h4>
-									<span>Cheese, green pepper, onion, baby corn, jalapeno</span>
-								</div>
-								<div class="mt-4 d-flex justify-content-between align-items-center">
-									<div>
-										<h5 class="mb-0"><span class="fs-14 me-2">start From</span>$15.00</h5>
-										<span class="text-danger">Customization available</span>
-									</div>
-									<div>
-										<a href="javascript:void(0);" class="btn btn-danger">Add</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+﻿@model IEnumerable<Urun>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card-header">
+                <h4 class="card-title">ÜRÜN LİSTESİ</h4>
+                <a asp-controller="Urun" asp-action="UrunEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-box"></i> Ürün Ekle</a>
+            </div>
+            @foreach (var urun in Model)
+            {
+                <div class="col-lg-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="menu-product d-flex">
+                                <img src="~/img/@urun.Fotograf">
+                                <div class="content-detail-wrap">
+                                    <div>
+                                        <h4>@urun.Ad</h4>
+                                        <span>@urun.Acıklama</span>
+                                    </div>
+                                    <div class="mt-4 d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 class="mb-0"><span class="fs-14 me-2">Fiyat: </span>@urun.Fiyat</h5>
+                                            @if (urun.IndirimTarihi.HasValue)
+                                            {
+                                                <span class="text-danger">İndirim Geçerlilik Tarihi: @urun.IndirimTarihi.Value.ToString("dd-MM-yyyy")</span>
+                                            }
+                                        </div>
+
+                                        <div class="d-end">
+                                            <a asp-action="UrunEkle" asp-route-id="@urun.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                             <a class="btn btn-warning shadow btn-s sharp me-1" asp-controller="Urun" asp-action="Incele" asp-route-id="@urun.Id">
+                                                    <i class="fa-sharp fa-solid fa-eye"></i>
+                                                </a>                                              
+                                            <a asp-route-id="@urun.Id" asp-controller="Urun" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+

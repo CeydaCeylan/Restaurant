@@ -11,6 +11,10 @@ public partial class Rol
     [Required(ErrorMessage = "*Zorunlu Alan")]
     public string? Ad { get; set; }
 
+    [Required(ErrorMessage = "*Zorunlu Alan")]
+
+    public DateOnly? EklenmeTarihi { get; set; }
+
 	public bool? Gorunurluk { get; set; }
 
 	public ICollection<Personel> Personellers { get; set; } = new List<Personel>();

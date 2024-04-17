@@ -27,14 +27,27 @@ namespace Restaurant.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> MalzemeEkle(Malzeme model)
+        public async Task<IActionResult> MalzemeEkle(Malzeme model, int id)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Malzemeler.Add(model);
-                await _context.SaveChangesAsync();
+                model.Gorunurluk = true;
 
-                return RedirectToAction("MalzemeListele");
+                if (id == 0)
+                {
+
+                    _context.Malzemeler.Add(model);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("MalzemeListele");
+                }
+
+                else
+                {
+                    _context.Update(model);
+                    _context.SaveChanges();
+                    return RedirectToAction("MalzemeListele");
+                }
             }
             else
             {
@@ -44,9 +57,24 @@ namespace Restaurant.Areas.Admin.Controllers
 
         public async Task<IActionResult> MalzemeListele()
         {
-            var malzeme = _context.Malzemeler.ToList();
+
+            var malzeme = await _context.Malzemeler.Where(p => p.Gorunurluk == true).ToListAsync();
             return View(malzeme);
 
+        }
+
+        public async Task<IActionResult> Sil(int id)
+        {
+            var malzeme = _context.Malzemeler.FirstOrDefault(x => x.Id == id);
+
+            if (malzeme != null)
+            {
+                malzeme.Gorunurluk = false;
+                _context.Malzemeler.Update(malzeme);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("MalzemeListele");
         }
     }
 }

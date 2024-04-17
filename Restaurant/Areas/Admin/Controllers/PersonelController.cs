@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Restaurant.Data;
 using Restaurant.Models;
 
@@ -68,13 +69,32 @@ namespace Restaurant.Areas.Admin.Controllers
                         return View(model);
                     }
 
-                    model.PersonelFotograf = file.FileName;
+                    var random = string.Format($"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}");
+                    var resimyolu = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", random);
+                    using (var stream = new FileStream(resimyolu, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    model.PersonelFotograf = random;
                 }
 
-                _context.Personeller.Add(model);
-                await _context.SaveChangesAsync();
+                model.Gorunurluk = true;
 
-                return RedirectToAction("PersonelListele");
+                if (id == 0)
+                {
+                    _context.Personeller.Add(model);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("PersonelListele");
+                }
+                else
+                {
+                    _context.Update(model);
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
             }
             else
             {
@@ -88,15 +108,37 @@ namespace Restaurant.Areas.Admin.Controllers
             return View();
         }
 
+        public async Task<IActionResult> RolDetay(int id)
+        {
+            var rol = await _context.Roller
+                     .FindAsync(id);
+            var personel = await _context.Personeller.Where(x => x.RolId == id)
+                .ToListAsync();
+            return View(personel);
+
+        }
+
         [HttpPost]
-        public async Task<IActionResult> RolEkle(Rol model)
+        public async Task<IActionResult> RolEkle(Rol model,int id)
         {
             if (ModelState.IsValid)
             {
-                _context.Roller.Add(model);
-                await _context.SaveChangesAsync();
+                model.Gorunurluk = true;
 
-                return RedirectToAction("RolListe");
+                if (id == 0)
+                {
+                    
+                    _context.Roller.Add(model);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("RolListe");
+                }
+
+                else
+                {
+                    _context.Update(model);
+                    _context.SaveChanges();
+                    return RedirectToAction("RolListe");
+                }
             }
             else
             {
@@ -104,21 +146,52 @@ namespace Restaurant.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult RolListe()
+        public async Task<IActionResult> RolListe(int id)
         {
-            var rol = _context.Roller.ToList();
+            var rol = await _context.Roller
+                     .Where(r => r.Gorunurluk == true)
+                     .Include(f => f.Personellers)
+                     .ToListAsync();
+            var roller = rol.FirstOrDefault(x => x.Id == id);
 
             return View(rol);
+        }
+
+        public async Task<IActionResult> RolSil(int id)
+        {
+            var rol = _context.Roller.FirstOrDefault(x => x.Id == id);
+
+            if (rol != null)
+            {
+                rol.Gorunurluk = false;
+                _context.Roller.Update(rol);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("RolListe");
         }
 
         public async Task<IActionResult> PersonelListele()
         {
 
-            var personel = _context.Personeller.ToList();
+            var personel = await _context.Personeller.Where(p => p.Gorunurluk == true).ToListAsync();
             ViewBag.Roller = new SelectList(await _context.Roller.ToListAsync(), "Id", "RolAd");
-
             return View(personel);
 
+        }
+
+        public async Task<IActionResult> Sil(int id)
+        {
+            var personel = _context.Personeller.FirstOrDefault(x => x.Id == id);
+
+            if(personel != null)
+            {
+                personel.Gorunurluk = false; 
+                _context.Personeller.Update(personel); 
+                await _context.SaveChangesAsync();
+            }          
+
+            return RedirectToAction("PersonelListele");
         }
     }
 }

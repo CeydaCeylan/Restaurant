@@ -11,7 +11,7 @@ public partial class Menu
 
     public string? Aciklama { get; set; }
 
-    public int? Fiyat { get; set; }
+    public decimal? Fiyat { get; set; }
 
     public string? Detay { get; set; }
 
@@ -20,5 +20,14 @@ public partial class Menu
     public bool? Aktif { get; set; }
 	public bool? Gorunurluk { get; set; }
 
-	public int? IndirimliFiyat { get; set; }
+	public decimal? IndirimliFiyat { get; set; }
+
+    public int? IndirimYuzdesi { get; set; }
+
+    public DateOnly? IndirimTarihi { get; set; }
+
+    public int KategoriId { get; set; }
+
+    public Kategori? Kategori { get; set; }
+
 }

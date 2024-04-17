@@ -18,18 +18,19 @@ public partial class Urun
     public string? Detay { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
-    public int? Fiyat { get; set; }
+    public decimal? Fiyat { get; set; }
 
-    [Required(ErrorMessage = "*Zorunlu Alan")]
     public string? Fotograf { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
     public string? Aktif { get; set; }
 
-    public int? IndirimliFiyat { get; set; }
+    public decimal? IndirimliFiyat { get; set; }
 
-    public int? KategorId { get; set; }
+    public int? IndirimYuzdesi { get; set; }
 
+    public DateOnly? IndirimTarihi {  get; set; }
+    public int? KategoriId { get; set; }
     public Kategori? Kategori { get; set; }
 	public bool? Gorunurluk { get; set; }
 

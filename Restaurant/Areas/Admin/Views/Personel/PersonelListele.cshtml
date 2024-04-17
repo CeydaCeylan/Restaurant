@@ -13,31 +13,31 @@
                         <table id="example3" class="display" style="min-width: 845px">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th></th>
-                                    <th>Ad-Soyad</th>
-                                    <th>Doğum Tarihi</th>
-                                    <th>E-Posta</th>
-                                    <th>Telefon</th>
-                                    <th>Rol</th>
-                                    <th>Maaş</th>
-                                    <th>Başlama Tarihi</th>
-                                    <th class="text-end">İşlemler</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">Ad-Soyad</th>
+                                    <th class="text-center">Doğum Tarihi</th>
+                                    <th class="text-center">E-Posta</th>
+                                    <th class="text-center">Telefon</th>
+                                    <th class="text-center">Rol</th>
+                                    <th class="text-center">Maaş</th>
+                                    <th class="text-center">Başlama Tarihi</th>
+                                    <th class="text-end" style="width: 200px;">İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var pers in Model)
                                 {
                                     <tr>
-                                        <td>@pers.Id</td>
-                                        <td>
-                                            <a asp-action="Index" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/admin/images/avatar/@pers.PersonelFotograf" alt="User Image" height="50" width="50"></a>
+                                        <td class="text-center">@pers.Id</td>
+                                        <td class="text-center">
+                                            <a asp-action="Index" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/img/@pers.PersonelFotograf" alt="User Image" height="50" width="50"></a>
                                         </td>
-                                        <td>@pers.Ad @pers.Soyad</td>
-                                        <td>@pers.DogumTarihi</td>
-                                        <td>@pers.Eposta</td>
-                                        <td>@pers.Telefon</td>
-                                        <td>
+                                        <td class="text-center">@pers.Ad @pers.Soyad</td>
+                                        <td class="text-center">@pers.DogumTarihi</td>
+                                        <td class="text-center">@pers.Eposta</td>
+                                        <td class="text-center">@pers.Telefon</td>
+                                        <td class="text-center">
                                             @if (pers.Rol == null)
                                             {
                                                 <span>Yok</span>
@@ -47,14 +47,105 @@
                                                 @pers.Rol.Ad
                                             }
                                         </td>
-                                        <td>@pers.Maas</td>
-                                        <td>@pers.BaslamaTarihi</td>
-                                        <td class="text-end">                                           
+                                        <td class="text-center">@pers.Maas</td>
+                                        <td class="text-center">@pers.BaslamaTarihi</td>
+                                        <td class="text-end">
                                             <div class="d-end">
-                                                <a asp-action="PersonelEkle" asp-route-id="@pers.Id" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                <a asp-action="PersonelEkle" asp-route-id="@pers.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                <button type="button" class="btn btn-warning shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#personel_@pers.Id"><i class="fa-sharp fa-solid fa-eye"></i></button>
+                                                <a asp-route-id="@pers.Id" asp-controller="Personel" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
+                                    <div class="modal fade" id="personel_@pers.Id">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color: cornflowerblue">
+                                                    <div class="d-flex justify-content-center w-100">
+                                                        <h5 class="modal-title"><b>PERSONEL DETAY</b></h5>
+                                                    </div>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="d-flex justify-content-start align-items-center mb-3">
+                                                        <div class="profile-image ms-3">
+                                                            <img class="rounded-circle" alt="User Image" src="~/img/@pers.PersonelFotograf" width="60" height="60" />
+                                                        </div>
+                                                        <div class="ms-3">
+                                                            <p class="text-uppercase" style="color: black;"><b>@pers.Ad @pers.Soyad</b></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>DOĞUM TARİHİ:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@pers.DogumTarihi</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>CİNSİYET:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@(pers.Cinsiyet.HasValue ? (pers.Cinsiyet.Value ? "Kadın" : "Erkek") : "Belirtilmemiş")</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>E POSTA:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@pers.Eposta</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>TELEFON:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@pers.Telefon</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>ADRES:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@pers.Adres</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>Rol:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@pers.Rol?.Ad</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>BAŞLAMA TARİHİ:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@pers.BaslamaTarihi</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mb-0" style="color: black;"><strong>MAAŞ:</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <p>@pers.Maas</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Kapat</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             </tbody>
                         </table>
@@ -64,3 +155,4 @@
         </div>
     </div>
 </div>
+

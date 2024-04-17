@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Musteri>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">MÜŞTERİ LİSTESİ</h4>                   
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example3" class="display" style="min-width: 845px">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Ad-Soyad</th>
+                                    <th class="text-center">Doğum Tarihi</th>
+                                    <th class="text-center">E-Posta</th>
+                                    <th class="text-center">Telefon</th>
+                                    <th class="text-center">Kayıt Tarihi</th>
+                                    <th class="text-end">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var mus in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">@mus.Id</td>                                        
+                                        <td class="text-center">@mus.Ad @mus.Soyad</td>
+                                        <td class="text-center">@mus.Dogumtarihi</td>
+                                        <td class="text-center">@mus.Eposta</td>
+                                        <td class="text-center">@mus.Telefon</td>                                      
+                                        <td class="text-center">@mus.KayitTarihi</td>
+                                        <td class="text-end">
+                                            <div class="d-end">                                                
+                                                <a asp-route-id="@mus.Id" asp-controller="Musteri" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                   
+                                           
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

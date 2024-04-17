@@ -10,9 +10,11 @@ public partial class Tedarikci
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
 
-    public string? Ad { get; set; }
+    public string? AdSoyad { get; set; }
+
     [Required(ErrorMessage = "*Zorunlu Alan")]
-    public string? Soyad { get; set; }
+
+    public string? Firma { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
 

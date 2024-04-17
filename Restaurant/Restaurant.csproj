@@ -29,6 +29,7 @@
     <Folder Include="Areas\Musteri\Data\" />
     <Folder Include="Areas\Musteri\Models\" />
     <Folder Include="Areas\Musteri\Views\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

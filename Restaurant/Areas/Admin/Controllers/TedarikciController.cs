@@ -32,6 +32,7 @@ namespace Restaurant.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Gorunurluk = true;
                 _context.Tedarikciler.Add(model);
                 await _context.SaveChangesAsync();
 
@@ -44,9 +45,24 @@ namespace Restaurant.Areas.Admin.Controllers
         }
         public async Task<IActionResult> TedarikciListele()
         {
-            var tedarikci = _context.Tedarikciler.ToList();
+            var tedarikci = await _context.Tedarikciler.Where(p => p.Gorunurluk == true).ToListAsync();
+
             return View(tedarikci);
 
+        }
+
+        public async Task<IActionResult> Sil(int id)
+        {
+            var tedarikci = _context.Tedarikciler.FirstOrDefault(x => x.Id == id);
+
+            if (tedarikci != null)
+            {
+                tedarikci.Gorunurluk = false;
+                _context.Tedarikciler.Update(tedarikci);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("TedarikciListele");
         }
     }
 }

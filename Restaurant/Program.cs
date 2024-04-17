@@ -31,28 +31,13 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-	name: "Admin",
+	name: "areas",
 	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(
-	name: "Admin",
-	pattern: "{area:exists}/{controller=Personel}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
-    name: "Admin",
-    pattern: "{area:exists}/{controller=Tedarikci}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
-    name: "Admin",
-    pattern: "{area:exists}/{controller=Malzeme}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
-    name: "Admin",
-    pattern: "{area:exists}/{controller=Musteri}/{action=Index}/{id?}");
 
 //varsayýlan
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+	pattern: "{area=admin}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

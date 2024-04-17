@@ -11,7 +11,6 @@ public partial class StokGirdi
 
     public int? AlısFiyati { get; set; }
 
-
     public DateTime? Tarih { get; set; }
 
     public int? TedarikciId { get; set; }

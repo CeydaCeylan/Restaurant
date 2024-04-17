@@ -19,14 +19,17 @@
                                             <span asp-validation-for="Ad" class="text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4">                  
-                                        <div class="mb-3 mt-4">
-                                            <div class="col-lg-10 ms-auto">
-                                                <button type="submit" class="btn btn-primary">Kaydet</button>
-                                            </div>
+                                    <div class="col-xl-6">
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Eklenme Tarihi</label>
+                                            <input asp-for="EklenmeTarihi" class="form-control border border-dark" type="date">
+                                            <span asp-validation-for="EklenmeTarihi" class="text-danger"></span>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                                    </div>
+                                </div>                              
                             </form>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.Models;
 
@@ -11,9 +12,11 @@ using Restaurant.Models;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    partial class IdentityDataContextModelSnapshot : ModelSnapshot
+    [Migration("20240416094102_yeni")]
+    partial class yeni
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -518,12 +521,7 @@ namespace Restaurant.Migrations
                     b.Property<decimal?>("IndirimliFiyat")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("KategoriId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("KategoriId");
 
                     b.ToTable("Menuler");
                 });
@@ -1446,17 +1444,6 @@ namespace Restaurant.Migrations
                     b.Navigation("Masa");
 
                     b.Navigation("Siparis");
-                });
-
-            modelBuilder.Entity("Restaurant.Data.Menu", b =>
-                {
-                    b.HasOne("Restaurant.Data.Kategori", "Kategori")
-                        .WithMany()
-                        .HasForeignKey("KategoriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kategori");
                 });
 
             modelBuilder.Entity("Restaurant.Data.MenuUrun", b =>
