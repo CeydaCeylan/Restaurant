@@ -21,9 +21,10 @@ namespace Restaurant.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult UrunEkle()
+        public async Task<IActionResult> UrunEkle(int id)
         {
-            return View();
+            var urun = await _context.Urunler.FirstOrDefaultAsync(x => x.Id == id);
+            return View(urun);
         }
 
         [HttpPost]
@@ -96,9 +97,6 @@ namespace Restaurant.Areas.Admin.Controllers
             return RedirectToAction("UrunListele");
         }
 
-        public IActionResult Incele()
-        { 
-            return View(); 
-        }
+      
     }
 }

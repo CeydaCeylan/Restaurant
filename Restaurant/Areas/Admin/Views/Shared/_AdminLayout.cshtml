@@ -554,6 +554,16 @@
                     </li>
                     <li>
                         <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                            <i class="fa-sharp fa-solid fa-list"></i>
+                            <span class="nav-text">Kategori İşlemleri</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a asp-controller="Kategori" asp-action="KategoriEkle">Kategori Ekle</a></li>
+                            <li><a asp-controller="Kategori" asp-action="KategoriListele">Kategori Listesi</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                             <i class="fa-solid fa-pizza-slice"></i>
                             <span class="nav-text">Ürün İşlemleri</span>
                         </a>
@@ -579,7 +589,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a asp-controller="Masa" asp-action="MasaEkle">Masa Ekle</a></li>
-                            <li><a href="javascript:void()">Masa Listesi</a></li>
+                            <li><a asp-controller="Masa" asp-action="MasaListele">Masa Listesi</a></li>
                             <li><a href="javascript:void()">Masa Özelliği Ekle</a></li>
                         </ul>
                     </li>

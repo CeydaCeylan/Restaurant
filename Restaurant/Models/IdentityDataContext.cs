@@ -75,5 +75,22 @@ namespace Restaurant.Models
 		public DbSet<UrunMalzeme> UrunMalzemeler { get; set; }
 
 		public DbSet<Yorum> Yorumlar { get; set; }
-	}
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+			builder.Entity<Personel>
+				().Property(p => p.Maas)
+				.HasColumnType("decimal (10,2)");
+
+            builder.Entity<Malzeme>
+                ().Property(m => m.Fiyat)
+                .HasColumnType("decimal (10,2)");
+
+            builder.Entity<Urun>
+               ().Property(u => u.Fiyat)
+               .HasColumnType("decimal (10,2)");
+        }
+    }
 }

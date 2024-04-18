@@ -12,7 +12,7 @@ using Restaurant.Models;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    [Migration("20240416072145_init")]
+    [Migration("20240417144622_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -327,7 +327,7 @@ namespace Restaurant.Migrations
 
                     b.Property<decimal?>("Fiyat")
                         .IsRequired()
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal (10,2)");
 
                     b.Property<bool?>("Gorunurluk")
                         .HasColumnType("tinyint(1)");
@@ -384,9 +384,14 @@ namespace Restaurant.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("Kapasite")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int>("KategoriId")
                         .HasColumnType("int");
 
                     b.Property<string>("Kod")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int?>("OdenenTutar")
@@ -399,6 +404,8 @@ namespace Restaurant.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("KategoriId");
 
                     b.HasIndex("PersonelId");
 
@@ -521,7 +528,12 @@ namespace Restaurant.Migrations
                     b.Property<decimal?>("IndirimliFiyat")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<int>("KategoriId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("KategoriId");
 
                     b.ToTable("Menuler");
                 });
@@ -660,7 +672,7 @@ namespace Restaurant.Migrations
 
                     b.Property<decimal?>("Maas")
                         .IsRequired()
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal (10,2)");
 
                     b.Property<string>("PersonelFotograf")
                         .HasColumnType("longtext");
@@ -1067,10 +1079,9 @@ namespace Restaurant.Migrations
 
                     b.Property<decimal?>("Fiyat")
                         .IsRequired()
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal (10,2)");
 
                     b.Property<string>("Fotograf")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool?>("Gorunurluk")
@@ -1084,9 +1095,6 @@ namespace Restaurant.Migrations
 
                     b.Property<decimal?>("IndirimliFiyat")
                         .HasColumnType("decimal(65,30)");
-
-                    b.Property<int?>("KategorId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("KategoriId")
                         .HasColumnType("int");
@@ -1386,9 +1394,17 @@ namespace Restaurant.Migrations
 
             modelBuilder.Entity("Restaurant.Data.Masa", b =>
                 {
+                    b.HasOne("Restaurant.Data.Kategori", "Kategori")
+                        .WithMany()
+                        .HasForeignKey("KategoriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Restaurant.Data.Personel", "Personel")
                         .WithMany("Masalars")
                         .HasForeignKey("PersonelId");
+
+                    b.Navigation("Kategori");
 
                     b.Navigation("Personel");
                 });
@@ -1448,6 +1464,17 @@ namespace Restaurant.Migrations
                     b.Navigation("Masa");
 
                     b.Navigation("Siparis");
+                });
+
+            modelBuilder.Entity("Restaurant.Data.Menu", b =>
+                {
+                    b.HasOne("Restaurant.Data.Kategori", "Kategori")
+                        .WithMany()
+                        .HasForeignKey("KategoriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Kategori");
                 });
 
             modelBuilder.Entity("Restaurant.Data.MenuUrun", b =>

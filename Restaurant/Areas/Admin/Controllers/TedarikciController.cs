@@ -22,9 +22,10 @@ namespace Restaurant.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult TedarikciEkle()
+        public async Task<IActionResult> TedarikciEkle(int id)
         {
-            return View();
+            var tedarikci = await _context.Tedarikciler.FirstOrDefaultAsync(x => x.Id == id);
+            return View(tedarikci);
         }
 
         [HttpPost]

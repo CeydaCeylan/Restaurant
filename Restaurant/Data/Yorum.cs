@@ -17,6 +17,10 @@ public partial class Yorum
 
     public int? Begenme { get; set; }
 
+    public int? Durum { get; set; }
+    // Onaylanma Durumu
+    // 1 Onaylanmamış,2 Onaylandı,3 Kullanıcı yorumu sildi, 4 Admin yorumu sildi.
+
     public int? MusteriId { get; set; }
 	public bool? Gorunurluk { get; set; }
 

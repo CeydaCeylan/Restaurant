@@ -17,4 +17,5 @@ public partial class SiparisUrun
 	public Siparis Siparis { get; set; } = null!;
 
     public Urun Urun { get; set; } = null!;
+
 }

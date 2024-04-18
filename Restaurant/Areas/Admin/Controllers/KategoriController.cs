@@ -5,13 +5,14 @@ using Restaurant.Models;
 
 namespace Restaurant.Areas.Admin.Controllers
 {
+
     [Area("Admin")]
-    public class MalzemeController : Controller
+    public class KategoriController : Controller
     {
 
         private readonly IdentityDataContext _context;
 
-        public MalzemeController(IdentityDataContext context)
+        public KategoriController(IdentityDataContext context)
         {
             _context = context;
 
@@ -21,14 +22,15 @@ namespace Restaurant.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> MalzemeEkle(int id)
+        public async Task<IActionResult> KategoriEkle(int id)
         {
-            var malzeme = await _context.Malzemeler.FirstOrDefaultAsync(x => x.Id == id);
-            return View(malzeme);
+            var kategori = await _context.Kategoriler.FirstOrDefaultAsync(x => x.Id == id);
+            return View(kategori);
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> MalzemeEkle(Malzeme model, int id)
+        public async Task<IActionResult> KategoriEkle(Kategori model, int id)
         {
 
             if (ModelState.IsValid)
@@ -38,16 +40,16 @@ namespace Restaurant.Areas.Admin.Controllers
                 if (id == 0)
                 {
 
-                    _context.Malzemeler.Add(model);
+                    _context.Kategoriler.Add(model);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("MalzemeListele");
+                    return RedirectToAction("KategoriListele");
                 }
 
                 else
                 {
                     _context.Update(model);
                     _context.SaveChanges();
-                    return RedirectToAction("MalzemeListele");
+                    return RedirectToAction("KategoriListele");
                 }
             }
             else
@@ -55,27 +57,24 @@ namespace Restaurant.Areas.Admin.Controllers
                 return View(model);
             }
         }
-
-        public async Task<IActionResult> MalzemeListele()
+        public async Task<IActionResult> KategoriListele()
         {
-
-            var malzeme = await _context.Malzemeler.Where(p => p.Gorunurluk == true).ToListAsync();
-            return View(malzeme);
-
+            var kategori = await _context.Kategoriler.Where(p => p.Gorunurluk == true).ToListAsync();
+            return View(kategori);
         }
 
         public async Task<IActionResult> Sil(int id)
         {
-            var malzeme = _context.Malzemeler.FirstOrDefault(x => x.Id == id);
+            var kategori = _context.Kategoriler.FirstOrDefault(x => x.Id == id);
 
-            if (malzeme != null)
+            if (kategori != null)
             {
-                malzeme.Gorunurluk = false;
-                _context.Malzemeler.Update(malzeme);
+                kategori.Gorunurluk = false;
+                _context.Kategoriler.Update(kategori);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("MalzemeListele");
+            return RedirectToAction("KategoriListele");
         }
     }
 }

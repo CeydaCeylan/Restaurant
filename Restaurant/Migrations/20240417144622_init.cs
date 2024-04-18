@@ -102,33 +102,6 @@ namespace Restaurant.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Menuler",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Ad = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Aciklama = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fiyat = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
-                    Detay = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fotograf = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Aktif = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    IndirimliFiyat = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
-                    IndirimYuzdesi = table.Column<int>(type: "int", nullable: true),
-                    IndirimTarihi = table.Column<DateOnly>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Menuler", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Mutfaklar",
                 columns: table => new
                 {
@@ -347,6 +320,40 @@ namespace Restaurant.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Menuler",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Ad = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Aciklama = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Fiyat = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
+                    Detay = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Fotograf = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Aktif = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    IndirimliFiyat = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
+                    IndirimYuzdesi = table.Column<int>(type: "int", nullable: true),
+                    IndirimTarihi = table.Column<DateOnly>(type: "date", nullable: true),
+                    KategoriId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menuler", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Menuler_Kategoriler_KategoriId",
+                        column: x => x.KategoriId,
+                        principalTable: "Kategoriler",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Urunler",
                 columns: table => new
                 {
@@ -358,15 +365,14 @@ namespace Restaurant.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Detay = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fiyat = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Fotograf = table.Column<string>(type: "longtext", nullable: false)
+                    Fiyat = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Fotograf = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Aktif = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IndirimliFiyat = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
                     IndirimYuzdesi = table.Column<int>(type: "int", nullable: true),
                     IndirimTarihi = table.Column<DateOnly>(type: "date", nullable: true),
-                    KategorId = table.Column<int>(type: "int", nullable: true),
                     KategoriId = table.Column<int>(type: "int", nullable: true),
                     Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
@@ -395,7 +401,7 @@ namespace Restaurant.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Telefon = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Maas = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Maas = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     DogumTarihi = table.Column<DateOnly>(type: "date", nullable: false),
                     BaslamaTarihi = table.Column<DateOnly>(type: "date", nullable: false),
                     Cinsiyet = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -499,18 +505,25 @@ namespace Restaurant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Kod = table.Column<string>(type: "longtext", nullable: true)
+                    Kod = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Durum = table.Column<int>(type: "int", nullable: true),
-                    Kapasite = table.Column<int>(type: "int", nullable: true),
+                    Kapasite = table.Column<int>(type: "int", nullable: false),
                     Tutar = table.Column<int>(type: "int", nullable: true),
                     OdenenTutar = table.Column<int>(type: "int", nullable: true),
                     Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    PersonelId = table.Column<int>(type: "int", nullable: true)
+                    PersonelId = table.Column<int>(type: "int", nullable: true),
+                    KategoriId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Masalar", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Masalar_Kategoriler_KategoriId",
+                        column: x => x.KategoriId,
+                        principalTable: "Kategoriler",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Masalar_Personeller_PersonelId",
                         column: x => x.PersonelId,
@@ -555,7 +568,7 @@ namespace Restaurant.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Turu = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fiyat = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Fiyat = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true),
                     StokId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -1138,6 +1151,11 @@ namespace Restaurant.Migrations
                 column: "StokId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Masalar_KategoriId",
+                table: "Masalar",
+                column: "KategoriId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Masalar_PersonelId",
                 table: "Masalar",
                 column: "PersonelId");
@@ -1171,6 +1189,11 @@ namespace Restaurant.Migrations
                 name: "IX_MasaSiparisler_SiparisId",
                 table: "MasaSiparisler",
                 column: "SiparisId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Menuler_KategoriId",
+                table: "Menuler",
+                column: "KategoriId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuUrunler_MenuId",
@@ -1391,9 +1414,6 @@ namespace Restaurant.Migrations
                 name: "Stoklar");
 
             migrationBuilder.DropTable(
-                name: "Kategoriler");
-
-            migrationBuilder.DropTable(
                 name: "Musteriler");
 
             migrationBuilder.DropTable(
@@ -1401,6 +1421,9 @@ namespace Restaurant.Migrations
 
             migrationBuilder.DropTable(
                 name: "Masalar");
+
+            migrationBuilder.DropTable(
+                name: "Kategoriler");
 
             migrationBuilder.DropTable(
                 name: "Personeller");

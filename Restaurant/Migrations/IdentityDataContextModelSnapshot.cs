@@ -324,7 +324,7 @@ namespace Restaurant.Migrations
 
                     b.Property<decimal?>("Fiyat")
                         .IsRequired()
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal (10,2)");
 
                     b.Property<bool?>("Gorunurluk")
                         .HasColumnType("tinyint(1)");
@@ -381,9 +381,14 @@ namespace Restaurant.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("Kapasite")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("KategoriId")
                         .HasColumnType("int");
 
                     b.Property<string>("Kod")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int?>("OdenenTutar")
@@ -396,6 +401,8 @@ namespace Restaurant.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("KategoriId");
 
                     b.HasIndex("PersonelId");
 
@@ -662,7 +669,7 @@ namespace Restaurant.Migrations
 
                     b.Property<decimal?>("Maas")
                         .IsRequired()
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal (10,2)");
 
                     b.Property<string>("PersonelFotograf")
                         .HasColumnType("longtext");
@@ -1069,7 +1076,7 @@ namespace Restaurant.Migrations
 
                     b.Property<decimal?>("Fiyat")
                         .IsRequired()
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal (10,2)");
 
                     b.Property<string>("Fotograf")
                         .HasColumnType("longtext");
@@ -1137,6 +1144,9 @@ namespace Restaurant.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int?>("Begenme")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Durum")
                         .HasColumnType("int");
 
                     b.Property<bool?>("Gorunurluk")
@@ -1384,9 +1394,15 @@ namespace Restaurant.Migrations
 
             modelBuilder.Entity("Restaurant.Data.Masa", b =>
                 {
+                    b.HasOne("Restaurant.Data.Kategori", "Kategori")
+                        .WithMany()
+                        .HasForeignKey("KategoriId");
+
                     b.HasOne("Restaurant.Data.Personel", "Personel")
                         .WithMany("Masalars")
                         .HasForeignKey("PersonelId");
+
+                    b.Navigation("Kategori");
 
                     b.Navigation("Personel");
                 });

@@ -12,20 +12,21 @@
                         <table id="example3" class="display" style="min-width: 845px">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Ad-Soyad</th>   
-                                    <th>Maaş</th>
-                                    <th>Başlama Tarihi</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Ad-Soyad</th>
+                                    <th class="text-center">Maaş</th>
+                                    <th class="text-center">Başlama Tarihi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var person in Model)
                                 {
                                     <tr>
-                                        <td>@person.Id</td>
-                                        <td>@person.Ad</td>
-                                        <td>@person.Maas</td>
-                                        <td>@person.BaslamaTarihi</td>
+                                        <td class="text-center">@person.Id</td>
+                                        <td class="text-center">                                            
+                                            <a asp-action="Index" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/img/@person.PersonelFotograf" alt="User Image" height="50" width="50"></a>@person.Ad @person.Soyad</td>
+                                        <td class="text-center">@person.Maas</td>
+                                        <td class="text-center">@person.BaslamaTarihi</td>
                                     </tr>
                                 }
                             </tbody>

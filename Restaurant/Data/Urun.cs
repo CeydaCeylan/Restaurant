@@ -15,6 +15,7 @@ public partial class Urun
     public string? Acıklama { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    // Ürünün içindeki malzemeler(Detay)
     public string? Detay { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]

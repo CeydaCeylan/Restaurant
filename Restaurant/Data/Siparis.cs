@@ -18,9 +18,8 @@ public partial class Siparis
     public string? OdemeTuru { get; set; }
 
     public string? Not { get; set; }
-
+    
     public int? YorumId { get; set; }
-
     public int? KasaId { get; set; }
 
     public int? MutfakId { get; set; }
@@ -33,7 +32,8 @@ public partial class Siparis
 
     public Mutfak? Mutfak { get; set; }
 
+    public Yorum? Yorum { get; set; }
+
     public ICollection<TeslimatSiparis> TeslimatSiparislers { get; set; } = new List<TeslimatSiparis>();
 
-    public Yorum? Yorum { get; set; }
 }

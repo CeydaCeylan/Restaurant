@@ -17,4 +17,8 @@ public partial class SiparisMenu
 	public Menu Menu { get; set; } = null!;
 
     public Siparis Siparis { get; set; } = null!;
+
+
+   
+
 }

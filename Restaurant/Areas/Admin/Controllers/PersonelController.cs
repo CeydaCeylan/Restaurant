@@ -103,9 +103,10 @@ namespace Restaurant.Areas.Admin.Controllers
             }
 
         }
-        public IActionResult RolEkle()
+        public async Task<IActionResult> RolEkle(int id)
         {
-            return View();
+            var rol = await _context.Roller.FirstOrDefaultAsync(x => x.Id == id);
+            return View(rol);
         }
 
         public async Task<IActionResult> RolDetay(int id)
@@ -119,7 +120,7 @@ namespace Restaurant.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RolEkle(Rol model,int id)
+        public async Task<IActionResult> RolEkle(Rol model, int id)
         {
             if (ModelState.IsValid)
             {
@@ -127,7 +128,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
                 if (id == 0)
                 {
-                    
+
                     _context.Roller.Add(model);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("RolListe");
@@ -163,6 +164,17 @@ namespace Restaurant.Areas.Admin.Controllers
 
             if (rol != null)
             {
+                // İlgili personele ait rolleri bul
+                var personelRolleri = await _context.Personeller.Where(p => p.RolId == id).ToListAsync();
+
+                // Personel rollerini sil
+                foreach (var personel in personelRolleri)
+                {
+                    personel.RolId = null;
+                    personel.Rol = null;
+                    _context.Personeller.Update(personel);
+                }
+
                 rol.Gorunurluk = false;
                 _context.Roller.Update(rol);
                 await _context.SaveChangesAsync();
@@ -174,8 +186,7 @@ namespace Restaurant.Areas.Admin.Controllers
         public async Task<IActionResult> PersonelListele()
         {
 
-            var personel = await _context.Personeller.Where(p => p.Gorunurluk == true).ToListAsync();
-            ViewBag.Roller = new SelectList(await _context.Roller.ToListAsync(), "Id", "RolAd");
+            var personel = await _context.Personeller.Include(x => x.Rol).Where(p => p.Gorunurluk == true).ToListAsync();
             return View(personel);
 
         }
@@ -184,12 +195,12 @@ namespace Restaurant.Areas.Admin.Controllers
         {
             var personel = _context.Personeller.FirstOrDefault(x => x.Id == id);
 
-            if(personel != null)
+            if (personel != null)
             {
-                personel.Gorunurluk = false; 
-                _context.Personeller.Update(personel); 
+                personel.Gorunurluk = false;
+                _context.Personeller.Update(personel);
                 await _context.SaveChangesAsync();
-            }          
+            }
 
             return RedirectToAction("PersonelListele");
         }

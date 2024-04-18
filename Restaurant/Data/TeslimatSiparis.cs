@@ -10,7 +10,6 @@ public partial class TeslimatSiparis
     public DateOnly? OluşturmaTarihi { get; set; }
 
     public int? SiparisId { get; set; }
-
     public int? TeslimatId { get; set; }
 
     public int? MusteriId { get; set; }
@@ -21,4 +20,5 @@ public partial class TeslimatSiparis
     public Siparis? Siparis { get; set; }
 
     public Teslimat? Teslimat { get; set; }
+
 }
