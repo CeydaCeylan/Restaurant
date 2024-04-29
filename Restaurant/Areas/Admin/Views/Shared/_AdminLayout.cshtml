@@ -31,6 +31,8 @@
     <link href="/admin/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="~/admin/css/site.css" rel="stylesheet" />
 
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
 
 
 </head>
@@ -572,7 +574,7 @@
                             <li><a asp-controller="Urun" asp-action="UrunListele">Ürün Listesi</a></li>
                         </ul>
                     </li>
-                    <li>
+                  @*   <li>
                         <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                             <i class="fa-sharp fa-solid fa-box"></i>
                             <span class="nav-text">Malzeme İşlemleri</span>
@@ -581,7 +583,7 @@
                             <li><a asp-controller="Malzeme" asp-action="MalzemeEkle">Malzeme Ekle</a></li>
                             <li><a asp-controller="Malzeme" asp-action="MalzemeListele">Malzeme Listesi</a></li>
                         </ul>
-                    </li>
+                    </li> *@
                     <li>
                         <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                             <i class="fa-duotone fa-table-picnic"></i>
@@ -590,7 +592,9 @@
                         <ul aria-expanded="false">
                             <li><a asp-controller="Masa" asp-action="MasaEkle">Masa Ekle</a></li>
                             <li><a asp-controller="Masa" asp-action="MasaListele">Masa Listesi</a></li>
-                            <li><a href="javascript:void()">Masa Özelliği Ekle</a></li>
+                            <li><a asp-controller="Masa" asp-action="OzellikEkle">Özellik Ekle</a></li>
+                            <li><a asp-controller="Masa" asp-action="MasaOzellikListele">Masa Özellik Listesi</a></li>
+
                         </ul>
                     </li>
                     <li>
@@ -599,7 +603,8 @@
                             <span class="nav-text">Rezervas. İşlemleri</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">Rezervasyon Ekle</a></li>
+                            <li><a asp-controller="Rezervasyon" asp-action="RezervasyonEkle">Rezervasyon Ekle</a></li>
+                            <li><a asp-controller="Rezervasyon" asp-action="RezervasyonListele">Rezervasyon Listesi</a></li>
                         </ul>
                     </li>
                     <li>
@@ -628,10 +633,16 @@
                             <span class="nav-text">Stok İşlemleri</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="page-login.html">Stok Girdileri</a></li>
-                            <li><a href="page-register.html">Stok Listesi</a></li>                          
+@*                          <li><a asp-controller="Malzeme" asp-action="StokGirdi">Stok Girdi Ekle</a></li>
+ *@                         <li><a asp-controller="Malzeme" asp-action="StokGirdiListele">Stok Girdi Listesi</a></li>
+                           <li><a asp-controller="Malzeme" asp-action="StokCiktiListele">Stok Çıktı Listesi</a></li>
+                            <li><a asp-controller="Malzeme" asp-action="MalzemeListele">Stok Listesi</a></li>
+                            <li><a asp-controller="Malzeme" asp-action="MalzemeEkle">Malzeme Ekle</a></li>
+
                         </ul>
                     </li>
+                    
+
                 </ul>
                 <div class="copyright">
                     <p><strong>CEYDA CEYLAN</strong> © 2024 Tüm Hakları Saklıdır</p>
@@ -672,7 +683,9 @@
     <script src="/admin/vendor/select2/js/select2.full.min.js"></script>
     <script src="/admin/js/plugins-init/select2-init.js"></script>
 
+
     @RenderSection("Scripts", required: false)
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 </body>
 

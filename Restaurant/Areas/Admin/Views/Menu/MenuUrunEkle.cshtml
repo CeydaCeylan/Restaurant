@@ -1,0 +1,124 @@
+﻿@model IEnumerable<Urun>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <form id="urunForm" asp-controller="Menu" asp-action="MenuUrunEkle" method="post">
+            <input type="hidden" id="jsonDataInput" name="urunler" />
+            <div class="row">
+                <div class="card-header">
+                    <h4 class="card-title">ÜRÜN SEÇ</h4>
+                </div>
+                @foreach (var urun in Model)
+                {
+                    <div class="col-lg-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="menu-product d-flex">
+                                    <img src="~/img/@urun.Fotograf">
+                                    <div class="content-detail-wrap">
+                                        <div>
+                                            <h4>@urun.Ad</h4>
+                                            <span>@urun.Acıklama</span>
+                                        </div>
+                                        <div class="mt-4 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h5 class="mb-0"><span class="fs-14 me-2">Fiyat: </span>@urun.Fiyat₺</h5>
+                                                @if (urun.IndirimTarihi.HasValue)
+                                                {
+                                                    <span class="text-danger">İndirim Geçerlilik Tarihi: @urun.IndirimTarihi.Value.ToString("dd-MM-yyyy")</span>
+                                                }
+                                            </div>
+                                            <div class="d-end">
+                                                <a data-id="@urun.Id" class="artir btn btn-info shadow btn-s sharp me-1">
+                                                    <i class="fa-solid fa-plus-large"></i>
+                                                </a>
+                                                <span id="metin-@urun.Id">0</span>
+                                                <a data-id="@urun.Id" class="azalt btn btn-info shadow btn-s sharp me-1">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </a>
+                                                <input type="checkbox" class="form-check-input" id="customCheckBox1" style="margin-top: 10px;" value="@urun.Id">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="col-12 mt-5">
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn me-2 btn-primary" onclick="hazirlaVeEkle()">Gönder</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        // Form submit işlemini engelleyen fonksiyon
+        document.getElementById("urunForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Form submitini engelle
+            hazirlaVeEkle(); // Ürünleri hazırla ve ekle
+        });
+
+        function hazirlaVeEkle() {
+            var selectedData = []; // Seçili verileri tutmak için bir dizi
+
+            // Tüm checkboxları seç
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+            // Her bir checkbox için kontrol et
+            checkboxes.forEach(function (checkbox) {
+                // Eğer checkbox seçili ise
+                if (checkbox.checked) {
+                    // Checkboxun üstündeki kartı seç
+                    var card = checkbox.closest(".card");
+                    // Kartın içindeki verileri seç
+                    var id = card.querySelector('.artir').getAttribute('data-id');
+                    var name = card.querySelector('h4').innerText;
+                    var quantity = card.querySelector('#metin-' + id).innerText;
+
+                    var rowData = { "Id": id, "Ad": name, "Miktar": quantity }; // Her satırın verilerini bir objede tut
+
+                    selectedData.push(rowData); // Objeyi diziye ekle
+                }
+            });
+
+            // Diziyi JSON formatına dönüştür
+            var jsonData = JSON.stringify(selectedData);
+
+            // JSON verisini içeren bir inputa aktar
+            var input = document.getElementById("jsonDataInput");
+            input.value = jsonData;
+
+            // Formu post et
+            document.getElementById("urunForm").submit();
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Artırma düğmelerine tıklanınca
+            document.querySelectorAll('.artir').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var id = btn.getAttribute('data-id');
+                    var metinElementi = document.getElementById('metin-' + id);
+                    var metinDegeri = parseInt(metinElementi.innerText);
+                    metinElementi.innerText = metinDegeri + 1;
+                });
+            });
+            // Azaltma düğmelerine tıklanınca
+            document.querySelectorAll('.azalt').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var id = btn.getAttribute('data-id');
+                    var metinElementi = document.getElementById('metin-' + id);
+                    var metinDegeri = parseInt(metinElementi.innerText);
+                    if (metinDegeri > 0) {
+                        metinElementi.innerText = metinDegeri - 1;
+                    }
+                });
+            });
+        });
+    </script>
+}

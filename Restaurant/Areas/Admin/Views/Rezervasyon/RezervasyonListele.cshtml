@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Rezervasyon>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">REZERVASYON LİSTESİ</h4>
+                    <a asp-controller="Rezervasyon" asp-action="RezervasyonEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Rezervasyon Ekle</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example3" class="display" style="min-width: 845px">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID</th>                                  
+                                    <th class="text-center">Kişi Sayısı</th>
+                                    <th class="text-center">Masası</th>
+                                    <th class="text-center">Talep</th>
+                                    <th class="text-center">Talep Tarihi</th>
+                                    <th class="text-center">Başlangıç-Bitiş Saatleri</th>
+                                    <th class="text-center">Onay</th>
+                                    <th class="text-center">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var rezervas in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">@rezervas.Id</td>                                        
+                                        <td class="text-center">@rezervas.KisiSayisi</td>
+                                        <td class="text-center">
+                                            @string.Join(", ", rezervas.MasaRezervasyonlar.Select(item => item.Masa?.Kod))
+                                        </td>
+
+
+                                        <td class="text-center">@rezervas.Talep</td>                                      
+                                        <td class="text-center">@rezervas.TalepTarihi</td>
+                                        <td class="text-center">@rezervas.BaslangicSaat-@rezervas.BitisSaat</td>
+                                        <td class="text-center">
+                                            @if (rezervas.Onay == 0)
+                                            {
+                                                <span class="badge light badge-success">Onaylandı</span>
+                                            }
+                                            else if (rezervas.Onay == 1)
+                                            {
+                                                    <span class="badge light badge-warning">Bekliyor</span>
+                                            }
+                                            else if (rezervas.Onay == 2)
+                                            {
+                                                <span class="badge light badge-danger">İptal Edildi</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge light">Durum Bilinmiyor</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-end">
+
+
+
+                                                <a asp-action="RezervasyonEkle" asp-controller="Rezervasyon" asp-route-id="@rezervas.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                <a asp-route-id="@rezervas.Id" asp-controller="Rezervasyon" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

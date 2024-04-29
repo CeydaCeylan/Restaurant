@@ -9,15 +9,18 @@
                     <h4 class="card-title">MASA LİSTESİ</h4>
                     <a asp-controller="Masa" asp-action="MasaEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-box"></i> Masa Ekle</a>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example3" class="display" style="min-width: 845px">
                             <thead>
                                 <tr>
                                     <th class="text-center">ID</th>
+                                    <th>Qr Kod</th>
                                     <th class="text-center">Kod</th>
                                     <th class="text-center">Kategori</th>
                                     <th class="text-center">Kapasite</th>
+                                    <th class="text-center">Masa Özellikleri</th>
                                     <th class="text-center">İşlemler</th>
                                 </tr>
                             </thead>
@@ -26,16 +29,49 @@
                                 {
                                     <tr>
                                         <td class="text-center">@masa.Id</td>
+                                        <td>
+                                            <div id="qrcode_@masa.Id"></div>
+                                        </td>
                                         <td class="text-center">@masa.Kod</td>
                                         <td class="text-center">@masa.Kategori?.Ad</td>
                                         <td class="text-center">@masa.Kapasite</td>
                                         <td class="text-center">
+                                            @string.Join(", ", masa.MasaOzellikler.Select(item => item.Ozellik.Ad))
+                                        </td>
+
+                                        <td class="text-center">
                                             <div class="d-end">
                                                 <a asp-action="MasaEkle" asp-route-id="@masa.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <a asp-route-id="@masa.Id" asp-controller="Masa" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                                <button type="button" class="btn btn-primary shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#masa_@masa.Id"><i class="fa-duotone fa-circle-plus"></i></button>
+                                                <a asp-route-id="@masa.Id" asp-controller="Masa" asp-action="MasaSil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
+                                    <div class="modal fade" id="masa_@masa.Id">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <form asp-action="MasaOzellikAta" asp-controller="Masa" method="post">
+                                                <input name="masaid" value="@masa.Id" type="hidden" />
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Özellik Ata</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3 mt-2">
+                                                            <label class="text-label form-label" style="color:black;">Özellik Adı</label>
+                                                            <select name="ozellikid" class="form-control border border-dark" id="single-select" asp-items="ViewBag.Ozellikler">
+                                                                <option value="">Özellik Seçiniz </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 }
                             </tbody>
                         </table>
@@ -45,4 +81,60 @@
         </div>
     </div>
 </div>
+
+<script>
+    function generateQRCode(elementId, text) {
+        var qrcode = new QRCode(elementId, {
+            text: text,
+            width: 80,
+            height: 80,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        // QR kodunu indirmek için fonksiyon
+        function downloadQRCode() {
+            var canvas = document.getElementById(elementId).getElementsByTagName('canvas')[0];
+
+            // Canvas'ı bir Image elementine dönüştür
+            var img = new Image();
+            img.src = canvas.toDataURL();
+
+            // İndirme işlemi için yeni bir Canvas oluştur
+            var newCanvas = document.createElement('canvas');
+            var newContext = newCanvas.getContext('2d');
+            newCanvas.width = 220; // Yeni genişlik
+            newCanvas.height = 220; // Yeni yükseklik
+            newContext.drawImage(img, 0, 0, newCanvas.width, newCanvas.height);
+
+            // Tarayıcıya göre indirme işlemi
+            if (navigator.msSaveBlob) { // IE 10+
+                navigator.msSaveBlob(newCanvas.msToBlob(), 'QRCode.png');
+            } else {
+                var link = document.createElement('a');
+                link.href = newCanvas.toDataURL();
+                link.download = 'QRCode.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        // QR koduna tıklanınca indirme işlemini başlat
+        document.getElementById(elementId).addEventListener('click', downloadQRCode);
+    }
+
+    // Sayfa yüklendiğinde QR kodlarını oluştur
+    window.onload = function () {
+    @foreach (var masa in Model)
+    {
+        <text>
+                generateQRCode("qrcode_@masa.Id", "@masa.Kod");
+        </text>
+    }
+    };
+
+</script>
+
 

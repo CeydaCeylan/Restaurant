@@ -19,9 +19,8 @@ public partial class Masa
 
     public int? Kapasite { get; set; }
 
-    public int? Tutar { get; set; }
+    public string? Qr { get; set; }
 
-    public int? OdenenTutar { get; set; }
 	public bool? Gorunurluk { get; set; }
 
 	public int? PersonelId { get; set; }
@@ -30,7 +29,7 @@ public partial class Masa
 
     public Kategori? Kategori { get; set; }
 
-    public ICollection<Musteri> Musterilers { get; set; } = new List<Musteri>();
+    public ICollection<MasaOzellik> MasaOzellikler { get; set; } = new List<MasaOzellik>();
 
     public Personel? Personel { get; set; }
 }

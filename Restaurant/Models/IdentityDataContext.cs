@@ -24,8 +24,6 @@ namespace Restaurant.Models
 
 		public DbSet<Kategori> Kategoriler { get; set; }
 
-		public DbSet<MalzemeGirdi> MalzemeGirdiler { get; set; }
-
 		public DbSet<Malzeme> Malzemeler { get; set; }
 
 		public DbSet<Masa> Masalar { get; set; }
@@ -59,8 +57,10 @@ namespace Restaurant.Models
 		public DbSet<SiparisUrun> SiparisUrunler { get; set; }
 
 		public DbSet<StokGirdi> StokGirdiler { get; set; }
+        public DbSet<StokCikti> StokCiktilar { get; set; }
 
-		public DbSet<Stok> Stoklar { get; set; }
+
+        public DbSet<Stok> Stoklar { get; set; }
 
 		public DbSet<Tedarikci> Tedarikciler { get; set; }
 
@@ -75,6 +75,9 @@ namespace Restaurant.Models
 		public DbSet<UrunMalzeme> UrunMalzemeler { get; set; }
 
 		public DbSet<Yorum> Yorumlar { get; set; }
+
+        public DbSet<Odeme> Odemeler { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -91,6 +94,10 @@ namespace Restaurant.Models
             builder.Entity<Urun>
                ().Property(u => u.Fiyat)
                .HasColumnType("decimal (10,2)");
+
+            builder.Entity<Menu>
+              ().Property(u => u.Fiyat)
+              .HasColumnType("decimal (10,2)");
         }
     }
 }

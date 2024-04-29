@@ -22,4 +22,6 @@ public partial class Malzeme
 
     public Stok? Stok { get; set; }
 
+    public ICollection<UrunMalzeme> UrunMalzemeler { get; set; } = new List<UrunMalzeme>();
+
 }

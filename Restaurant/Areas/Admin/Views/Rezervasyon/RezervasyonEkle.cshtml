@@ -1,0 +1,94 @@
+﻿@model MasaRezervasyon
+
+<head>
+    <link href="~/admin/vendor/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/admin/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/admin/css/style.css" rel="stylesheet">
+</head>
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <form  asp-action="RezervasyonEkle" asp-controller="Rezervasyon" method="post" novalidate>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">REZERVASYON EKLE</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-validation">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="mb-3 ">
+                                            <label class="text-label form-label " style="color:black;">Kişi Sayısı</label>
+                                            <input asp-for="Rezervasyon.KisiSayisi" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Rezervasyon.KisiSayisi" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Tarih</label>
+                                            <input asp-for="Rezervasyon.Tarih" class="form-control border border-dark" type="date">
+                                            <span asp-validation-for="Rezervasyon.Tarih" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Başlangıç Saati</label>
+                                            <input asp-for="Rezervasyon.BaslangicSaat" class="form-control border border-dark" type="time">
+                                            <span asp-validation-for="Rezervasyon.BaslangicSaat" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Masalar</label>
+                                            <select name="MasaId" class="multi-select-placeholder js-states" multiple="multiple">
+                                                @foreach (var masa in ViewBag.Masalar)
+                                                {
+                                                    <option value="@masa.Value">@masa.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Talep Tarihi</label>
+                                            <input asp-for="Rezervasyon.TalepTarihi" class="form-control border border-dark" type="date">
+                                            <span asp-validation-for="Rezervasyon.TalepTarihi" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 ">
+                                            <label class="text-label form-label " style="color:black;">Talep</label>
+                                            <input asp-for="Rezervasyon.Talep" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Rezervasyon.Talep" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Bitiş Saati</label>
+                                            <input asp-for="Rezervasyon.BitisSaat" class="form-control border border-dark" type="time">
+                                            <span asp-validation-for="Rezervasyon.BitisSaat" class="text-danger"></span>
+                                        </div>
+                                      
+                                        <div class="mb-3">
+                                            <label class="text-label form-label" style="color:black;">Onay</label>
+                                            <select asp-for="Rezervasyon.Onay" class="form-control border border-dark" id="automatic-selection">
+                                                <option value="">Onay Seçiniz</option>
+                                                <option value="0">Onaylandı</option>
+                                                <option value="1">Bekliyor</option>
+                                                <option value="2">İptal Edildi</option>
+                                            </select>
+                                            <span asp-validation-for="Rezervasyon.Onay" class="text-danger"></span>
+                                        </div>
+
+                                       
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-5">
+                                        <button type="submit" class="btn me-2 btn-primary">Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
+    <script src="~/admin/js/plugins-init/select2-init.js"></script>
+}               

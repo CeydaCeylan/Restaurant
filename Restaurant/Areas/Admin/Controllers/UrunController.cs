@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Restaurant.Areas.Admin.ViewModel;
 using Restaurant.Data;
 using Restaurant.Models;
 
@@ -23,12 +26,32 @@ namespace Restaurant.Areas.Admin.Controllers
 
         public async Task<IActionResult> UrunEkle(int id)
         {
-            var urun = await _context.Urunler.FirstOrDefaultAsync(x => x.Id == id);
-            return View(urun);
+            if (id == 0)
+            {
+                ViewBag.Kategoriler = await _context.Kategoriler.Where(x => x.Gorunurluk == true && x.Tur == "Urun").Select(k => new SelectListItem
+                {
+                    Value = k.Id.ToString(),
+                    Text = k.Ad
+                }).ToListAsync();
+                return View();
+            }
+            else
+            {
+                ViewBag.Kategoriler = await _context.Kategoriler.Where(x => x.Gorunurluk == true && x.Tur == "Urun").Select(k => new SelectListItem
+                {
+                    Value = k.Id.ToString(),
+                    Text = k.Ad
+                }).ToListAsync();
+
+                var urun = await _context.Urunler.FirstOrDefaultAsync(x => x.Id == id);
+                return View(urun);
+            }
+
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> UrunEkle(Urun model,int id, IFormFile? file)
+        public async Task<IActionResult> UrunEkle(Urun model, int id, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -38,7 +61,7 @@ namespace Restaurant.Areas.Admin.Controllers
                     var resimuzanti = Path.GetExtension(file.FileName);
                     if (!uzanti.Contains(resimuzanti))
                     {
-                        ModelState.AddModelError("OgrenciFotograf", "Geçerli bir resim seçiniz. *jpg,jpeg,png");
+                        ModelState.AddModelError("UrunFotograf", "Geçerli bir resim seçiniz. *jpg,jpeg,png");
                         return View(model);
                     }
 
@@ -52,8 +75,6 @@ namespace Restaurant.Areas.Admin.Controllers
                     model.Fotograf = random;
 
                 }
-
-
                 model.Gorunurluk = true;
 
                 if (id == 0)
@@ -73,14 +94,66 @@ namespace Restaurant.Areas.Admin.Controllers
             }
             else
             {
+                ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.ToListAsync(), "Id", "KategoriAd");
                 return View(model);
             }
         }
 
         public async Task<ActionResult> UrunListele()
         {
-            var urun = await _context.Urunler.Where(p => p.Gorunurluk == true).ToListAsync();
-            return View(urun);
+            var urunler = await _context.Urunler
+                                .Include(u => u.Kategori)
+                                .Where(u => u.Gorunurluk == true)
+                                .ToListAsync();
+
+            var urunMalzemeAdlari = new Dictionary<int, List<string>>();
+
+            foreach (var urun in urunler)
+            {
+                var malzemeAdlari = await _context.UrunMalzemeler
+                                                .Where(um => um.UrunId == urun.Id)
+                                                .Select(um => um.Malzeme.Ad)
+                                                .ToListAsync();
+
+                urunMalzemeAdlari.Add(urun.Id, malzemeAdlari);
+            }
+
+            ViewBag.UrunMalzemeAdlari = urunMalzemeAdlari;
+
+            return View(urunler);
+        }
+
+        public async Task<IActionResult> MalzemeEkle()
+        {
+            var malzeme = await _context.Malzemeler
+                .Include(x => x.Stok)
+                .ThenInclude(x => x.Tedarikci)
+                .Where(p => p.Gorunurluk == true).ToListAsync();
+
+            return View(malzeme);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MalzemeEkle(int id, string malzemeler)
+        {
+            var itemList = JsonConvert.DeserializeObject<List<ItemModel>>(malzemeler);
+            if (itemList == null)
+            {
+                return NotFound();
+            }
+          
+            foreach (var item in itemList)
+            {
+                var urunmalzem = new UrunMalzeme
+                {
+                    UrunId = id,
+                    MalzemeId = int.Parse(item.Id),
+                    Miktar = int.Parse(item.Miktar),
+                };
+                _context.UrunMalzemeler.Add(urunmalzem);
+            }
+            _context.SaveChanges();
+            return RedirectToAction("UrunListele");
         }
 
         public async Task<IActionResult> Sil(int id)
@@ -97,6 +170,6 @@ namespace Restaurant.Areas.Admin.Controllers
             return RedirectToAction("UrunListele");
         }
 
-      
+
     }
 }

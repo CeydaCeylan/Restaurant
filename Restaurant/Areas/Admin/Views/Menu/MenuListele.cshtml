@@ -1,5 +1,202 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Menu>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card-header">
+                <h4 style="color: black; font-weight: bold;" class="card-title">MENÜ LİSTESİ</h4>
+                <a asp-controller="Menu" asp-action="MenuEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Menü Ekle</a>
+            </div>
+            @foreach (var menu in Model)
+            {
+                <div class="col-lg-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="menu-product d-flex">
+                                <img src="~/img/@menu.Fotograf">
+                                <div class="content-detail-wrap">
+                                    <div>
+                                        <h4 style="color: black; font-weight: bold;">@menu.Ad</h4>
+                                        <span style="color: black;">@menu.Aciklama</span>
+                                    </div>
+                                    <div class="mt-4 d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 class="mb-0"><span class="fs-14 me-2">Fiyat: </span>@menu.Fiyat₺</h5>
+                                            @if (menu.IndirimTarihi.HasValue)
+                                            {
+                                                <span class="text-danger">İndirim Geçerlilik Tarihi: @menu.IndirimTarihi.Value.ToString("dd-MM-yyyy")</span>
+                                            }
+                                        </div>
+                                        <div class="d-end">
+                                            <a asp-action="MenuEkle" asp-route-id="@menu.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <button type="button" class="btn btn-warning shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#menu_@menu.Id"><i class="fa-sharp fa-solid fa-eye"></i></button>
+                                            <a asp-action="MenuUrunEkle" asp-route-id="@menu.Id" asp-controller="Menu" class="btn btn-info shadow btn-s sharp me-1"><i class="fa-solid fa-plus-large"></i></a>
+                                            <a asp-route-id="@menu.Id" asp-controller="Menu" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                        <div class="modal fade" id="menu_@menu.Id">
+                                            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="col-lg-12">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-xl-3 col-lg-6  col-md-6 col-xxl-5 ">
+                                                                            <div class="tab-content">
+                                                                                <div role="tabpanel" class="tab-pane fade show active" id="first">
+                                                                                    <img class="img-fluid rounded" src="~/img/@menu.Fotograf" alt="" style="width: 300px; height: 300px; object-fit: contain;">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xl-9 col-lg-6  col-md-6 col-xxl-7 col-sm-12">
+                                                                            <div class="product-detail-content">
+                                                                                <div class="new-arrival-content pr">
+                                                                                    <h4>@menu.Ad</h4>
+                                                                                    <div class="comment-review star-rating">
+                                                                                     @*    <ul>
+                                                                                            <li><i class="fa fa-star"></i></li>
+                                                                                            <li><i class="fa fa-star"></i></li>
+                                                                                            <li><i class="fa fa-star"></i></li>
+                                                                                            <li><i class="fa fa-star-half-empty"></i></li>
+                                                                                            <li><i class="fa fa-star-half-empty"></i></li>
+                                                                                        </ul> *@
+                                                                                    @*     <span class="review-text">(34 reviews) / </span><a class="product-review" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">Write a review?</a> *@
+                                                                                    </div>
+                                                                                    <div class="d-table mb-2">
+                                                                                        <p class="price float-start d-block">@menu.Fiyat₺</p>
+                                                                                    </div>
+                                                                                    <p style="color: black; font-weight: bold;">
+                                                                                        Stok Durumu: <span class="item">
+                                                                                            @{
+                                                                                                if ((bool)menu.Aktif == true)
+                                                                                                {
+                                                                                                    <strong style="color:green;">Stokta</strong>
+                                                                                                    <i class="fa-solid fa-basket-shopping"></i>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <strong style="color:red;">Stokta Değil</strong>
+                                                                                                    <i class="fa-thin fa-basket-shopping"></i>
+                                                                                                }
+                                                                                            }
+                                                                                        </span>
+                                                                                    </p>
+                                                                                    <p style="color: black; font-weight: bold;">
+                                                                                        Ürün Kategorisi:&nbsp;&nbsp;
+                                                                                        <span class="badge badge-success light">@menu.Kategori.Ad</span>
+                                                                                    </p>
+                                                                                    <p style="color: black;" class="text-content">@menu.Aciklama</p>
+
+                                                                                    <div>
+                                                                                        <p style="display: inline-block; margin: 0; color:black"><b>Malzemeler:</b></p>
+                                                                                        <ul style="display: inline-block; margin: 0; padding: 0; list-style: none;">
+                                                                                            @{
+                                                                                                var urunler = ViewBag.menuUrunlerAdlari[menu.Id];
+                                                                                                for (int i = 0; i < urunler.Count; i++)
+                                                                                                {
+                                                                                                    <li style="display: inline; color: black;">@urunler[i]@((i < urunler.Count - 1) ? "," : "")</li>
+                                                                                                }
+                                                                                            }
+                                                                                        </ul>
+                                                                                    </div>
+
+
+                                                                                    <div class="d-flex align-items-end flex-wrap mt-4">
+                                                                                        <div class="filtaring-area me-3">
+                                                                                            <div class="size-filter">
+                                                                                                <h4 class="m-b-15">Select size</h4>
+                                                                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked>
+                                                                                                    <label class="btn btn-outline-primary" for="btnradio1">XS</label>
+
+                                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2">
+                                                                                                    <label class="btn btn-outline-primary" for="btnradio2">SM</label>
+
+                                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3">
+                                                                                                    <label class="btn btn-outline-primary" for="btnradio3">MD</label>
+
+                                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4">
+                                                                                                    <label class="btn btn-outline-primary" for="btnradio4">LG</label>
+
+                                                                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio5">
+                                                                                                    <label class="btn btn-outline-primary" for="btnradio5">XL</label>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-2 px-0  mb-2 me-3">
+                                                                                            <input type="number" name="num" class="form-control input-btn input-number" value="1">
+                                                                                        </div>
+                                                                                        <div class="shopping-cart  mb-2 me-3">
+                                                                                            <a class="btn btn-primary" href="javascript:void();">
+                                                                                                <i class="fa fa-shopping-basket me-2"></i>Sepete Ekle
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal fade" id="reviewModal">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Review</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form>
+                                                                            <div class="text-center mb-4">
+                                                                                <img class="img-fluid rounded" width="78" src="images/avatar/1.jpg" alt="DexignZone">
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <div class="rating-widget mb-4 text-center">
+                                                                                    <div class="rating-stars">
+                                                                                        <ul id="stars">
+                                                                                            <li class="star" title="Poor" data-value="1">
+                                                                                                <i class="fa fa-star fa-fw"></i>
+                                                                                            </li>
+                                                                                            <li class="star" title="Fair" data-value="2">
+                                                                                                <i class="fa fa-star fa-fw"></i>
+                                                                                            </li>
+                                                                                            <li class="star" title="Good" data-value="3">
+                                                                                                <i class="fa fa-star fa-fw"></i>
+                                                                                            </li>
+                                                                                            <li class="star" title="Excellent" data-value="4">
+                                                                                                <i class="fa fa-star fa-fw"></i>
+                                                                                            </li>
+                                                                                            <li class="star" title="WOW!!!" data-value="5">
+                                                                                                <i class="fa fa-star fa-fw"></i>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <textarea class="form-control" placeholder="Comment" rows="5"></textarea>
+                                                                            </div>
+                                                                            <button class="btn btn-success btn-block">RATE</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

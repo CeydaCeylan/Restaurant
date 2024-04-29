@@ -9,40 +9,82 @@
 <div class="content-body">
     <div class="container-fluid">
         <div class="row">
-            <form asp-action="MalzemeEkle" asp-controller="Malzeme" method="post" novalidate>
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">MALZEME EKLE</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-validation">
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <div class="mb-3 ">
-                                            <label class="text-label form-label " style="color:black;">Ad</label>
-                                            <input asp-for="Ad" class="form-control border border-dark" type="text">
-                                            <span asp-validation-for="Ad" class="text-danger"></span>
-                                        </div>                                      
-                                        <div class="mb-3">
-                                            <label class="text-label form-label" style="color:black;">Fiyat</label>
-                                            <input asp-for="Fiyat" class="form-control border border-dark" type="email">
-                                            <span asp-validation-for="Fiyat" class="text-danger"></span>
+            <form asp-action="MalzemeEkle" asp-controller="Malzeme" method="post" novalidate class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-validation">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">MALZEME BİLGİLERİ</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label class="text-label form-label" style="color:black;">Ad</label>
+                                                <input asp-for="Ad" class="form-control border border-dark" type="text">
+                                                <span asp-validation-for="Ad" class="text-danger"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="text-label form-label" style="color:black;">Fiyat</label>
+                                                <input asp-for="Fiyat" class="form-control border border-dark" type="text">
+                                                <span asp-validation-for="Fiyat" class="text-danger"></span>
+                                            </div>
+                                            <div class="mb-3 mt-2">
+                                                <label class="text-label form-label" style="color:black;">Tür</label>
+                                                <select asp-for="Turu" class="form-control border border-dark" id="single-select">
+                                                    <option value="">Tür Seçiniz</option>
+                                                    <option value="Kg">Kilogram</option>
+                                                    <option value="L">Litre</option>
+                                                    <option value="Adet">Adet</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <div class="mb-3 mt-2">
-                                            <label class="text-label form-label" style="color:black;">Tür</label>
-                                            <select asp-for="Turu" class="form-control border border-dark" id="single-select">
-                                                <option value="">Tür Seçiniz</option>
-                                                <option value="Kg">Kilogram</option>
-                                                <option value="L">Litre</option>
-
-                                            </select>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">STOK BİLGİLERİ</h4>
                                         </div>
-                                        <div class="d-flex justify-content-center mt-5">
-                                            <button type="submit" class="btn me-2 btn-primary">Kayıt Ekle</button>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label class="text-label form-label" style="color:black;">Miktar</label>
+                                                <input asp-for="Stok.Miktar" class="form-control border border-dark" type="text">
+                                                <span asp-validation-for="Stok.Miktar" class="text-danger"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="text-label form-label" style="color:black;">Min Stok</label>
+                                                <input asp-for="Stok.MinStok" class="form-control border border-dark" type="text">
+                                                <span asp-validation-for="Stok.MinStok" class="text-danger"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="text-label form-label" style="color:black;">Max Stok</label>
+                                                <input asp-for="Stok.MaxStok" class="form-control border border-dark" type="text">
+                                                <span asp-validation-for="Stok.MaxStok" class="text-danger"></span>
+                                            </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">TEDARİKÇİ BİLGİLERİ</h4>
+                                        </div>
+                                        <div class="card-body">                                         
+                                            <div class="mb-3 mt-2">
+                                                <label class="text-label form-label" style="color:black;">Firma Adı</label>
+                                                <select asp-for="Stok.TedarikciId" class="form-control border border-dark" id="automatic-selection" asp-items="ViewBag.Tedarikciler">
+                                                    <option value="">Firma Seçiniz</option>
+                                                </select> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class="col-12 mt-5">
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" class="btn me-2 btn-primary">Kayıt Ekle</button>
                                     </div>
                                 </div>
                             </div>

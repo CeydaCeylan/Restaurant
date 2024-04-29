@@ -1,0 +1,68 @@
+﻿@model StokGirdi
+
+<head>
+    <link href="~/admin/vendor/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/admin/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/admin/css/style.css" rel="stylesheet">
+</head>
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <form asp-action="StokGirdi" asp-controller="Malzeme" method="post" novalidate class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">GİRDİ EKLE</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-validation">
+                                <div class="mb-3">
+                                    <label class="text-label form-label" style="color:black;">Miktar</label>
+                                    <input asp-for="Miktar" class="form-control border border-dark" type="text">
+                                    <span asp-validation-for="Miktar" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-label form-label" style="color:black;">Alış Fiyatı</label>
+                                    <input asp-for="AlısFiyati" class="form-control border border-dark" type="text">
+                                    <span asp-validation-for="AlısFiyati" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-label form-label" style="color:black;">Tarih ve Saat</label>
+                                    <input asp-for="Tarih" class="form-control border border-dark" type="datetime-local" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")">
+                                    <span asp-validation-for="Tarih" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">MALZEME BİLGİLERİ</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3 mt-2">
+                                <label class="text-label form-label" style="color:black;">Malzeme Adı</label>
+                                <select asp-for="MalzemeId" class="form-control border border-dark" id="remain-open" asp-items="ViewBag.Malzemeler">
+                                    <option value="">Malzeme Seçiniz</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 d-flex justify-content-center mt-5">
+                    <button type="submit" class="btn me-2 btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
+    <script src="~/admin/js/plugins-init/select2-init.js"></script>
+    
+}        
+

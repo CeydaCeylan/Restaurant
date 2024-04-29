@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Restaurant.Data;
 
 public partial class Menu
 {
     public int Id { get; set; }
+    [Required(ErrorMessage = "*Zorunlu Alan")]
 
     public string? Ad { get; set; }
+    [Required(ErrorMessage = "*Zorunlu Alan")]
 
     public string? Aciklama { get; set; }
+    [Required(ErrorMessage = "*Zorunlu Alan")]
 
     public decimal? Fiyat { get; set; }
 
@@ -17,6 +21,7 @@ public partial class Menu
 
     public string? Fotograf { get; set; }
 
+    [Required(ErrorMessage = "*Zorunlu Alan")]
     public bool? Aktif { get; set; }
 	public bool? Gorunurluk { get; set; }
 

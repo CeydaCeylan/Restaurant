@@ -14,7 +14,6 @@ public partial class Urun
     [Required(ErrorMessage = "*Zorunlu Alan")]
     public string? Acıklama { get; set; }
 
-    [Required(ErrorMessage = "*Zorunlu Alan")]
     // Ürünün içindeki malzemeler(Detay)
     public string? Detay { get; set; }
 
@@ -24,7 +23,7 @@ public partial class Urun
     public string? Fotograf { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
-    public string? Aktif { get; set; }
+    public bool? Aktif { get; set; }
 
     public decimal? IndirimliFiyat { get; set; }
 
@@ -35,4 +34,5 @@ public partial class Urun
     public Kategori? Kategori { get; set; }
 	public bool? Gorunurluk { get; set; }
 
+    public ICollection<UrunMalzeme> UrunMalzemeler { get; set; } = new List<UrunMalzeme>();
 }

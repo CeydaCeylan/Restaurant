@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Malzeme>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="col-12">
+            <form id="malzemeForm" asp-controller="Urun" asp-action="MalzemeEkle" method="post">
+                <input type="hidden" id="jsonDataInput" name="malzemeler" />
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">MALZEME SEÇ</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example3" class="display" style="min-width: 845px">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Ad</th>
+                                        <th class="text-center">Miktar</th>
+                                        <th class="text-center">Ekle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var malze in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@malze.Id</td>
+                                            <td class="text-center">@malze.Ad</td>
+                                            <td class="text-center">
+                                                <div class="d-end">
+                                                    <a data-id="@malze.Id" class="artir btn btn-info shadow btn-s sharp me-1">
+                                                        <i class="fa-solid fa-plus-large"></i>
+                                                    </a>
+                                                    <span id="metin-@malze.Id">0</span>
+                                                    <a data-id="@malze.Id" class="azalt btn btn-info shadow btn-s sharp me-1">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="d-end">
+                                                    <input type="checkbox" class="form-check-input" id="customCheckBox1">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="col-12 mt-5">
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn me-2 btn-primary" onclick="hazirlaVeEkle()">Gönder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        // Form submit işlemini engelleyen fonksiyon
+        document.getElementById("malzemeForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Form submitini engelle          
+        });
+        function hazirlaVeEkle() {
+            var selectedData = []; // Seçili verileri tutmak için bir dizi
+
+            // Tüm checkboxları seç
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+            // Her bir checkbox için kontrol et
+            checkboxes.forEach(function (checkbox) {
+                // Eğer checkbox seçili ise
+                if (checkbox.checked) {
+                    // Checkboxun üstündeki satırı seç
+                    var row = checkbox.closest("tr");
+                    // Satırın içindeki hücreleri seç
+                    var cells = row.getElementsByTagName("td");
+
+                    var rowData = {}; // Her satırın verilerini bir objede tut
+
+                    // Sadece istediğiniz sütunları alarak objeye ekle
+                    var id = cells[0].innerText; // ID sütununu al
+                    var name = cells[1].innerText; // Ad sütununu al
+                    var quantity = cells[2].innerText; // Miktar sütununu al
+
+                    // Objeye ekle
+                    rowData["Id"] = id;
+                    rowData["Ad"] = name;
+                    rowData["Miktar"] = quantity;
+
+                    selectedData.push(rowData); // Objeyi diziye ekle
+                }
+            });
+
+            // Diziyi JSON formatına dönüştür
+            var jsonData = JSON.stringify(selectedData);
+
+            // JSON verisini içeren bir inputa aktar
+            var input = document.getElementById("jsonDataInput");
+            input.value = jsonData;
+
+            // Formu post et
+            document.getElementById("malzemeForm").submit();
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Artırma düğmelerine tıklanınca
+            document.querySelectorAll('.artir').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var id = btn.getAttribute('data-id');
+                    var metinElementi = document.getElementById('metin-' + id);
+                    var metinDegeri = parseInt(metinElementi.innerText);
+                    metinElementi.innerText = metinDegeri + 1;
+                });
+            });
+
+            // Azaltma düğmelerine tıklanınca
+            document.querySelectorAll('.azalt').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var id = btn.getAttribute('data-id');
+                    var metinElementi = document.getElementById('metin-' + id);
+                    var metinDegeri = parseInt(metinElementi.innerText);
+                    if (metinDegeri > 0) {
+                        metinElementi.innerText = metinDegeri - 1;
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+}

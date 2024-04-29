@@ -7,7 +7,10 @@ public partial class MenuUrun
 {
 
 	public int Id { get; set; }
-	public int UrunId { get; set; }
+
+    public int? Miktar { get; set; }
+
+    public int UrunId { get; set; }
 
     public int MenuId { get; set; }
 

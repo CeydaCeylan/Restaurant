@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="card-header">
-                <h4 class="card-title">ÜRÜN LİSTESİ</h4>
+                <h4 style="color: black; font-weight: bold;" class="card-title">ÜRÜN LİSTESİ</h4>
                 <a asp-controller="Urun" asp-action="UrunEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Ürün Ekle</a>
             </div>
             @foreach (var urun in Model)
@@ -16,23 +16,23 @@
                                 <img src="~/img/@urun.Fotograf">
                                 <div class="content-detail-wrap">
                                     <div>
-                                        <h4>@urun.Ad</h4>
-                                        <span>@urun.Acıklama</span>
+                                        <h4 style="color: black; font-weight: bold;">@urun.Ad</h4>
+                                        <span style="color: black;">@urun.Acıklama</span>
                                     </div>
                                     <div class="mt-4 d-flex justify-content-between align-items-center">
                                         <div>
                                             <h5 class="mb-0"><span class="fs-14 me-2">Fiyat: </span>@urun.Fiyat₺</h5>
                                             @if (urun.IndirimTarihi.HasValue)
                                             {
-                                                <span class="text-danger">İndirim Geçerlilik Tarihi: @urun.IndirimTarihi.Value.ToString("dd-MM-yyyy")</span>
+                                                <span class="text-secondary">İndirim Geçerlilik Tarihi: @urun.IndirimTarihi.Value.ToString("dd-MM-yyyy")</span>
                                             }
                                         </div>
-
                                         <div class="d-end">
                                             <a asp-action="UrunEkle" asp-route-id="@urun.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
                                             <button type="button" class="btn btn-warning shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#urun_@urun.Id"><i class="fa-sharp fa-solid fa-eye"></i></button>
+                                            <a asp-action="MalzemeEkle" asp-route-id="@urun.Id" asp-controller="Urun" class="btn btn-info shadow btn-s sharp me-1"><i class="fa-solid fa-plus-large"></i></a>
                                             <a asp-route-id="@urun.Id" asp-controller="Urun" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
-                                        </div>
+                                        </div>                                   
                                         <div class="modal fade" id="urun_@urun.Id">
                                             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                                                 <div class="modal-content">                                               
@@ -53,32 +53,52 @@
                                                                                 <div class="new-arrival-content pr">
                                                                                     <h4>@urun.Ad</h4>
                                                                                     <div class="comment-review star-rating">
-                                                                                        <ul>
+                                                                                    @*     <ul>
                                                                                             <li><i class="fa fa-star"></i></li>
                                                                                             <li><i class="fa fa-star"></i></li>
                                                                                             <li><i class="fa fa-star"></i></li>
                                                                                             <li><i class="fa fa-star-half-empty"></i></li>
                                                                                             <li><i class="fa fa-star-half-empty"></i></li>
                                                                                         </ul>
-                                                                                        <span class="review-text">(34 reviews) / </span><a class="product-review" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">Write a review?</a>
+                                                                                       <span class="review-text">(34 reviews) / </span><a class="product-review" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">Write a review?</a>  *@
                                                                                     </div>
                                                                                     <div class="d-table mb-2">
                                                                                         <p class="price float-start d-block">@urun.Fiyat₺</p>
                                                                                     </div>
-                                                                                    <p>
+                                                                                    <p style="color: black; font-weight: bold;">
                                                                                         Stok Durumu: <span class="item">
-                                                                                            In stock <i class="fa fa-shopping-basket"></i>
+                                                                                            @{
+                                                                                                if ((bool)@urun.Aktif == true)
+                                                                                                {
+                                                                                                    <strong style="color:green;">Stokta</strong>
+                                                                                                    <i class="fa-solid fa-basket-shopping"></i>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <strong style="color:red;">Stokta Değil</strong>
+                                                                                                    <i class="fa-thin fa-basket-shopping"></i>
+                                                                                                }
+                                                                                            }
                                                                                         </span>
                                                                                     </p>
-                                                                                    <p>Product code: <span class="item">0405689</span> </p>
-                                                                                    <p>
-                                                                                        Product tags:&nbsp;&nbsp;
-                                                                                        <span class="badge badge-success light">Deals</span>
-                                                                                        <span class="badge badge-success light">Pizzas</span>
-                                                                                        <span class="badge badge-success light">Sides</span>
-                                                                                        <span class="badge badge-success light">Desserts</span>
+                                                                                    <p style="color: black; font-weight: bold;">
+                                                                                        Ürün Kategorisi:&nbsp;&nbsp;
+                                                                                        <span class="badge badge-success light">@urun.Kategori.Ad</span>
                                                                                     </p>
-                                                                                    <p class="text-content">@urun.Acıklama</p>
+                                                                                    <p style="color: black;" class="text-content">@urun.Acıklama</p>
+
+                                                                                    <div>
+                                                                                        <p style="display: inline-block; margin: 0; color:black"><b>Malzemeler:</b></p>
+                                                                                        <ul style="display: inline-block; margin: 0; padding: 0; list-style: none;">
+                                                                                            @{
+                                                                                                var malzemeler = ViewBag.UrunMalzemeAdlari[urun.Id];
+                                                                                                for (int i = 0; i < malzemeler.Count; i++)
+                                                                                                {
+                                                                                                    <li style="display: inline; color: black;">@malzemeler[i]@((i < malzemeler.Count - 1) ? "," : "")</li>
+                                                                                                }
+                                                                                            }
+                                                                                        </ul>
+                                                                                    </div>
                                                                                     <div class="d-flex align-items-end flex-wrap mt-4">
                                                                                         <div class="filtaring-area me-3">
                                                                                             <div class="size-filter">
@@ -105,11 +125,11 @@
                                                                                         <div class="col-2 px-0  mb-2 me-3">
                                                                                             <input type="number" name="num" class="form-control input-btn input-number" value="1">
                                                                                         </div>
-                                                                                        <div class="shopping-cart  mb-2 me-3">
+                                                                                       <div class="shopping-cart  mb-2 me-3">
                                                                                             <a class="btn btn-primary" href="javascript:void();">
                                                                                                 <i class="fa fa-shopping-basket me-2"></i>Sepete Ekle
                                                                                             </a>
-                                                                                        </div>
+                                                                                        </div> 
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

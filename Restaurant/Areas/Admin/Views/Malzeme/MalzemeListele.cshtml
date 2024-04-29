@@ -6,8 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">MALZEME LİSTESİ</h4>
-                    <a asp-controller="Malzeme" asp-action="MalzemeEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-box"></i> Malzeme Ekle</a>
+                    <h4 class="card-title">STOK-MALZEME LİSTESİ</h4>
+                    <a asp-controller="Malzeme" asp-action="MalzemeEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Malzeme Ekle</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -16,8 +16,11 @@
                                 <tr>
                                     <th class="text-center">ID</th>
                                     <th class="text-center">Ad</th>
+                                    <th class="text-center">Firma Adı</th>
                                     <th class="text-center">Tür</th>
                                     <th class="text-center">Fiyat</th>
+                                    <th class="text-center">Miktar</th>
+                                    <th class="text-center">Min Stok</th>
                                     <th class="text-center">İşlemler</th>
                                 </tr>
                             </thead>
@@ -27,11 +30,16 @@
                                     <tr>
                                         <td class="text-center">@malze.Id</td>
                                         <td class="text-center">@malze.Ad</td>
+                                        <td class="text-center">@(malze.Stok?.Tedarikci?.Firma ?? "-") </td>
                                         <td class="text-center">@malze.Turu</td>
                                         <td class="text-center">@malze.Fiyat</td>
+                                        <td class="text-center">@malze.Stok?.Miktar</td>
+                                        <td class="text-center">@malze.Stok?.MinStok</td>
                                         <td class="text-center">
                                             <div class="d-end">
                                                 <a asp-action="MalzemeEkle" asp-route-id="@malze.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                <a asp-action="StokGirdi" asp-controller="Malzeme" class="btn btn-info shadow btn-s sharp me-1"><i class="fa-solid fa-plus-large"></i></a>
+                                                <a asp-action="StokCikti" asp-controller="Malzeme" class="btn btn-info shadow btn-s sharp me-1"><i class="fa-solid fa-minus"></i></a>
                                                 <a asp-route-id="@malze.Id" asp-controller="Malzeme" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
