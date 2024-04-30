@@ -9,6 +9,7 @@ using Restaurant.Models;
 namespace Restaurant.Areas.Admin.Controllers
 {
 
+
     [Area("Admin")]
     public class PersonelController : Controller
     {
@@ -86,6 +87,7 @@ namespace Restaurant.Areas.Admin.Controllers
                     await _context.SaveChangesAsync();
 
                     return RedirectToAction("PersonelListele");
+
                 }
                 else
                 {

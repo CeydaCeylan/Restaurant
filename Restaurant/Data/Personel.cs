@@ -18,8 +18,6 @@ public partial class Personel
     public string? Eposta { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
-    [StringLength(11, MinimumLength = 11, ErrorMessage = "*Telefon numarası 11 karakter olmalıdır")]
-    [RegularExpression(@"^\d+$", ErrorMessage = "*Sadece sayısal değerler kabul edilir")]
     public string? Telefon { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
@@ -40,8 +38,6 @@ public partial class Personel
     [Required(ErrorMessage = "*Zorunlu Alan")]
 
     public string? PersonelParola { get; set; }
-
-    //[Required(ErrorMessage = "*Zorunlu Alan")]
 
     public string? PersonelFotograf { get; set; }
 

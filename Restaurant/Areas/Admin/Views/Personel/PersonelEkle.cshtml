@@ -14,7 +14,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">PERSONEL EKLE</h4>
+                            <h4 style="color: black; font-weight: bold;" class="card-title">PERSONEL EKLE</h4>
                         </div>
                         <div class="card-body">
                             <div class="form-validation">
@@ -40,6 +40,11 @@
                                             <input asp-for="BaslamaTarihi" class="form-control border border-dark" type="date">
                                             <span asp-validation-for="BaslamaTarihi" class="text-danger"></span>
                                         </div>
+                                        <div class="mb-3 mt-2">
+                                            <label class="text-label form-label" style="color:black;">Adres</label>
+                                            <input asp-for="Adres" class="form-control border border-dark" type="text">
+                                            <span asp-validation-for="Adres" class="text-danger"></span>
+                                        </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="mb-3 mt-2">
@@ -48,11 +53,13 @@
                                                 <option value="">Rol Seçiniz</option>
                                             </select>
                                         </div>
+                                       
                                         <div class="mb-3 mt-2">
                                             <label class="text-label form-label" style="color:black;">Telefon</label>
-                                            <input asp-for="Telefon" class="form-control border border-dark" type="text">
-                                            <span asp-validation-for="Telefon" class="text-danger"></span>
+                                            <input asp-for="Telefon" id="telefonInput" class="form-control border border-dark" type="text" placeholder="(5__) ___ __ __">
+                                            <span asp-validation-for="Telefon" id="telefonValidation" class="text-danger"></span>
                                         </div>
+                                        
                                         <div class="mb-3 mt-2">
                                             <label class="text-label form-label" style="color:black;">Maaş</label>
                                             <input asp-for="Maas" class="form-control border border-dark" type="text">
@@ -67,26 +74,20 @@
                                             </select>
                                             <span asp-validation-for="Cinsiyet" class="text-danger"></span>
                                         </div>
-                                    </div>
-                                    <div class="mb-3 mt-2">
-                                        <label class="text-label form-label" style="color:black;">Adres</label>
-                                        <input asp-for="Adres" class="form-control border border-dark" type="text">
-                                        <span asp-validation-for="Adres" class="text-danger"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="container" style="width:364px;">
-                                            <p style="color:black;">Fotoğraf Yükle</p>
-                                            <div class="input-group">
-                                                <div class="form-file">
-                                                    @if (Model != null)
-                                                    {
-                                                        <input asp-for="PersonelFotograf" value="@Model.PersonelFotograf" type="hidden" />
-                                                    }
-                                                    <label for="files" class="form-label" style="color:black;"></label>
-                                                    <input id="files" name="file" type="file" class="dropify" data-height="100" />
-                                                    <span asp-validation-for="PersonelFotograf" class="text-danger"></span>
-                                                </div>
-                                            </div>
+                                        <div class="mb-3">
+                                           
+                                                <p style="color:black;">Fotoğraf Yükle</p>
+                                                <div class="input-group">
+                                                    <div class="form-file">
+                                                        @if (Model != null)
+                                                        {
+                                                            <input asp-for="PersonelFotograf" value="@Model.PersonelFotograf" type="hidden" />
+                                                        }
+                                                        <label for="files" class="form-label" style="color:black;"></label>
+                                                        <input id="files" name="file" type="file" class="form-file-input form-control" />
+                                                        <span asp-validation-for="PersonelFotograf" class="text-danger"></span>
+                                                    </div>
+                                                </div>                                          
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +111,7 @@
                                             <span asp-validation-for="Eposta" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="text-label form-label" for="dz-password" style="color:black;">Password</label>
+                                            <label class="text-label form-label" for="dz-password" style="color:black;">Şifre</label>
                                             <div class="input-group transparent-append">
                                                 <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                                                 <input asp-for="PersonelParola" type="password" class="form-control border border-dark" id="dz-password" placeholder="Şifre Gir">
@@ -137,20 +138,9 @@
 
 
 @section Scripts {
-
-   
-
     <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
     <script src="~/admin/js/plugins-init/select2-init.js"></script>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
-
-    <script>
-        $('.dropify').dropify();
-
-    </script>
 }               

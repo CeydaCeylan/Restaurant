@@ -129,7 +129,9 @@ namespace Restaurant.Areas.Admin.Controllers
         }
         public async Task<IActionResult> MenuUrunEkle()
         {
-            var urun = await _context.Urunler.Where(p => p.Gorunurluk == true).ToListAsync();
+            var urun = await _context.Urunler
+                .Where(p => p.Gorunurluk == true)
+                .ToListAsync();
             return View(urun);
         }
 

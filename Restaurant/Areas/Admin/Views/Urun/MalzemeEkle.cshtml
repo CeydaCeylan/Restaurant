@@ -39,11 +39,14 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="d-end">
-                                                    <input type="checkbox" class="form-check-input" id="customCheckBox1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheckBox_@malze.Id"
+                                                           name="seciliMalzemeler" value="@malze.Id"
+                                                    @(ViewBag.SeciliMalzemeler.Contains(malze.Id) ? "checked" : "")>
                                                 </div>
                                             </td>
                                         </tr>
                                     }
+
                                 </tbody>
                             </table>
                             <div class="col-12 mt-5">
@@ -62,7 +65,7 @@
     <script>
         // Form submit işlemini engelleyen fonksiyon
         document.getElementById("malzemeForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Form submitini engelle          
+            event.preventDefault(); // Form submitini engelle
         });
         function hazirlaVeEkle() {
             var selectedData = []; // Seçili verileri tutmak için bir dizi
@@ -130,8 +133,6 @@
                 });
             });
         });
-
-
     </script>
 
 }

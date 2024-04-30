@@ -46,8 +46,6 @@ namespace Restaurant.Areas.Admin.Controllers
                 var urun = await _context.Urunler.FirstOrDefaultAsync(x => x.Id == id);
                 return View(urun);
             }
-
-
         }
 
         [HttpPost]
@@ -123,12 +121,26 @@ namespace Restaurant.Areas.Admin.Controllers
             return View(urunler);
         }
 
-        public async Task<IActionResult> MalzemeEkle()
+        public async Task<IActionResult> MalzemeEkle(int id)
         {
+            var urun = await _context.Urunler.FindAsync(id);
+            if (urun == null)
+            {
+                return NotFound();
+            }
+
             var malzeme = await _context.Malzemeler
                 .Include(x => x.Stok)
                 .ThenInclude(x => x.Tedarikci)
                 .Where(p => p.Gorunurluk == true).ToListAsync();
+
+            // Ürünün daha önceden seçilmiş malzemelerini al
+            var seciliMalzemeler = await _context.UrunMalzemeler
+                                                .Where(um => um.UrunId == id)
+                                                .Select(um => um.MalzemeId)
+                                                .ToListAsync();
+
+            ViewBag.SeciliMalzemeler = seciliMalzemeler;
 
             return View(malzeme);
         }
@@ -141,7 +153,7 @@ namespace Restaurant.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-          
+
             foreach (var item in itemList)
             {
                 var urunmalzem = new UrunMalzeme
@@ -169,7 +181,5 @@ namespace Restaurant.Areas.Admin.Controllers
 
             return RedirectToAction("UrunListele");
         }
-
-
     }
 }

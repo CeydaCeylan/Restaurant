@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.Models;
 
@@ -11,9 +12,11 @@ using Restaurant.Models;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    partial class IdentityDataContextModelSnapshot : ModelSnapshot
+    [Migration("20240430085719_migsonhall")]
+    partial class migsonhall
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -491,6 +494,9 @@ namespace Restaurant.Migrations
                     b.Property<bool?>("Aktif")
                         .IsRequired()
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Detay")
+                        .HasColumnType("longtext");
 
                     b.Property<decimal?>("Fiyat")
                         .IsRequired()
@@ -1134,6 +1140,9 @@ namespace Restaurant.Migrations
                     b.Property<bool?>("Aktif")
                         .IsRequired()
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Detay")
+                        .HasColumnType("longtext");
 
                     b.Property<decimal?>("Fiyat")
                         .IsRequired()

@@ -78,7 +78,7 @@
 
     // Create a list of day and month names.
     var weekdays = [
-        "Sunday", "Monday", "Tuesday",
+        "Sunday", "Pazartesi", "Tuesday",
         "Wednesday", "Thursday", "Friday",
         "Saturday"
     ];
@@ -111,7 +111,6 @@
                 return "th";
         }
     }
-
     // Create a string representation of the date.
     function formatDate(date) {
         return weekdays[date.getDay()] + ", " +

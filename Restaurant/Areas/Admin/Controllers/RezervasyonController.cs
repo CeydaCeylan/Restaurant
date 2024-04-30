@@ -82,8 +82,6 @@ namespace Restaurant.Areas.Admin.Controllers
                 return View(model);
             }
         }
-
-
         public async Task<IActionResult> RezervasyonListele()
         {
             var masarezervasyon = await _context.Rezervasyonlar
@@ -119,6 +117,11 @@ namespace Restaurant.Areas.Admin.Controllers
 
 
             return RedirectToAction("RezervasyonListele");
+        }
+
+        public IActionResult RezervasyonTakvim() 
+        {
+            return View();
         }
 
     }

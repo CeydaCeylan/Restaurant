@@ -16,9 +16,6 @@ public partial class Menu
     [Required(ErrorMessage = "*Zorunlu Alan")]
 
     public decimal? Fiyat { get; set; }
-
-    public string? Detay { get; set; }
-
     public string? Fotograf { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]

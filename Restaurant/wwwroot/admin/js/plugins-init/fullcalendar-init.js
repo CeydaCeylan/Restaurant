@@ -75,7 +75,7 @@
 				  start: '2021-02-01'
 				},
 				{
-				  title: 'Long Event',
+				  title: 'Muhammed enes',
 				  start: '2021-02-07',
 				  end: '2021-02-10',
 				  className: "bg-danger"
