@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">İndirim Tarihi:</label>
-                                            <input asp-for="IndirimTarihi" class="form-control border border-dark" type="date">
+                                            <input asp-for="IndirimTarihi" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="IndirimTarihi" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 mt-2">
@@ -48,8 +48,7 @@
                                                     <span asp-validation-for="Fotograf" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                        </div>
-                                                                            
+                                        </div>                                                                      
                                     </div>
                                     <div class="col-xl-6">                                       
                                         <div class="mb-3">
@@ -70,8 +69,7 @@
                                                 <input id="Aktif" name="Aktif" type="hidden" value="false">
                                                 <span asp-validation-for="Aktif" class="text-danger"></span>
                                             </div>
-                                        </div>
-                                        
+                                        </div>                                       
                                     </div>
                                 </div>
                             </div>
@@ -90,4 +88,16 @@
     <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
     <script src="~/admin/js/plugins-init/select2-init.js"></script>
+    <script src="~/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/admin/js/plugins-init/bs-daterange-picker-init.js"></script>
+
+    <script>
+        $('input[name="IndirimTarihi"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1950,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        });
+
+    </script>
 }               

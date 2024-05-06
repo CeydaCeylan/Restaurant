@@ -15,6 +15,8 @@ public partial class Malzeme
     public string? Turu { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Lütfen sadece sayısal bir değer girin.")]
+
     public decimal? Fiyat { get; set; }
 	public bool? Gorunurluk { get; set; }
 

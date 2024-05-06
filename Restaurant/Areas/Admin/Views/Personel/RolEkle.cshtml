@@ -22,7 +22,7 @@
                                     <div class="col-xl-6">
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Eklenme Tarihi</label>
-                                            <input asp-for="EklenmeTarihi" class="form-control border border-dark" type="date">
+                                            <input asp-for="EklenmeTarihi" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="EklenmeTarihi" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -38,3 +38,17 @@
         </div>
     </div>
 </div>
+@section Scripts {
+
+    <script src="~/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/admin/js/plugins-init/bs-daterange-picker-init.js"></script>
+ 
+    <script>
+        $('input[name="EklenmeTarihi"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 2000,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        });
+    </script>
+}   

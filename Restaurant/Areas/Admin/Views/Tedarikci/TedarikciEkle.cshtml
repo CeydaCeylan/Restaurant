@@ -34,12 +34,12 @@
                                             <span asp-validation-for="Eposta" class="text-danger"></span>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-6">                                      
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Telefon</label>
-                                            <input asp-for="Telefon" class="form-control border border-dark" type="text" >
-                                            <span asp-validation-for="Telefon" class="text-danger"></span>
-                                        </div>                                      
+                                            <input asp-for="Telefon" id="telefonInputt" class="form-control border border-dark" type="text" placeholder="(___) ___ __ __">
+                                            <span asp-validation-for="Telefon" id="telefonValidation" class="text-danger"></span>
+                                        </div>
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Adres</label>
                                             <input asp-for="Adres" class="form-control border border-dark" type="text">
@@ -64,4 +64,23 @@
     <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
     <script src="~/admin/js/plugins-init/select2-init.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Telefon numarası için maskeleme işlemi
+            $('#telefonInputt').mask('(000) 000 00 00', {
+                onKeyPress: function (value, event) {
+                    // Sadece sayısal olmayan karakterleri kaldır
+                    var sanitized = value.replace(/\D/g, '');
+                    // Kullanıcıya uygun bir hata mesajı göster
+                    if (sanitized.length !== 10) {
+                        $('#telefonValidation').text('*Telefon numarası 10 karakter olmalıdır');
+                    } else {
+                        $('#telefonValidation').text('');
+                    }
+                }
+            });
+        });
+
+    </script>
 }               

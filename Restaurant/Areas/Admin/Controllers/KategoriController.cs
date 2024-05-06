@@ -42,6 +42,8 @@ namespace Restaurant.Areas.Admin.Controllers
 
                     _context.Kategoriler.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
+
                     return RedirectToAction("KategoriListele");
                 }
 
@@ -49,6 +51,8 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
+
                     return RedirectToAction("KategoriListele");
                 }
             }

@@ -79,7 +79,6 @@ namespace Restaurant.Areas.Admin.Controllers
 
                 }
 
-
                 model.Gorunurluk = true;
 
                 if (id == 0)
@@ -87,6 +86,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
                     _context.Menuler.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("MenuListele");
                 }
 
@@ -94,6 +94,7 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("MenuListele");
                 }
             }
@@ -127,11 +128,27 @@ namespace Restaurant.Areas.Admin.Controllers
 
             return View(menuler);
         }
-        public async Task<IActionResult> MenuUrunEkle()
+
+        public async Task<IActionResult> MenuUrunEkle(int id)
         {
+            var menu = await _context.Menuler.FindAsync(id);
+            if (menu == null)
+            {
+                return NotFound();
+            }
+
             var urun = await _context.Urunler
                 .Where(p => p.Gorunurluk == true)
                 .ToListAsync();
+
+            // Ürünün daha önceden seçilmiş malzemelerini al
+            var seciliUrunler= await _context.MenuUrunler
+                                                .Where(um => um.MenuId == id)
+                                                .Select(um => um.UrunId)
+                                                .ToListAsync();
+
+            ViewBag.seciliUrunler = seciliUrunler;
+
             return View(urun);
         }
 

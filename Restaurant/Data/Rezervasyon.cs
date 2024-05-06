@@ -12,8 +12,9 @@ public partial class Rezervasyon
     public DateOnly? Tarih { get; set; }
 
     public TimeOnly? BaslangicSaat { get; set; }
-    
+
     public TimeOnly? BitisSaat { get; set; }
+    [Required(ErrorMessage = "*Zorunlu Alan")]
 
     public int? KisiSayisi { get; set; }
     [Required(ErrorMessage = "*Zorunlu Alan")]
@@ -26,6 +27,10 @@ public partial class Rezervasyon
     public DateOnly? TalepTarihi { get; set; }
 
 	public bool? Gorunurluk { get; set; }
+
+    public int? MusteriId { get; set; }
+
+    public Musteri? Musteri { get; set; }
 
     public ICollection<MasaRezervasyon> MasaRezervasyonlar { get; set; } = new List<MasaRezervasyon>();
 

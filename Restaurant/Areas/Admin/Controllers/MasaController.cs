@@ -60,6 +60,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
                     _context.Masalar.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("MasaListele");
                 }
 
@@ -67,6 +68,8 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
+
                     return RedirectToAction("MasaListele");
                 }
             }
@@ -129,6 +132,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
                     _context.Ozellikler.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("MasaOzellikListele");
                 }
 
@@ -136,6 +140,7 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("MasaOzellikListele");
                 }
             }

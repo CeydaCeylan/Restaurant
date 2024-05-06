@@ -62,17 +62,18 @@ namespace Restaurant.Areas.Admin.Controllers
                         };
                         await _context.MasaRezervasyonlar.AddAsync(masarez);
                     }
-
-                    model.Rezervasyon.Gorunurluk=true;
+                    model.Rezervasyon.Gorunurluk = true;
                     _context.Rezervasyonlar.Add(model.Rezervasyon);
 
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("RezervasyonListele");
                 }
                 else
                 {
                     _context.Rezervasyonlar.Update(model.Rezervasyon);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("RezervasyonListele");
                 }
             }
@@ -119,11 +120,10 @@ namespace Restaurant.Areas.Admin.Controllers
             return RedirectToAction("RezervasyonListele");
         }
 
-        public IActionResult RezervasyonTakvim() 
+        public IActionResult RezervasyonTakvim()
         {
             return View();
         }
 
     }
 }
-

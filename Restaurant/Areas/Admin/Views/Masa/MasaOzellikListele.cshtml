@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">MASA ÖZELLİK LİSTESİ</h4>
-                    <a asp-controller="Masa" asp-action="OzellikEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-box"></i> Özellik Ekle</a>
+                    <a asp-controller="Masa" asp-action="OzellikEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Özellik Ekle</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -46,3 +46,13 @@
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var successMessage = '@TempData["success"]';
+            if (successMessage !== '') {
+                swal("İşlem Başarılı!", successMessage, "success");
+            }
+        });
+    </script>
+}

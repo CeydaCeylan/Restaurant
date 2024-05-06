@@ -85,17 +85,17 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Personeller.Add(model);
                     await _context.SaveChangesAsync();
-
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("PersonelListele");
-
                 }
                 else
                 {
                     _context.Update(model);
                     _context.SaveChanges();
-
-                    return RedirectToAction("Index");
+                    TempData["success"] = "Kayıt güncellendi.";
+                    return RedirectToAction("PersonelListele");
                 }
+
             }
             else
             {
@@ -132,6 +132,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
                     _context.Roller.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("RolListe");
                 }
 
@@ -139,6 +140,7 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("RolListe");
                 }
             }

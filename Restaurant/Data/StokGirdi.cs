@@ -9,8 +9,12 @@ public partial class StokGirdi
     public int Id { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Lütfen sadece sayısal bir değer girin.")]
+
     public int? Miktar { get; set; }
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Lütfen sadece sayısal bir değer girin.")]
+
     public int? AlısFiyati { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]

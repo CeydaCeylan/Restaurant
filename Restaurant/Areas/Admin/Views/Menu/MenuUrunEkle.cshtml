@@ -36,7 +36,7 @@
                                                 <a data-id="@urun.Id" class="azalt btn btn-info shadow btn-s sharp me-1">
                                                     <i class="fa-solid fa-minus"></i>
                                                 </a>
-                                                <input type="checkbox" class="form-check-input" id="customCheckBox1" style="margin-top: 10px;" value="@urun.Id">
+                                                <input type="checkbox" class="form-check-input" id="customCheckBox1" style="margin-top: 10px;" value="@urun.Id" @(ViewBag.seciliUrunler.Contains(urun.Id) ? "checked" : "")>
                                             </div>
                                         </div>
                                     </div>

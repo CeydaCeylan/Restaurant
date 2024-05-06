@@ -78,7 +78,7 @@
 
     // Create a list of day and month names.
     var weekdays = [
-        "Sunday", "Pazartesi", "Tuesday",
+        "Sunday", "Monday", "Tuesday",
         "Wednesday", "Thursday", "Friday",
         "Saturday"
     ];

@@ -59,6 +59,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
                     _context.Malzemeler.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("MalzemeListele");
                 }
 
@@ -66,6 +67,7 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("MalzemeListele");
                 }
             }
@@ -147,6 +149,7 @@ namespace Restaurant.Areas.Admin.Controllers
                     model.TedarikciId = tedarik.Stok.TedarikciId;
                     _context.StokGirdiler.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("StokGirdiListele");
                 }
 
@@ -154,6 +157,7 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("StokGirdiListele");
                 }
             }
@@ -222,6 +226,7 @@ namespace Restaurant.Areas.Admin.Controllers
                     model.TedarikciId = tedarik.Stok.TedarikciId;
                     _context.StokCiktilar.Add(model);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("StokCiktiListele");
                 }
 
@@ -229,6 +234,7 @@ namespace Restaurant.Areas.Admin.Controllers
                 {
                     _context.Update(model);
                     _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("StokCiktiListele");
                 }
             }

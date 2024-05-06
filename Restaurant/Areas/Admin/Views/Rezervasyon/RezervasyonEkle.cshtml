@@ -9,7 +9,7 @@
 <div class="content-body">
     <div class="container-fluid">
         <div class="row">
-            <form  asp-action="RezervasyonEkle" asp-controller="Rezervasyon" method="post" novalidate>
+            <form asp-action="RezervasyonEkle" asp-controller="Rezervasyon" method="post" novalidate>
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
@@ -26,13 +26,17 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Tarih</label>
-                                            <input asp-for="Rezervasyon.Tarih" class="form-control border border-dark" type="date">
+                                            <input asp-for="Rezervasyon.Tarih" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="Rezervasyon.Tarih" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Başlangıç Saati</label>
-                                            <input asp-for="Rezervasyon.BaslangicSaat" class="form-control border border-dark" type="time">
-                                            <span asp-validation-for="Rezervasyon.BaslangicSaat" class="text-danger"></span>
+                                            <div class="input-group clockpicker" data-autoclose="true">
+                                                <input asp-for="Rezervasyon.BaslangicSaat" id="baslangic-saat-input" class="form-control border border-dark" type="text">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Masalar</label>
@@ -47,7 +51,7 @@
                                     <div class="col-xl-6">
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Talep Tarihi</label>
-                                            <input asp-for="Rezervasyon.TalepTarihi" class="form-control border border-dark" type="date">
+                                            <input asp-for="Rezervasyon.TalepTarihi" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="Rezervasyon.TalepTarihi" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 ">
@@ -55,12 +59,20 @@
                                             <input asp-for="Rezervasyon.Talep" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="Rezervasyon.Talep" class="text-danger"></span>
                                         </div>
+                                        @*   <div class="mb-3">
+                                        <label class="text-label form-label" style="color:black;">Bitiş Saati</label>
+                                        <input asp-for="Rezervasyon.BitisSaat" class="form-control border border-dark" type="time">
+                                        <span asp-validation-for="Rezervasyon.BitisSaat" class="text-danger"></span>
+                                        </div> *@
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Bitiş Saati</label>
-                                            <input asp-for="Rezervasyon.BitisSaat" class="form-control border border-dark" type="time">
-                                            <span asp-validation-for="Rezervasyon.BitisSaat" class="text-danger"></span>
+                                            <div class="input-group clockpicker" data-autoclose="true">
+                                                <input asp-for="Rezervasyon.BitisSaat" id="bitis-saat-input" class="form-control border border-dark" type="text">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                      
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Onay</label>
                                             <select asp-for="Rezervasyon.Onay" class="form-control border border-dark" id="automatic-selection">
@@ -71,8 +83,6 @@
                                             </select>
                                             <span asp-validation-for="Rezervasyon.Onay" class="text-danger"></span>
                                         </div>
-
-                                       
                                     </div>
                                     <div class="d-flex justify-content-center mt-5">
                                         <button type="submit" class="btn me-2 btn-primary">Kaydet</button>
@@ -91,4 +101,54 @@
     <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
     <script src="~/admin/js/plugins-init/select2-init.js"></script>
+
+    <script src="~/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/admin/js/plugins-init/bs-daterange-picker-init.js"></script>
+
+    <script src="~/admin/js/plugins-init/clock-picker-init.js"></script>
+    <script src="~/admin/vendor/clockpicker/js/bootstrap-clockpicker.min.js"></script>
+    <script>
+        $('input[name="Rezervasyon.TalepTarihi"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        });
+    </script>
+    <script>
+        $('input[name="Rezervasyon.Tarih"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // İlgili input alanlarına boş değerler atanacak
+            $('#baslangic-saat-input').val("__:__");
+            $('#bitis-saat-input').val("__:__");
+
+            // ClockPicker'ı etkinleştirmek için jQuery kullanarak gerekli kodu ekleyelim
+            $('.clockpicker').clockpicker();
+
+            // Bitiş saati seçilebilir hale geldiğinde tetiklenecek olay
+            $('#bitis-saat-input').on('focus', function () {
+                var startHour = parseInt($('#baslangic-saat-input').val().split(':')[0]);
+                var startMinute = parseInt($('#baslangic-saat-input').val().split(':')[1]);
+                var endHour = parseInt($('#bitis-saat-input').val().split(':')[0]);
+                var endMinute = parseInt($('#bitis-saat-input').val().split(':')[1]);
+
+                // Başlangıç saati ve bitiş saati arasında karşılaştırma yapma
+                if (endHour < startHour || (endHour === startHour && endMinute < startMinute)) {
+                    alert("Başlangıç saatinin öncesine bitiş saati seçemezsiniz!"); // Uyarı mesajı gösterme
+                    $('#bitis-saat-input').val("__:__"); // Bitiş saatinin sıfırlanması
+                    return false; // Seçimin iptal edilmesi
+                }
+            });
+        });
+
+    </script>
+
+
 }               

@@ -9,9 +9,10 @@ public partial class Personel
     public int Id { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [StringLength(30, MinimumLength = 3, ErrorMessage = "Ad en az 3 karakter en fazla 30 karakter olmalıdır.")]
     public string? Ad { get; set; }
-
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [StringLength(30, MinimumLength = 3, ErrorMessage = "Ad en az 3 karakter en fazla 30 karakter olmalıdır.")]
     public string? Soyad { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
@@ -28,20 +29,19 @@ public partial class Personel
     public DateOnly? DogumTarihi { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
-
     public DateOnly? BaslamaTarihi { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
-
     public bool? Cinsiyet { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
-
+    [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$", ErrorMessage = "Şifre en az 6 karakter uzunluğunda olmalı ve hem sayı hem de harf içermelidir.")]
     public string? PersonelParola { get; set; }
 
     public string? PersonelFotograf { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [StringLength(50, MinimumLength = 3, ErrorMessage = "En az 3 karakter en fazla 50 karakter olmalıdır.")]
 
     public string? Adres {  get; set; }
     public int? RolId { get; set; }

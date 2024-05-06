@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">MASA LİSTESİ</h4>
-                    <a asp-controller="Masa" asp-action="MasaEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-box"></i> Masa Ekle</a>
+                    <a asp-controller="Masa" asp-action="MasaEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Masa Ekle</a>
                 </div>
 
                 <div class="card-body">
@@ -81,7 +81,7 @@
         </div>
     </div>
 </div>
-
+@section Scripts {
 <script>
     function generateQRCode(elementId, text) {
         var qrcode = new QRCode(elementId, {
@@ -137,4 +137,13 @@
 
 </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var successMessage = '@TempData["success"]';
+            if (successMessage !== '') {
+                swal("İşlem Başarılı!", successMessage, "success");
+            }
+        });
+    </script>
+}
 

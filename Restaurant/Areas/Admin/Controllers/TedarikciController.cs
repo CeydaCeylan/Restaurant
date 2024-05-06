@@ -29,15 +29,27 @@ namespace Restaurant.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TedarikciEkle(Tedarikci model)
+        public async Task<IActionResult> TedarikciEkle(Tedarikci model,int id)
         {
             if (ModelState.IsValid)
             {
                 model.Gorunurluk = true;
-                _context.Tedarikciler.Add(model);
-                await _context.SaveChangesAsync();
+                if (id == 0)
+                {
+                    _context.Tedarikciler.Add(model);
+                    await _context.SaveChangesAsync();
+                    TempData["success"] = "Kayıt eklendi.";
 
-                return RedirectToAction("TedarikciListele");
+                    return RedirectToAction("TedarikciListele");
+                }
+                else
+                {
+                    _context.Update(model);
+                    _context.SaveChanges();
+                    TempData["success"] = "Kayıt güncellendi.";
+
+                    return RedirectToAction("TedarikciListele");
+                }
             }
             else
             {

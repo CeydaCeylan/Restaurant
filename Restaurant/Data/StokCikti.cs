@@ -12,6 +12,8 @@ public partial class StokCikti
     public string? Ad { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Lütfen sadece sayısal bir değer girin.")]
+
     public int? Miktar { get; set; }
    
     [Required(ErrorMessage = "*Zorunlu Alan")]

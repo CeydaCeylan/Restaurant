@@ -32,12 +32,12 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Doğum Tarihi</label>
-                                            <input asp-for="DogumTarihi" class="form-control border border-dark" type="date">
+                                            <input asp-for="DogumTarihi" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="DogumTarihi" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Başlama Tarihi</label>
-                                            <input asp-for="BaslamaTarihi" class="form-control border border-dark" type="date">
+                                            <input asp-for="BaslamaTarihi" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="BaslamaTarihi" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 mt-2">
@@ -47,25 +47,23 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
-                                        <div class="mb-3 mt-2">
+                                        <div class="mb-3 mt-2" >
                                             <label class="text-label form-label" style="color:black;">Rol</label>
                                             <select asp-for="RolId" class="form-control border border-dark" id="single-select" asp-items="ViewBag.Roller">
                                                 <option value="">Rol Seçiniz</option>
                                             </select>
                                         </div>
-                                       
-                                        <div class="mb-3 mt-2">
+                                        <div class="mb-3 mt-4">
                                             <label class="text-label form-label" style="color:black;">Telefon</label>
                                             <input asp-for="Telefon" id="telefonInput" class="form-control border border-dark" type="text" placeholder="(5__) ___ __ __">
                                             <span asp-validation-for="Telefon" id="telefonValidation" class="text-danger"></span>
-                                        </div>
-                                        
+                                        </div>                                       
                                         <div class="mb-3 mt-2">
                                             <label class="text-label form-label" style="color:black;">Maaş</label>
                                             <input asp-for="Maas" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="Maas" class="text-danger"></span>
                                         </div>
-                                        <div class="mb-3 mt-2">
+                                        <div class="mb-3 mt-4">
                                             <label class="text-label form-label" style="color:black;">Cinsiyet</label>
                                             <select asp-for="Cinsiyet" class="form-control border border-dark" type="text">
                                                 <option value="">Cinsiyet Seçiniz</option>
@@ -74,8 +72,7 @@
                                             </select>
                                             <span asp-validation-for="Cinsiyet" class="text-danger"></span>
                                         </div>
-                                        <div class="mb-3">
-                                           
+                                        <div class="mb-3">                                         
                                                 <p style="color:black;">Fotoğraf Yükle</p>
                                                 <div class="input-group">
                                                     <div class="form-file">
@@ -136,11 +133,31 @@
     </div>
 </div>
 
-
 @section Scripts {
     <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
     <script src="~/admin/js/plugins-init/select2-init.js"></script>
+    <script src="~/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/admin/js/plugins-init/bs-daterange-picker-init.js"></script>
 
-
+    <script>
+        $('input[name="DogumTarihi"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'), 10),
+            isInvalidDate: function (date) {
+                // Doğum tarihi 18'den küçükse veya bugünün tarihinden ileri bir tarihse, geçersiz olarak işaretle
+                return date.isAfter(moment()) || moment().diff(date, 'years') < 18;
+            }
+        });
+    </script>
+    <script>
+            $('input[name="BaslamaTarihi"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'), 10)            
+        });
+    </script>
 }               

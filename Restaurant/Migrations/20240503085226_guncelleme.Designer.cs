@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.Models;
 
@@ -11,9 +12,11 @@ using Restaurant.Models;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    partial class IdentityDataContextModelSnapshot : ModelSnapshot
+    [Migration("20240503085226_guncelleme")]
+    partial class guncelleme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,6 +300,7 @@ namespace Restaurant.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ad")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
@@ -304,6 +308,7 @@ namespace Restaurant.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Tur")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -730,9 +735,6 @@ namespace Restaurant.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("MusteriId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Onay")
                         .HasColumnType("int");
 
@@ -749,8 +751,6 @@ namespace Restaurant.Migrations
                         .HasColumnType("date");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MusteriId");
 
                     b.ToTable("Rezervasyonlar");
                 });
@@ -1587,15 +1587,6 @@ namespace Restaurant.Migrations
                         .HasForeignKey("RolId");
 
                     b.Navigation("Rol");
-                });
-
-            modelBuilder.Entity("Restaurant.Data.Rezervasyon", b =>
-                {
-                    b.HasOne("Restaurant.Data.Musteri", "Musteri")
-                        .WithMany()
-                        .HasForeignKey("MusteriId");
-
-                    b.Navigation("Musteri");
                 });
 
             modelBuilder.Entity("Restaurant.Data.Siparis", b =>
