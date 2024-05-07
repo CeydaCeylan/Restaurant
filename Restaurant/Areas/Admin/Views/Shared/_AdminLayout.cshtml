@@ -541,7 +541,7 @@
                             <li><a asp-controller="Personel" asp-action="PersonelEkle">Personel Ekle</a></li>
                             <li><a asp-controller="Personel" asp-action="PersonelListele">Personel Listesi</a></li>
                             <li><a asp-controller="Personel" asp-action="RolEkle">Rol Ekle</a></li>
-                            <li><a asp-controller="Personel" asp-action="RolListe">Rol Listesi</a></li>
+                           <li><a asp-controller="Personel" asp-action="RolListe">Rol Listesi</a></li>
                         </ul>
                     </li>
                     <li>
@@ -599,9 +599,10 @@
                             <span class="nav-text">Masa İşlemleri</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a asp-controller="Masa" asp-action="MasaEkle">Masa Ekle</a></li>
-                            <li><a asp-controller="Masa" asp-action="MasaListele">Masa Listesi</a></li>
-                            <li><a asp-controller="Masa" asp-action="OzellikEkle">Özellik Ekle</a></li>
+@*                             <li><a asp-controller="Masa" asp-action="MasaEkle">Masa Ekle</a></li>
+ *@                            <li><a asp-controller="Masa" asp-action="MasaListele">Masa Listesi</a></li>
+@*                             <li><a asp-controller="Masa" asp-action="OzellikEkle">Özellik Ekle</a></li>
+ *@                            <li><a asp-controller="Masa" asp-action="OzellikListele">Özellik Listesi</a></li>
                             <li><a asp-controller="Masa" asp-action="MasaOzellikListele">Masa Özellik Listesi</a></li>
 
                         </ul>
@@ -672,6 +673,7 @@
                             <span class="nav-text">Yorum İşlemleri</span>
                         </a>
                         <ul aria-expanded="false">
+                            <li><a asp-controller="Yorum" asp-action="Index">Yorum Listesi</a></li>
                             <li><a href="javascript:void()">Yorum Düzenleme</a></li>
                         </ul>
                     </li>
@@ -750,9 +752,12 @@
 
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
-    <script src="~/admin/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="~/admin/js/plugins-init/sweetalert.init.js"></script>
-    <script>
+@*     <script src="~/admin/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+ *@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@*     <script src="~/admin/js/plugins-init/sweetalert.init.js"></script>
+ *@    <script>
         $(document).ready(function () {
             // Telefon numarası için maskeleme işlemi
             $('#telefonInput').mask('(500) 000 00 00', {

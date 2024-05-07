@@ -28,6 +28,9 @@ public partial class Rezervasyon
 
 	public bool? Gorunurluk { get; set; }
 
+    public int? KayitsizMusteriId { get; set; }
+
+    public KayitsizMusteri? KayitsizMusteri { get; set; }
     public int? MusteriId { get; set; }
 
     public Musteri? Musteri { get; set; }

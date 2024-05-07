@@ -89,7 +89,7 @@ namespace Restaurant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Ad = table.Column<string>(type: "longtext", nullable: true)
+                    Ad = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Tur = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -98,6 +98,25 @@ namespace Restaurant.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Kategoriler", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "KayitsizMusteriler",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Ad = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Telefon = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    KayitTarihi = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KayitsizMusteriler", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -155,28 +174,6 @@ namespace Restaurant.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Rezervasyonlar",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Tarih = table.Column<DateOnly>(type: "date", nullable: false),
-                    BaslangicSaat = table.Column<TimeOnly>(type: "time(6)", nullable: true),
-                    BitisSaat = table.Column<TimeOnly>(type: "time(6)", nullable: true),
-                    KisiSayisi = table.Column<int>(type: "int", nullable: true),
-                    Talep = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Onay = table.Column<int>(type: "int", nullable: true),
-                    TalepTarihi = table.Column<DateOnly>(type: "date", nullable: false),
-                    Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rezervasyonlar", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Roller",
                 columns: table => new
                 {
@@ -199,15 +196,15 @@ namespace Restaurant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    AdSoyad = table.Column<string>(type: "longtext", nullable: true)
+                    AdSoyad = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Firma = table.Column<string>(type: "longtext", nullable: false)
+                    Firma = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Telefon = table.Column<string>(type: "longtext", nullable: true)
+                    Telefon = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Eposta = table.Column<string>(type: "longtext", nullable: true)
+                    Eposta = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Adres = table.Column<string>(type: "longtext", nullable: true)
+                    Adres = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
@@ -355,9 +352,7 @@ namespace Restaurant.Migrations
                     Aciklama = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Fiyat = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    Detay = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fotograf = table.Column<string>(type: "longtext", nullable: false)
+                    Fotograf = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Aktif = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true),
@@ -387,8 +382,6 @@ namespace Restaurant.Migrations
                     Ad = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Acıklama = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Detay = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Fiyat = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Fotograf = table.Column<string>(type: "longtext", nullable: true)
@@ -471,6 +464,40 @@ namespace Restaurant.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Rezervasyonlar",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Tarih = table.Column<DateOnly>(type: "date", nullable: false),
+                    BaslangicSaat = table.Column<TimeOnly>(type: "time(6)", nullable: true),
+                    BitisSaat = table.Column<TimeOnly>(type: "time(6)", nullable: true),
+                    KisiSayisi = table.Column<int>(type: "int", nullable: false),
+                    Talep = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Onay = table.Column<int>(type: "int", nullable: true),
+                    TalepTarihi = table.Column<DateOnly>(type: "date", nullable: false),
+                    Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    KayitsizMusteriId = table.Column<int>(type: "int", nullable: true),
+                    MusteriId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rezervasyonlar", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rezervasyonlar_KayitsizMusteriler_KayitsizMusteriId",
+                        column: x => x.KayitsizMusteriId,
+                        principalTable: "KayitsizMusteriler",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Rezervasyonlar_Musteriler_MusteriId",
+                        column: x => x.MusteriId,
+                        principalTable: "Musteriler",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Yorumlar",
                 columns: table => new
                 {
@@ -504,13 +531,13 @@ namespace Restaurant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Ad = table.Column<string>(type: "longtext", nullable: false)
+                    Ad = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Soyad = table.Column<string>(type: "longtext", nullable: false)
+                    Soyad = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Eposta = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Telefon = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: false)
+                    Telefon = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Maas = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     DogumTarihi = table.Column<DateOnly>(type: "date", nullable: false),
@@ -520,7 +547,7 @@ namespace Restaurant.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PersonelFotograf = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Adres = table.Column<string>(type: "longtext", nullable: false)
+                    Adres = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RolId = table.Column<int>(type: "int", nullable: true),
                     Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true)
@@ -542,9 +569,9 @@ namespace Restaurant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Miktar = table.Column<int>(type: "int", nullable: true),
-                    MinStok = table.Column<int>(type: "int", nullable: true),
-                    MaxStok = table.Column<int>(type: "int", nullable: true),
+                    Miktar = table.Column<int>(type: "int", nullable: false),
+                    MinStok = table.Column<int>(type: "int", nullable: false),
+                    MaxStok = table.Column<int>(type: "int", nullable: false),
                     MalzemeId = table.Column<int>(type: "int", nullable: false),
                     TedarikciId = table.Column<int>(type: "int", nullable: true),
                     Gorunurluk = table.Column<bool>(type: "tinyint(1)", nullable: true)
@@ -792,11 +819,9 @@ namespace Restaurant.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Ad = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ad = table.Column<int>(type: "int", nullable: true),
                     Zaman = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Yer = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Yer = table.Column<int>(type: "int", nullable: true),
                     SiparisId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -1254,6 +1279,16 @@ namespace Restaurant.Migrations
                 column: "RolId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Rezervasyonlar_KayitsizMusteriId",
+                table: "Rezervasyonlar",
+                column: "KayitsizMusteriId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rezervasyonlar_MusteriId",
+                table: "Rezervasyonlar",
+                column: "MusteriId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Siparisler_AdresId",
                 table: "Siparisler",
                 column: "AdresId");
@@ -1461,6 +1496,9 @@ namespace Restaurant.Migrations
 
             migrationBuilder.DropTable(
                 name: "Urunler");
+
+            migrationBuilder.DropTable(
+                name: "KayitsizMusteriler");
 
             migrationBuilder.DropTable(
                 name: "Adresler");

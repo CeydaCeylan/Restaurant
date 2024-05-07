@@ -59,8 +59,9 @@
                                         <td class="text-end">
                                             <div class="d-end">
                                                 <a asp-action="PersonelEkle" asp-route-id="@pers.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <button type="button" class="btn btn-warning shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#personel_@pers.Id"><i class="fa-sharp fa-solid fa-eye"></i></button>
-                                                <a asp-route-id="@pers.Id" asp-controller="Personel" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                                <button type="button" class="btn btn-warning shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#personel_@pers.Id"><i class="fa-sharp fa-solid fa-eye"></i></button>                                            
+                                                <a onclick="confirmDelete(@pers.Id)" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -165,11 +166,39 @@
 
 @section Scripts {
     <script>
+        // SweetAlert ile bildirim gösterme
         document.addEventListener('DOMContentLoaded', function () {
             var successMessage = '@TempData["success"]';
-            if (successMessage !== '') {
-                swal("İşlem Başarılı!", successMessage, "success");
+            var errorMessage = '@TempData["error"]';
+
+            if (successMessage) {
+                Swal.fire({
+                    title: "İşlem Başarılı!",
+                    html: successMessage,
+                    icon: "success"
+                });
             }
         });
+    </script>
+
+
+    <script>
+        function confirmDelete(id) {
+            console.log("Çöp kutusuna tıklandı. ID: " + id); // Bu satırı ekleyin ve tarayıcı konsolunda çıktıyı kontrol edin
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Bu işlemi geri alamazsınız!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: 'İptal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Admin/Personel/Sil/' + id;
+                }
+            });
+        }
     </script>
 }

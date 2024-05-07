@@ -71,7 +71,41 @@ namespace Restaurant.Areas.Admin.Controllers
                 }
                 else
                 {
-                    _context.Rezervasyonlar.Update(model.Rezervasyon);
+                    var rezervasyon = await _context.Rezervasyonlar
+                                .Include(x=>x.MasaRezervasyonlar)
+                                .FirstOrDefaultAsync(x => x.Id == id);
+
+
+                    rezervasyon.Talep = model.Rezervasyon.Talep;
+                    rezervasyon.Tarih = model.Rezervasyon.Tarih;
+                    rezervasyon.KisiSayisi = model.Rezervasyon.KisiSayisi;
+                    rezervasyon.BitisSaat = model.Rezervasyon.BitisSaat;
+                    rezervasyon.BaslangicSaat = model.Rezervasyon.BaslangicSaat;
+                    rezervasyon.Onay = model.Rezervasyon.Onay;
+                    rezervasyon.TalepTarihi = model.Rezervasyon.TalepTarihi;
+
+                    foreach (var item in rezervasyon.MasaRezervasyonlar.Where(x => x.Gorunurluk == true))
+                    {
+                        if(MasaId.Contains(item.MasaId))
+                        {
+                            item.Gorunurluk = true;
+                            await _context.MasaRezervasyonlar.AddAsync(item);
+                        }
+                        else
+                        {
+                            foreach (var masaa in MasaId)
+                            {
+                                MasaRezervasyon masarez = new MasaRezervasyon
+                                {
+                                    MasaId = masaa,
+                                    Rezervasyon = model.Rezervasyon,
+                                    Gorunurluk = true,
+                                };
+                                await _context.MasaRezervasyonlar.AddAsync(masarez);
+                            }
+                        }
+                    }
+                    _context.Rezervasyonlar.Update(rezervasyon);
                     await _context.SaveChangesAsync();
                     TempData["success"] = "Kayıt güncellendi.";
                     return RedirectToAction("RezervasyonListele");

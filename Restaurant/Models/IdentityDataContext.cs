@@ -78,6 +78,7 @@ namespace Restaurant.Models
 
         public DbSet<Odeme> Odemeler { get; set; }
 
+        public DbSet<KayitsizMusteri> KayitsizMusteriler { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

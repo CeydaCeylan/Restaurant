@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Data;
 using Restaurant.Models;
+using System.Runtime.ConstrainedExecution;
 
 namespace Restaurant.Areas.Admin.Controllers
 {
@@ -80,8 +81,6 @@ namespace Restaurant.Areas.Admin.Controllers
             }
         }
 
-
-
         public async Task<IActionResult> MasaListele()
         {
 
@@ -133,7 +132,7 @@ namespace Restaurant.Areas.Admin.Controllers
                     _context.Ozellikler.Add(model);
                     await _context.SaveChangesAsync();
                     TempData["success"] = "Kayıt eklendi.";
-                    return RedirectToAction("MasaOzellikListele");
+                    return RedirectToAction("OzellikListele");
                 }
 
                 else
@@ -141,13 +140,45 @@ namespace Restaurant.Areas.Admin.Controllers
                     _context.Update(model);
                     _context.SaveChanges();
                     TempData["success"] = "Kayıt güncellendi.";
-                    return RedirectToAction("MasaOzellikListele");
+                    return RedirectToAction("OzellikListele");
                 }
             }
             else
             {
                 return View(model);
             }
+        }
+        public async Task<IActionResult> OzellikListele()
+        {
+            var ozellikler = await _context.Ozellikler.Where(p => p.Gorunurluk == true).ToListAsync();
+            //Öncelikle, her bir özelliğe ait masa sayısını hesaplamak için bir dictionary oluşturulur..Bu dictionary, özellik ID'sini anahtar olarak ve o özelliğe ait masa sayısını değer olarak içerecek şekilde tanımlanır.
+
+            Dictionary<int, int> masaSayilari = new Dictionary<int, int>();
+
+            //Özellik listesi döngüsünde, her bir özelliğin ID'sini kullanarak ilgili masaları sayın ve bu sayıyı dictionary'e eklenir.
+            foreach (var ozellik in ozellikler)
+            {
+                int masaSayisi = await _context.MasaOzellikler.CountAsync(mo => mo.OzellikId == ozellik.Id);
+                masaSayilari.Add(ozellik.Id, masaSayisi);
+            }
+
+            ViewBag.MasaSayilari = masaSayilari;
+
+            return View(ozellikler);
+        }
+
+        public async Task<IActionResult> OzellikSil(int id)
+        {
+            var ozellik = _context.Ozellikler.FirstOrDefault(x => x.Id == id);
+
+            if (ozellik != null)
+            {
+                ozellik.Gorunurluk = false;
+                _context.Ozellikler.Update(ozellik);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("OzellikListele");
         }
         public async Task<IActionResult> MasaOzellikListele()
         {
@@ -174,19 +205,39 @@ namespace Restaurant.Areas.Admin.Controllers
 
             return RedirectToAction("MasaOzellikListele");
         }
-         
-        public async Task<IActionResult> MasaOzellikAta(int masaid, int ozellikid)
+
+        [HttpPost]
+        public async Task<IActionResult> MasaOzellikAta(int masaid, List<int> ozellikid)
         {
-            var masaozellik = new MasaOzellik
+            try
             {
-                MasaId = masaid,
-                OzellikId = ozellikid,
-                Gorunurluk = true,
-            };
-            await _context.MasaOzellikler.AddAsync(masaozellik);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(MasaListele));
+                // Her seçilen özellik için yeni bir MasaOzellik kaydı oluşturun
+                foreach (var ozellikId in ozellikid)
+                {
+                    var masaozellik = new MasaOzellik
+                    {
+                        MasaId = masaid,
+                        OzellikId = ozellikId,
+                        Gorunurluk = true,
+                    };
+                    await _context.MasaOzellikler.AddAsync(masaozellik);
+                }
+
+                // Değişiklikleri veritabanına kaydedin
+                await _context.SaveChangesAsync();
+
+                // Başarılı bir şekilde özellikler atanmışsa, başlangıç sayfasına yönlendirin veya isteğe bağlı olarak bir başarı mesajı gösterin
+                TempData["success"] = "Masa özellikleri başarıyla atanmıştır.";
+                return RedirectToAction(nameof(MasaListele));
+            }
+            catch (Exception ex)
+            {
+                // Hata durumunda yapılacak işlemler...
+                TempData["error"] = "Masa özellikleri atanırken bir hata oluştu: " + ex.Message;
+                return RedirectToAction(nameof(MasaListele)); // veya isteğe bağlı olarak hata mesajı gösterin
+            }
         }
+
 
         public async Task<IActionResult> MasaSil(int id)
         {

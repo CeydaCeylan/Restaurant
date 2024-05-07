@@ -43,7 +43,8 @@
                                             <div class="d-end">
                                                 <a asp-action="MasaEkle" asp-route-id="@masa.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
                                                 <button type="button" class="btn btn-primary shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#masa_@masa.Id"><i class="fa-duotone fa-circle-plus"></i></button>
-                                                <a asp-route-id="@masa.Id" asp-controller="Masa" asp-action="MasaSil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                                <a onclick="confirmDelete(@masa.Id)" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -60,11 +61,13 @@
                                                     <div class="modal-body">
                                                         <div class="mb-3 mt-2">
                                                             <label class="text-label form-label" style="color:black;">Özellik Adı</label>
-                                                            <select name="ozellikid" class="form-control border border-dark" id="single-select" asp-items="ViewBag.Ozellikler">
-                                                                <option value="">Özellik Seçiniz </option>
+                                                            <select name="ozellikid" class="multi-select-placeholder js-states" multiple="multiple" asp-items="ViewBag.Ozellikler">
+                                                                <option value="">Özellik Seçiniz</option>
                                                             </select>
                                                         </div>
                                                     </div>
+
+
                                                     <div class="modal-footer">
                                                         <button type="submit" class="btn btn-primary">Kaydet</button>
                                                     </div>
@@ -138,12 +141,39 @@
 </script>
 
     <script>
+        // SweetAlert ile bildirim gösterme
         document.addEventListener('DOMContentLoaded', function () {
             var successMessage = '@TempData["success"]';
-            if (successMessage !== '') {
-                swal("İşlem Başarılı!", successMessage, "success");
+            var errorMessage = '@TempData["error"]';
+
+            if (successMessage) {
+                Swal.fire({
+                    title: "İşlem Başarılı!",
+                    html: successMessage,
+                    icon: "success"
+                });
             }
         });
+    </script>
+
+    <script>
+        function confirmDelete(id) {
+            console.log("Çöp kutusuna tıklandı. ID: " + id); // Bu satırı ekleyin ve tarayıcı konsolunda çıktıyı kontrol edin
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Bu işlemi geri alamazsınız!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: 'İptal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Admin/Masa/MasaSil/' + id;
+                }
+            });
+        }
     </script>
 }
 

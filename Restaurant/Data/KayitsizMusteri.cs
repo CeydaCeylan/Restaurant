@@ -6,9 +6,9 @@
         public string Ad { get; set; }
         public string Telefon { get; set; }
 
-        public int RezervasyonId { get; set; }
+        public DateTime? KayitTarihi { get; set; }
 
-        public Rezervasyon? Rezervasyon { get; set; }
+        public bool Gorunurluk { get; set; }
 
     }
 }

@@ -1,12 +1,13 @@
-﻿@model IEnumerable<Rol>
+﻿@model IEnumerable<Ozellik>
+
 
 <div class="content-body">
     <div class="container-fluid">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">ROL LİSTESİ</h4>
-                    <a asp-controller="Personel" asp-action="RolEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Rol Ekle</a>
+                    <h4 class="card-title">ÖZELLİK LİSTESİ</h4>
+                    <a asp-controller="Masa" asp-action="OzellikEkle" asp-route-id="0" class="btn btn-primary btn-rounded me-3 mb-2"><i class="fa-sharp fa-solid fa-plus fa-beat"></i> Özellik Ekle</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -14,31 +15,29 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ID</th>
-                                    <th class="text-center">Rol Ad</th>
-                                    <th class="text-center">Eklenme Tarihi</th>
-                                    <th class="text-center">Personel Sayısı</th>
-                                    <th class="text-end">İşlemler</th>
+                                    <th class="text-center">Özellik Adı</th>
+                                    <th class="text-center">Masa Sayısı</th>
+                                    <th class="text-center">İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var rols in Model)
+                                @foreach (var ozel in Model)
                                 {
                                     <tr>
-                                        <td class="text-center">@rols.Id</td>
-                                        <td class="text-center">@rols.Ad</td>
-                                        <td class="text-center">@rols.EklenmeTarihi</td>
-                                        <td class="text-center">@rols.Personellers.Count()</td>
-                                        <td class="text-end">                                           
+                                        <td class="text-center">@ozel.Id</td>
+                                        <td class="text-center">@ozel.Ad</td>
+                                        <td class="text-center">@ViewBag.MasaSayilari[ozel.Id]</td>
+                                        <td class="text-center">
                                             <div class="d-end">
-                                                <a asp-action="RolEkle" asp-route-id="@rols.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <a class="btn btn-warning shadow btn-s sharp me-1" asp-controller="Personel" asp-action="RolDetay" asp-route-id="@rols.Id">
-                                                    <i class="fa-sharp fa-solid fa-eye"></i>
-                                                </a>                                            
-                                                <a onclick="confirmDelete(@rols.Id)" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+                                                <a asp-action="OzellikEkle" asp-route-id="@ozel.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                               @*  <a asp-route-id="@ozel.Id" asp-controller="Masa" asp-action="MasaOzellikSil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a> *@
+                                                <a onclick="confirmDelete(@ozel.Id)" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
+
                                             </div>
                                         </td>
                                     </tr>
                                 }
+
                             </tbody>
                         </table>
                     </div>
@@ -63,6 +62,7 @@
             }
         });
     </script>
+
     <script>
         function confirmDelete(id) {
             console.log("Çöp kutusuna tıklandı. ID: " + id); // Bu satırı ekleyin ve tarayıcı konsolunda çıktıyı kontrol edin
@@ -77,7 +77,7 @@
                 cancelButtonText: 'İptal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '/Admin/Personel/RolSil/' + id;
+                    window.location.href = '/Admin/Masa/OzellikSil/' + id;
                 }
             });
         }

@@ -29,7 +29,7 @@ namespace Restaurant.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TedarikciEkle(Tedarikci model,int id)
+        public async Task<IActionResult> TedarikciEkle(Tedarikci model, int id)
         {
             if (ModelState.IsValid)
             {
@@ -39,23 +39,22 @@ namespace Restaurant.Areas.Admin.Controllers
                     _context.Tedarikciler.Add(model);
                     await _context.SaveChangesAsync();
                     TempData["success"] = "Kayıt eklendi.";
-
-                    return RedirectToAction("TedarikciListele");
                 }
                 else
                 {
                     _context.Update(model);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     TempData["success"] = "Kayıt güncellendi.";
-
-                    return RedirectToAction("TedarikciListele");
                 }
+
+                return RedirectToAction("TedarikciListele");
             }
             else
             {
                 return View(model);
             }
         }
+
         public async Task<IActionResult> TedarikciListele()
         {
             var tedarikci = await _context.Tedarikciler.Where(p => p.Gorunurluk == true).ToListAsync();
@@ -74,6 +73,7 @@ namespace Restaurant.Areas.Admin.Controllers
                 _context.Tedarikciler.Update(tedarikci);
                 await _context.SaveChangesAsync();
             }
+
 
             return RedirectToAction("TedarikciListele");
         }

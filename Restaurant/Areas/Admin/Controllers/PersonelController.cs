@@ -20,10 +20,6 @@ namespace Restaurant.Areas.Admin.Controllers
             _context = context;
 
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
         public async Task<IActionResult> PersonelEkle(int id)
         {
             if (id == 0)
@@ -167,16 +163,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
             if (rol != null)
             {
-                // İlgili personele ait rolleri bul
-                var personelRolleri = await _context.Personeller.Where(p => p.RolId == id).ToListAsync();
-
-                //// Personel rollerini sil
-                //foreach (var personel in personelRolleri)
-                //{
-                //    personel.RolId = null;
-                //    personel.Rol = null;
-                //    _context.Personeller.Update(personel);
-                //}
+                var personelRolleri = await _context.Personeller.Where(p => p.RolId == id).ToListAsync();             
 
                 rol.Gorunurluk = false;
                 _context.Roller.Update(rol);

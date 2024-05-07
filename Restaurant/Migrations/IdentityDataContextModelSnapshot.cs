@@ -220,14 +220,14 @@ namespace Restaurant.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Ad")
-                        .HasColumnType("longtext");
+                    b.Property<int?>("Ad")
+                        .HasColumnType("int");
 
                     b.Property<int?>("SiparisId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Yer")
-                        .HasColumnType("longtext");
+                    b.Property<int?>("Yer")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("Zaman")
                         .HasColumnType("datetime(6)");
@@ -297,6 +297,7 @@ namespace Restaurant.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ad")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
@@ -309,6 +310,33 @@ namespace Restaurant.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kategoriler");
+                });
+
+            modelBuilder.Entity("Restaurant.Data.KayitsizMusteri", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Gorunurluk")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("KayitTarihi")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Telefon")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KayitsizMusteriler");
                 });
 
             modelBuilder.Entity("Restaurant.Data.Malzeme", b =>
@@ -726,6 +754,9 @@ namespace Restaurant.Migrations
                     b.Property<bool?>("Gorunurluk")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int?>("KayitsizMusteriId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("KisiSayisi")
                         .IsRequired()
                         .HasColumnType("int");
@@ -749,6 +780,8 @@ namespace Restaurant.Migrations
                         .HasColumnType("date");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("KayitsizMusteriId");
 
                     b.HasIndex("MusteriId");
 
@@ -1498,7 +1531,7 @@ namespace Restaurant.Migrations
             modelBuilder.Entity("Restaurant.Data.MasaRezervasyon", b =>
                 {
                     b.HasOne("Restaurant.Data.Masa", "Masa")
-                        .WithMany()
+                        .WithMany("MasaRezervasyonlar")
                         .HasForeignKey("MasaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1591,9 +1624,15 @@ namespace Restaurant.Migrations
 
             modelBuilder.Entity("Restaurant.Data.Rezervasyon", b =>
                 {
+                    b.HasOne("Restaurant.Data.KayitsizMusteri", "KayitsizMusteri")
+                        .WithMany()
+                        .HasForeignKey("KayitsizMusteriId");
+
                     b.HasOne("Restaurant.Data.Musteri", "Musteri")
                         .WithMany()
                         .HasForeignKey("MusteriId");
+
+                    b.Navigation("KayitsizMusteri");
 
                     b.Navigation("Musteri");
                 });
@@ -1797,6 +1836,8 @@ namespace Restaurant.Migrations
             modelBuilder.Entity("Restaurant.Data.Masa", b =>
                 {
                     b.Navigation("MasaOzellikler");
+
+                    b.Navigation("MasaRezervasyonlar");
                 });
 
             modelBuilder.Entity("Restaurant.Data.Musteri", b =>

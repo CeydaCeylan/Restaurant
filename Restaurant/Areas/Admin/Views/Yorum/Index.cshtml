@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Yorum>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Yorum LİSTESİ</h4>                  
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example3" class="display" style="min-width: 845px">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Tarihi</th>
+                                    <th class="text-center">Müşteri Adı</th>
+                                    <th class="text-center">Sipariş Numarası</th>
+                                    <th class="text-center">Başlık</th>
+                                    <th class="text-center">İçerik</th>
+                                    <th class="text-center">Durum</th>
+                                    <th class="text-end" style="width: 200px;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var yoru in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">@yoru.Tarih</td>   
+                                        <td class="text-center"></td>                                          
+                                        <td class="text-center"></td>                                          
+                                        <td class="text-center">@yoru.Baslik</td>
+                                        <td class="text-center">@yoru.Icerik</td>
+                                        <td class="text-center">@yoru.Durum</td>
+                                        <td class="text-end">
+                                            <div class="d-end">
+                                               @*  <a asp-action="PersonelEkle" asp-route-id="@pers.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                <button type="button" class="btn btn-warning shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#personel_@pers.Id"><i class="fa-sharp fa-solid fa-eye"></i></button>
+                                                <a asp-route-id="@pers.Id" asp-controller="Personel" asp-action="Sil" asp-area="admin" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a> *@
+                                            </div>
+                                        </td>
+                                    </tr>
+                                 
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
