@@ -188,6 +188,51 @@ namespace Restaurant.Areas.Admin.Controllers
 
             return RedirectToAction("MenuListele");
         }
+        public async Task<IActionResult> HesaplaIndirimFiyati()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> HesaplaIndirimFiyati(int menuId, DateOnly indirimTarihi, string indirimFiyati, string indirimYuzdesi)
+        {
+            // Veritabanından ürünü al
+            var menu = await _context.Menuler.FindAsync(menuId);
+
+            if (menu == null)
+            {
+                return NotFound(); // Ürün bulunamadıysa NotFound döndür
+            }
+
+            if (indirimYuzdesi == "%")
+            {
+                // Yüzde üzerinden indirim yap
+                if (double.TryParse(indirimFiyati, out double indirimYuzdesiDouble))
+                {
+                    decimal indirimOrani = (decimal)indirimYuzdesiDouble / 100;
+                    menu.IndirimliFiyat = menu.Fiyat - (menu.Fiyat * indirimOrani);
+                }
+            }
+            else if (indirimYuzdesi == "-")
+            {
+                // Sabit fiyat üzerinden indirim yap
+                if (double.TryParse(indirimFiyati, out double indirimFiyatiDouble))
+                {
+                    menu.IndirimliFiyat = menu.Fiyat - (decimal)indirimFiyatiDouble;
+                }
+            }
+            else
+            {
+                return BadRequest(); // Geçersiz indirim türü
+            }
+
+            // İndirim bitiş tarihini atama
+            menu.IndirimTarihi = indirimTarihi;
+
+            _context.Menuler.Update(menu);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("MenuListele"); // Ürünlerin listesine geri dön
+        }
 
 
     }

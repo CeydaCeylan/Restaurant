@@ -28,6 +28,8 @@
                                             <select asp-for="KategoriId" class="form-control border border-dark" id="single-select" asp-items="ViewBag.Kategoriler">
                                                 <option value="">Kategori Seçiniz</option>
                                             </select>
+                                            <span asp-validation-for="KategoriId" class="text-danger"></span>
+
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
@@ -54,4 +56,6 @@
     <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
     <script src="~/admin/js/plugins-init/select2-init.js"></script>
+
+    
 }               

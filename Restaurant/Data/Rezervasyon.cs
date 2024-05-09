@@ -15,12 +15,13 @@ public partial class Rezervasyon
 
     public TimeOnly? BitisSaat { get; set; }
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Lütfen sadece sayısal bir değer girin.")]
 
     public int? KisiSayisi { get; set; }
     [Required(ErrorMessage = "*Zorunlu Alan")]
 
     public string? Talep { get; set; }
-
+    [Required(ErrorMessage = "*Zorunlu Alan")]
     public int? Onay { get; set; }
     [Required(ErrorMessage = "*Zorunlu Alan")]
 

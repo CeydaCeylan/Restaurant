@@ -52,6 +52,7 @@
                                             <select asp-for="RolId" class="form-control border border-dark" id="single-select" asp-items="ViewBag.Roller">
                                                 <option value="">Rol Seçiniz</option>
                                             </select>
+                                            <span asp-validation-for="RolId" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 mt-4">
                                             <label class="text-label form-label" style="color:black;">Telefon</label>
@@ -140,24 +141,32 @@
     <script src="~/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="~/admin/js/plugins-init/bs-daterange-picker-init.js"></script>
 
-    <script>
-        $('input[name="DogumTarihi"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            minYear: 1901,
-            maxYear: parseInt(moment().format('YYYY'), 10),
-            isInvalidDate: function (date) {
-                // Doğum tarihi 18'den küçükse veya bugünün tarihinden ileri bir tarihse, geçersiz olarak işaretle
-                return date.isAfter(moment()) || moment().diff(date, 'years') < 18;
-            }
-        });
-    </script>
-    <script>
-            $('input[name="BaslamaTarihi"]').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                minYear: 1901,
-                maxYear: parseInt(moment().format('YYYY'), 10)            
-        });
-    </script>
+  <script>
+    $('input[name="DogumTarihi"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 1901,
+        maxYear: parseInt(moment().format('YYYY'), 10),
+        isInvalidDate: function (date) {
+            // Doğum tarihi 18'den küçükse veya bugünün tarihinden ileri bir tarihse, geçersiz olarak işaretle
+            return date.isAfter(moment()) || moment().diff(date, 'years') < 18;
+        },
+        locale: {
+            format: 'DD.MM.YYYY' // Tarih formatını gün, ay ve yıl olarak ayarlar
+        },
+
+    });
+</script>
+<script>
+    $('input[name="BaslamaTarihi"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 1901,
+        maxYear: parseInt(moment().format('YYYY'), 10),
+        locale: {
+            format: 'DD.MM.YYYY' // Tarih formatını gün, ay ve yıl olarak ayarlar
+        }
+    });
+</script>
+
 }               

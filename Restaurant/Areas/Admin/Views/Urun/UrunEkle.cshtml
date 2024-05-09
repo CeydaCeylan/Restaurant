@@ -30,12 +30,7 @@
                                             <label class="text-label form-label" style="color:black;">Açıklama</label>
                                             <input asp-for="Acıklama" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="Acıklama" class="text-danger"></span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="text-label form-label" style="color:black;">İndirim Tarihi</label>
-                                            <input asp-for="IndirimTarihi" class="form-control border border-dark" type="text">
-                                            <span asp-validation-for="IndirimTarihi" class="text-danger"></span>
-                                        </div>
+                                        </div>                                     
                                         <div class="mb-3 mt-2">
                                             <p style="color:black;">Fotoğraf Yükle</p>
                                             <div class="input-group">
@@ -62,6 +57,8 @@
                                             <select asp-for="KategoriId" class="form-control border border-dark" id="single-select" asp-items="ViewBag.Kategoriler">
                                                 <option value="">Kategori Seçiniz</option>
                                             </select>
+                                            <span asp-validation-for="KategoriId" class="text-danger"></span>
+
                                         </div>
                                         <div class="mb-3" style="margin-top: 74px; margin-left: 10px;">
                                             <div class="form-check">

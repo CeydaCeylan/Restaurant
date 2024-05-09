@@ -96,9 +96,17 @@ namespace Restaurant.Models
                ().Property(u => u.Fiyat)
                .HasColumnType("decimal (10,2)");
 
+            builder.Entity<Urun>
+             ().Property(u => u.IndirimliFiyat)
+             .HasColumnType("decimal (10,2)");
+
             builder.Entity<Menu>
               ().Property(u => u.Fiyat)
               .HasColumnType("decimal (10,2)");
+
+            builder.Entity<Menu>
+             ().Property(u => u.IndirimliFiyat)
+             .HasColumnType("decimal (10,2)");
         }
     }
 }

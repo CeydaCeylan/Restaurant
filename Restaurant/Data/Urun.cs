@@ -22,12 +22,12 @@ public partial class Urun
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
     public bool? Aktif { get; set; }
-
+ 
     public decimal? IndirimliFiyat { get; set; }
-
-    public int? IndirimYuzdesi { get; set; }
-
+  
+    public float? IndirimYuzdesi { get; set; }
     public DateOnly? IndirimTarihi {  get; set; }
+    [Required(ErrorMessage = "*Zorunlu Alan")]
     public int? KategoriId { get; set; }
     public Kategori? Kategori { get; set; }
 	public bool? Gorunurluk { get; set; }

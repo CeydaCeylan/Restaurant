@@ -9,6 +9,7 @@ public partial class Tedarikci
     public int Id { get; set; }
     [Required(ErrorMessage = "*Zorunlu Alan")]
     [StringLength(50, MinimumLength = 3, ErrorMessage = "En az 3 karakter en fazla 50 karakter olmalıdır.")]
+
     public string? AdSoyad { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]

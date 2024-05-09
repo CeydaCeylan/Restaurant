@@ -18,12 +18,7 @@ namespace Restaurant.Areas.Admin.Controllers
         {
             _context = context;
 
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        }   
         public async Task<IActionResult> MasaEkle(int id)
         {
             if (id == 0)
@@ -51,26 +46,33 @@ namespace Restaurant.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> MasaEkle(Masa model, int id)
         {
-
             if (ModelState.IsValid)
             {
                 model.Gorunurluk = true;
 
+                // Check if a table with the same code already exists
+                // Check if a table with the same code already exists
+                var existingTable = await _context.Masalar.FirstOrDefaultAsync(m => m.Kod == model.Kod);
+                if (existingTable != null)
+                {
+                    // If a table with the same code exists, show SweetAlert error message
+                    TempData["error"] = "Bu masa kodu zaten mevcut.";
+                    return RedirectToAction("MasaListele");
+                }
+
+
                 if (id == 0)
                 {
-
                     _context.Masalar.Add(model);
                     await _context.SaveChangesAsync();
                     TempData["success"] = "Kayıt eklendi.";
                     return RedirectToAction("MasaListele");
                 }
-
                 else
                 {
                     _context.Update(model);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     TempData["success"] = "Kayıt güncellendi.";
-
                     return RedirectToAction("MasaListele");
                 }
             }
@@ -80,6 +82,8 @@ namespace Restaurant.Areas.Admin.Controllers
                 return View(model);
             }
         }
+
+
 
         public async Task<IActionResult> MasaListele()
         {

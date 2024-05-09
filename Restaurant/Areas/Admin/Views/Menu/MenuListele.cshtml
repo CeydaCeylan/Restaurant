@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<Menu>
 
+<head>
+    <link href="~/admin/vendor/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/admin/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="/admin/css/style.css" rel="stylesheet">
+
+</head>
 <div class="content-body">
     <div class="container-fluid">
         <div class="row">
@@ -22,6 +28,10 @@
                                     <div class="mt-4 d-flex justify-content-between align-items-center">
                                         <div>
                                             <h5 class="mb-0"><span class="fs-14 me-2">Fiyat: </span>@menu.Fiyat₺</h5>
+                                            @if (menu.IndirimliFiyat.HasValue)
+                                            {
+                                                <h5 class="mb-0"><span class="fs-14 me-2">İndirimli Fiyat: </span>@menu.IndirimliFiyat₺</h5>
+                                            }
                                             @if (menu.IndirimTarihi.HasValue)
                                             {
                                                 <span class="text-danger">İndirim Geçerlilik Tarihi: @menu.IndirimTarihi.Value.ToString("dd-MM-yyyy")</span>
@@ -31,6 +41,7 @@
                                             <a asp-action="MenuEkle" asp-route-id="@menu.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
                                             <button type="button" class="btn btn-warning shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#menu_@menu.Id"><i class="fa-sharp fa-solid fa-eye"></i></button>
                                             <a asp-action="MenuUrunEkle" asp-route-id="@menu.Id" asp-controller="Menu" class="btn btn-info shadow btn-s sharp me-1"><i class="fa-solid fa-plus-large"></i></a>
+                                            <button type="button" class="btn btn-primary shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#indirim_@menu.Id"> <i class="fa-solid fa-tags"></i></button>
                                             <a onclick="confirmDelete(@menu.Id)" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
 
                                         </div>
@@ -191,6 +202,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -201,6 +213,43 @@
     </div>
 </div>
 
+@foreach (var menu in Model)
+            {
+<div class="modal fade" id="indirim_@menu.Id">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">İNDİRİM UYGULA</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="HesaplaIndirimFiyati">
+                    <input type="hidden" name="menuId" value="@menu.Id">
+                    <div class="mb-3">
+                        <label class="text-label form-label" style="color:black;">İndirim Bitiş Tarihi</label>
+                        <input name="indirimTarihi" class="form-control border border-dark" type="date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-label form-label" style="color:black;">İndirim Fiyatı</label>
+                        <input name="indirimFiyati" class="form-control border border-dark" type="number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-label form-label" style="color:black;">İndirim Türü</label>
+                        <select name="indirimYuzdesi" class="form-control border border-dark" id="automatic-selection" required>
+                            <option value="%">Yüzde</option>
+                            <option value="-">Fiyat</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+}
 @section Scripts {
     <script>
         // SweetAlert ile bildirim gösterme
@@ -237,4 +286,8 @@
             });
         }
     </script>
+
+    <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
+    <script src="~/admin/js/plugins-init/select2-init.js"></script>
 }

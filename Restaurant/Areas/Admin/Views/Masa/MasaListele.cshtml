@@ -1,6 +1,12 @@
 ﻿@model IEnumerable<Masa>
 
+<head>
+    <link href="~/admin/vendor/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/admin/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/admin/css/style.css" rel="stylesheet">
 
+</head>
 <div class="content-body">
     <div class="container-fluid">
         <div class="col-12">
@@ -42,7 +48,7 @@
                                         <td class="text-center">
                                             <div class="d-end">
                                                 <a asp-action="MasaEkle" asp-route-id="@masa.Id" class="btn btn-success shadow btn-s sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <button type="button" class="btn btn-primary shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#masa_@masa.Id"><i class="fa-duotone fa-circle-plus"></i></button>
+                                                <button type="button" class="btn btn-primary shadow btn-s sharp me-1" data-bs-toggle="modal" data-bs-target="#masa_@masa.Id"><i class="fa-solid fa-plus-large"></i></button>
                                                 <a onclick="confirmDelete(@masa.Id)" class="btn btn-danger shadow btn-s sharp"><i class="fa fa-trash"></i></a>
 
                                             </div>
@@ -61,13 +67,11 @@
                                                     <div class="modal-body">
                                                         <div class="mb-3 mt-2">
                                                             <label class="text-label form-label" style="color:black;">Özellik Adı</label>
-                                                            <select name="ozellikid" class="multi-select-placeholder js-states" multiple="multiple" asp-items="ViewBag.Ozellikler">
+                                                            <select name="ozellikid" class="multi-select-placeholder js-states" multiple="multiple" asp-items="ViewBag.Ozellikler" required>
                                                                 <option value="">Özellik Seçiniz</option>
                                                             </select>
                                                         </div>
                                                     </div>
-
-
                                                     <div class="modal-footer">
                                                         <button type="submit" class="btn btn-primary">Kaydet</button>
                                                     </div>
@@ -173,7 +177,21 @@
                     window.location.href = '/Admin/Masa/MasaSil/' + id;
                 }
             });
+        }        
+    </script>
+    <script>
+        // TempData'dan hata mesajını al
+        var errorMessage = '@TempData["error"]';
+        // Eğer hata mesajı varsa
+        if (errorMessage) {
+            // SweetAlert ile hata mesajını göster
+            swal("Hata!", errorMessage, "error");
         }
     </script>
+
+    <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
+    <script src="~/admin/js/plugins-init/select2-init.js"></script>
+
 }
 

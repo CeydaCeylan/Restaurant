@@ -18,12 +18,7 @@ namespace Restaurant.Areas.Admin.Controllers
         {
             _context = context;
 
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        }     
         public async Task<IActionResult> UrunEkle(int id)
         {
             if (id == 0)
@@ -119,7 +114,6 @@ namespace Restaurant.Areas.Admin.Controllers
             }
 
             ViewBag.UrunMalzemeAdlari = urunMalzemeAdlari;
-
             return View(urunler);
         }
 
@@ -183,5 +177,59 @@ namespace Restaurant.Areas.Admin.Controllers
 
             return RedirectToAction("UrunListele");
         }
+        public async Task<IActionResult> HesaplaIndirimFiyati()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> HesaplaIndirimFiyati(int urunId, DateOnly indirimTarihi, string indirimFiyati, string indirimYuzdesi)
+        {
+            if (ModelState.IsValid)
+            {
+                // Veritabanından ürünü al
+                var urun = await _context.Urunler.FindAsync(urunId);
+
+                if (urun == null)
+                {
+                    return NotFound(); // Ürün bulunamadıysa NotFound döndür
+                }
+
+                if (indirimYuzdesi == "%")
+                {
+                    // Yüzde üzerinden indirim yap
+                    if (double.TryParse(indirimFiyati, out double indirimYuzdesiDouble))
+                    {
+                        decimal indirimOrani = (decimal)indirimYuzdesiDouble / 100;
+                        urun.IndirimliFiyat = urun.Fiyat - (urun.Fiyat * indirimOrani);
+                    }
+                }
+                else if (indirimYuzdesi == "-")
+                {
+                    // Sabit fiyat üzerinden indirim yap
+                    if (double.TryParse(indirimFiyati, out double indirimFiyatiDouble))
+                    {
+                        urun.IndirimliFiyat = urun.Fiyat - (decimal)indirimFiyatiDouble;
+                    }
+                }
+                else
+                {
+                    return BadRequest(); // Geçersiz indirim türü
+                }
+
+                // İndirim bitiş tarihini atama
+                urun.IndirimTarihi = indirimTarihi;
+
+                _context.Urunler.Update(urun);
+                await _context.SaveChangesAsync();
+            }
+           
+
+            return RedirectToAction("UrunListele"); // Ürünlerin listesine geri dön
+        }
+
+
+
+
     }
 }

@@ -39,7 +39,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="text-label form-label" style="color:black;">Masalar</label>
+                                            <label class="text-label form-label" style="color:black;">Masa</label>
                                             <select name="MasaId" class="multi-select-placeholder js-states" multiple="multiple">
                                                 @foreach (var masa in ViewBag.Masalar)
                                                 {
@@ -59,11 +59,6 @@
                                             <input asp-for="Rezervasyon.Talep" class="form-control border border-dark" type="text">
                                             <span asp-validation-for="Rezervasyon.Talep" class="text-danger"></span>
                                         </div>
-                                        @*   <div class="mb-3">
-                                        <label class="text-label form-label" style="color:black;">Bitiş Saati</label>
-                                        <input asp-for="Rezervasyon.BitisSaat" class="form-control border border-dark" type="time">
-                                        <span asp-validation-for="Rezervasyon.BitisSaat" class="text-danger"></span>
-                                        </div> *@
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Bitiş Saati</label>
                                             <div class="input-group clockpicker" data-autoclose="true">
@@ -72,7 +67,9 @@
                                                     <span class="glyphicon glyphicon-time"></span>
                                                 </span>
                                             </div>
+                                            <span id="bitis-saat-error" class="text-danger"></span>
                                         </div>
+
                                         <div class="mb-3">
                                             <label class="text-label form-label" style="color:black;">Onay</label>
                                             <select asp-for="Rezervasyon.Onay" class="form-control border border-dark" id="automatic-selection">
@@ -132,8 +129,8 @@
             // ClockPicker'ı etkinleştirmek için jQuery kullanarak gerekli kodu ekleyelim
             $('.clockpicker').clockpicker();
 
-            // Bitiş saati seçilebilir hale geldiğinde tetiklenecek olay
-            $('#bitis-saat-input').on('focus', function () {
+            // Form gönderilirken bitiş saatini kontrol et
+            $('form').submit(function () {
                 var startHour = parseInt($('#baslangic-saat-input').val().split(':')[0]);
                 var startMinute = parseInt($('#baslangic-saat-input').val().split(':')[1]);
                 var endHour = parseInt($('#bitis-saat-input').val().split(':')[0]);
@@ -141,14 +138,42 @@
 
                 // Başlangıç saati ve bitiş saati arasında karşılaştırma yapma
                 if (endHour < startHour || (endHour === startHour && endMinute < startMinute)) {
-                    alert("Başlangıç saatinin öncesine bitiş saati seçemezsiniz!"); // Uyarı mesajı gösterme
+                    $('#bitis-saat-error').text("Başlangıç saatinin öncesine bitiş saati seçemezsiniz!"); // Hata mesajını gösterme
+                    return false; // Formun gönderimini iptal et
+                }
+            });
+
+            // Bitiş saati seçilebilir hale geldiğinde tetiklenecek olay
+            $('#bitis-saat-input').on('focus', function () {
+                console.log("Bitiş saati odaklandı."); // Konsola bir mesaj yazdırma
+                var startHour = parseInt($('#baslangic-saat-input').val().split(':')[0]);
+                var startMinute = parseInt($('#baslangic-saat-input').val().split(':')[1]);
+                var endHour = parseInt($('#bitis-saat-input').val().split(':')[0]);
+                var endMinute = parseInt($('#bitis-saat-input').val().split(':')[1]);
+
+                // Başlangıç saati ve bitiş saati arasında karşılaştırma yapma
+                if (endHour < startHour || (endHour === startHour && endMinute < startMinute)) {
+                    $('#bitis-saat-error').text("Başlangıç saatinin öncesine bitiş saati seçemezsiniz!"); // Hata mesajını gösterme
                     $('#bitis-saat-input').val("__:__"); // Bitiş saatinin sıfırlanması
                     return false; // Seçimin iptal edilmesi
+                } else {
+                    $('#bitis-saat-error').text(""); // Hata mesajını temizle
                 }
+            });
+
+            // Başlangıç saati değiştirildiğinde, bitiş saati kontrolü için yeniden tetikleme yapalım
+            $('#baslangic-saat-input').on('change', function () {
+                $('#bitis-saat-input').trigger('focus');
             });
         });
 
+        $(".multi-select-placeholder").select2({
+            placeholder: "  Masa Seçiniz"
+        });
+
     </script>
+
+
 
 
 }               

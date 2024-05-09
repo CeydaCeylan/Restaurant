@@ -26,6 +26,7 @@ public partial class Masa
 
 	public int? PersonelId { get; set; }
 
+    [Required(ErrorMessage = "*Zorunlu Alan")]
     public int? KategoriId { get; set; }
 
     public Kategori? Kategori { get; set; }

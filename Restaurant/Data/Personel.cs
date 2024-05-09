@@ -22,6 +22,7 @@ public partial class Personel
     public string? Telefon { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [Range(0, double.MaxValue, ErrorMessage = "Maaş negatif olamaz.")]
     public decimal? Maas { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
@@ -44,6 +45,8 @@ public partial class Personel
     [StringLength(50, MinimumLength = 3, ErrorMessage = "En az 3 karakter en fazla 50 karakter olmalıdır.")]
 
     public string? Adres {  get; set; }
+    [Required(ErrorMessage = "*Zorunlu Alan")]
+
     public int? RolId { get; set; }
     public Rol? Rol { get; set; }
 

@@ -16,12 +16,7 @@ namespace Restaurant.Areas.Admin.Controllers
         {
             _context = context;
 
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        }     
         public async Task<IActionResult> KategoriEkle(int id)
         {
             var kategori = await _context.Kategoriler.FirstOrDefaultAsync(x => x.Id == id);
