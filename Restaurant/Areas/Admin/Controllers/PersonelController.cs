@@ -8,8 +8,6 @@ using Restaurant.Models;
 
 namespace Restaurant.Areas.Admin.Controllers
 {
-
-
     [Area("Admin")]
     public class PersonelController : Controller
     {

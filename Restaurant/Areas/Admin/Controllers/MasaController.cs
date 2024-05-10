@@ -8,7 +8,6 @@ using System.Runtime.ConstrainedExecution;
 namespace Restaurant.Areas.Admin.Controllers
 {
     [Area("Admin")]
-
     public class MasaController : Controller
     {
 
@@ -101,7 +100,6 @@ namespace Restaurant.Areas.Admin.Controllers
             ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.ToListAsync(), "Id", "KategoriAd");
 
             return View(masa);
-
 
         }
         public async Task<IActionResult> Sil(int id)
