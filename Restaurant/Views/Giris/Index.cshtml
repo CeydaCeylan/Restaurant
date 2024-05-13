@@ -1,0 +1,76 @@
+﻿@{
+
+    Layout = "~/Areas/Musteri/Views/Shared/_MusteriLayout.cshtml";
+}
+<section class="page_breadcrumb" style="background: url(/kullanici/images/counter_bg.jpg);">
+    <div class="breadcrumb_overlay">
+        <div class="container">
+            <div class="breadcrumb_text">
+                <h1>sign in</h1>
+                <ul>
+                    <li><a href="index-2.html">home</a></li>
+                    <li><a href="#">sign in</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=============================
+    BREADCRUMB END
+==============================-->
+<!--=========================
+    SIGNIN START
+==========================-->
+<section class="signin pt_100 xs_pt_70 pb_100 xs_pb_70">
+    <div class="container">
+        <div class="row justify-content-center wow fadeInUp" data-wow-duration="1s">
+            <div class="col-xl-5 col-sm-10 col-md-8 col-lg-6">
+                <div class="login_area">
+                    <h2>Hoş Geldiniz!</h2>
+                    <p>Devam Etmek İçin Oturum Açın</p>
+                    <form>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="login_imput">
+                                    <input type="email" placeholder="E-posta">
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <div class="login_imput">
+                                    <input type="password" placeholder="Şifre">
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <div class="login_imput login_check_area">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value=""
+                                               id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Beni Hatırla
+                                        </label>
+                                    </div>
+                                    <a asp-controller="Giris" asp-action="SifremiUnuttum">Parolanızı mı Unuttunuz?</a>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <div class="login_imput">
+                                    <button type="submit" class="common_btn">Giriş Yap</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="or"><span>Veya</span></p>
+                    <ul class="d-flex">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                    </ul>
+                    <p class="create_account">
+                        Hesabınız Yok Mu? <a href="sign_up.html">Hesap Oluştur</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

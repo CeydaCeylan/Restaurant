@@ -8,9 +8,7 @@ using Restaurant.Models;
 
 namespace Restaurant.Areas.Admin.Controllers
 {
-
     [Area("Admin")]
-
     public class MenuController : Controller
     {
         private readonly IdentityDataContext _context;

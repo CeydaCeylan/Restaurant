@@ -61,7 +61,7 @@
     ==============================-->
     <nav class="navbar navbar-expand-lg main_menu">
         <div class="container">
-            <a class="navbar-brand" href="index-2.html">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                 <img src="~/kullanici/images/logo.png" alt="RegFood" class="img-fluid">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -72,53 +72,37 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Anasayfa</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" aria-current="page" asp-controller="Home" asp-action="Index">Anasayfa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">Hakkımızda</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Hakkimizda" ? "active" : "")" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="menu.html">Menüler</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Menu" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Menu" asp-action="Index">Menüler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Personel" asp-action="Index">Şefler</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Urun" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Urun" asp-action="Index">Ürünler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sayfalar<i class="far fa-angle-down"></i></a>
-                        <ul class="droap_menu">
-                            <li><a href="menu_details.html">menu details</a></li>
-                            <li><a href="blog_details.html">blog details</a></li>
-                            <li><a href="cart_view.html">cart view</a></li>
-                            <li><a href="check_out.html">checkout</a></li>
-                            <li><a href="payment.html">payment</a></li>
-                            <li><a href="testimonial.html">testimonial</a></li>
-                            <li><a href="faq.html">FAQs</a></li>
-                            <li><a href="sign_in.html">sign in</a></li>
-                            <li><a href="sign_up.html">sign up</a></li>
-                            <li><a href="forgot_password.html">forgot password</a></li>
-                            <li><a href="privacy_policy.html">privacy policy</a></li>
-                            <li><a href="terms_condition.html">terms and condition</a></li>
-                        </ul>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Personel" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Personel" asp-action="Index">Şefler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="blogs.html">blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">contact</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "İletisim" ? "active" : "")" asp-controller="Home" asp-action="İletisim">İletişim</a>
                     </li>
                 </ul>
                 <ul class="menu_icon d-flex flex-wrap">
                     <li>
-                        <a class="cart_icon" href="cart_view.html">
+                        <a class="cart_icon" asp-controller="Sepet" asp-action="Index">
                             <i class="fas fa-shopping-basket"></i>
                             <span>05</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dashboard.html"><i class="fas fa-user"></i></a>
+                        <a href="/giris"><i class="fas fa-user"></i></a>
                     </li>
                 </ul>
             </div>
+
         </div>
     </nav>
     <!--=============================
@@ -126,7 +110,7 @@
     ==============================-->
     @RenderBody()
 
-    <footer style="background: url(~/kullanici/images/footer_bg.jpg);">
+    <footer style="background: url(/kullanici/images/footer_bg.jpg);">
         <div class="footer_overlay pt_100 xs_pt_70 pb_100 xs_pb_20">
             <div class="container wow fadeInUp" data-wow-duration="1s">
                 <div class="row justify-content-between">
@@ -196,7 +180,7 @@
             </div>
         </div>
     </footer>
-
+    @RenderSection("Scripts", required: false)
     <!--jquery library js-->
     <script src="~/kullanici/js/jquery-3.6.0.min.js"></script>
     <!--bootstrap js-->

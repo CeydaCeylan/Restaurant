@@ -18,5 +18,13 @@ namespace Restaurant.Areas.Musteri.Controllers
             var personel = await _context.Personeller.Include(x => x.Rol).Where(p => p.Gorunurluk == true).ToListAsync();
             return View(personel);
         }
+        public IActionResult Hakkimizda()
+        {
+            return View();
+        }
+        public IActionResult İletisim()
+        {
+            return View();
+        }
     }
 }

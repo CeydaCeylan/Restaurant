@@ -30,14 +30,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
+app.MapControllerRoute(
+	name: "default",
+	pattern: "{area=musteri}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(
 	name: "areas",
 	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-
-//varsayýlan
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{area=admin}/{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

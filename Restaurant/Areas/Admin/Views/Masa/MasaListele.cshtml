@@ -133,14 +133,21 @@
     }
 
     // Sayfa yüklendiğinde QR kodlarını oluştur
-    window.onload = function () {
-    @foreach (var masa in Model)
-    {
-        <text>
-                generateQRCode("qrcode_@masa.Id", "@masa.Kod");
-        </text>
-    }
-    };
+        // Sayfa yüklendiğinde QR kodlarını oluştur
+        window.onload = function () {
+        @foreach (var masa in Model)
+        {
+            <text>
+                    generateQRCode("qrcode_@masa.Id", "https://192.168.137.123:5001/Musteri");
+
+                // QR koduna tıklanınca yönlendirme işlemi
+                document.getElementById("qrcode_@masa.Id").addEventListener('click', function () {
+                    redirectToPage("https://192.168.137.123:5001/Musteri");
+                });
+            </text>
+        }
+        };
+
 
 </script>
 
