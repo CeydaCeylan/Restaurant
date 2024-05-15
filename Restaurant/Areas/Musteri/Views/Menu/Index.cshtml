@@ -167,7 +167,8 @@
                                 <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
                                     <div class="quentity_btn">
                                         <button class="btn btn-danger decreaseBtn" data-input-id="quantityInput_@menu.Id"><i class="fal fa-minus"></i></button>
-                                        <input type="text" id="quantityInput_@menu.Id" value="1">
+                                        <input type="text" id="sepetadet" value="1">
+                                        <input type="hidden" id="menuid" value="@menu.Id">
                                         <button class="btn btn-success increaseBtn" data-input-id="quantityInput_@menu.Id"><i class="fal fa-plus"></i></button>
                                     </div>
                                     @if (menu.IndirimliFiyat != null && menu.IndirimliFiyat < menu.Fiyat)
@@ -183,8 +184,9 @@
                                     }
                                 </div>
                             </div>
+                            
                         <ul class="details_button_area d-flex flex-wrap">
-                            <li><a class="common_btn" href="#">Sepete Ekle</a></li>
+                            <li><a class="common_btn sepeteekle" href="#">Sepete Ekle</a></li>
                         </ul>
                     </div>
                 </div>
@@ -224,8 +226,5 @@
                 });
             });
         });
-    </script>
-
- 
-  
+    </script>  
 }

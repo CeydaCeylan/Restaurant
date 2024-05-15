@@ -23,5 +23,15 @@ namespace Restaurant.Areas.Musteri.Controllers
 
             return View(uruns);
         }
+
+        public async Task<IActionResult> Detay(int id)
+        {
+            var uruns = await _context.Urunler
+               .Include(m => m.Kategori) // Menü kategorilerini dahil et
+               .Where(m => m.Gorunurluk == true && m.Id == id)
+               .ToListAsync();
+
+            return View(uruns);
+        }
     }
 }

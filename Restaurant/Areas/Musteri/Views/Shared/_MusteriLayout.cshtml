@@ -84,9 +84,6 @@
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Urun" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Urun" asp-action="Index">Ürünler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Personel" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Personel" asp-action="Index">Şefler</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "İletisim" ? "active" : "")" asp-controller="Home" asp-action="İletisim">İletişim</a>
                     </li>
                 </ul>
@@ -97,6 +94,7 @@
                             <span>05</span>
                         </a>
                     </li>
+                    <li><a href="#"><i class="fal fa-heart"></i></a></li>
                     <li>
                         <a href="/giris"><i class="fas fa-user"></i></a>
                     </li>
@@ -206,8 +204,39 @@
     <script src="~/kullanici/js/jquery.exzoom.js"></script>
     <!--main/custom js-->
     <script src="~/kullanici/js/main.js"></script>
+    <script>
+        $('.sepeteekle').click(function () {
+            var deger = $(this).closest('div').find('#menuid').val();
+
+            $.ajax({
+                url: '@Url.Action("MenuSepet", "Sepet")',
+                type: 'GET',
+                data: { id: deger },
+                success: function (menu) {
+                    // localStorage'da mevcut veriyi al
+                    var existingMenuJSON = localStorage.getItem('menu');
+
+                    if (existingMenuJSON) {
+                        // Mevcut veriyi JSON'dan çözümleyin
+                        var existingMenu = JSON.parse(existingMenuJSON);
+                        // Yeni menü verisini mevcut veriyle birleştirin
+                        var updatedMenu = Object.assign(existingMenu, menu);
+                        // Birleştirilmiş veriyi tekrar JSON formatına dönüştürün
+                        var updatedMenuJSON = JSON.stringify(updatedMenu);
+                        // Yeni veriyi localStorage'a kaydedin
+                        localStorage.setItem('menu', updatedMenuJSON);
+                    } else {
+                        // localStorage'da mevcut bir veri yoksa, gelen veriyi doğrudan kaydedin
+                        var menuJSON = JSON.stringify(menu);
+                        localStorage.setItem('menu', menuJSON);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Hata oluştu: ' + error);
+                }
+            });
+        });
+    </script>
 
 </body>
-
-
 </html>
