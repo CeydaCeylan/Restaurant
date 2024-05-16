@@ -14,10 +14,17 @@ namespace Restaurant.Areas.Musteri.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // Tüm görünür menüleri al
+            var menus = await _context.Menuler
+                .Include(m => m.Kategori) // Menü kategorilerini dahil et
+                .Where(m => m.Gorunurluk == true)
+                .ToListAsync();
+
+            return View(menus);
         }
+
         public async Task<IActionResult> MenuSepet(int id)
         {
             var menu = await _context.Menuler

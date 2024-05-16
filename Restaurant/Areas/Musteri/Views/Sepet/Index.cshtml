@@ -1,4 +1,5 @@
-﻿<section class="page_breadcrumb" style="background: url(images/counter_bg.jpg);">
+﻿@model IEnumerable<Menu>
+<section class="page_breadcrumb" style="background: url(/kullanici/images/counter_bg.jpg);">
     <div class="breadcrumb_overlay">
         <div class="container">
             <div class="breadcrumb_text">
@@ -23,49 +24,41 @@
             <div class="col-lg-12 wow fadeInUp" data-wow-duration="1s">
                 <div class="cart_list">
                     <div class="table-responsive">
-                        <table>
-                            <tbody>
+                        <table id="sepetTablosu">                            
+                            <tbody id="sepetListesi">
                                 <tr>
                                     <th class="pro_img">
-                                        Image
+                                        Resim
                                     </th>
-
                                     <th class="pro_name">
-                                        details
+                                        Detaylar
                                     </th>
-
                                     <th class="pro_status">
-                                        price
+                                        Fiyat
                                     </th>
-
                                     <th class="pro_select">
-                                        quantity
+                                        Miktar
                                     </th>
-
                                     <th class="pro_tk">
-                                        total
+                                        Toplam
                                     </th>
-
                                     <th class="pro_icon">
-                                        <a class="clear_all" href="#">clear all</a>
+                                        <a class="clear_all" href="#">Tümünü Temizle</a>
                                     </th>
                                 </tr>
-                                <tr>
+@*                               <tr >
                                     <td class="pro_img">
-                                        <img src="images/menu2_img_1.jpg" alt="product" class="img-fluid w-100">
+                                        <img src="/kullanici/images/menu2_img_1.jpg" alt="product" class="img-fluid w-100">
                                     </td>
-
                                     <td class="pro_name">
-                                        <a href="#">Hyderabadi Biryani</a>
-                                        <span>medium</span>
+                                        <a href="#">Ürün Adı olacak</a>
+                                        <span>Boyutu olacak</span>
                                         <p>coca-cola</p>
                                         <p>7up</p>
                                     </td>
-
                                     <td class="pro_status">
-                                        <h6>$180.00</h6>
+                                        <h6>fiyat olacak</h6>
                                     </td>
-
                                     <td class="pro_select">
                                         <div class="quentity_btn">
                                             <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
@@ -73,109 +66,14 @@
                                             <button class="btn btn-success"><i class="fal fa-plus"></i></button>
                                         </div>
                                     </td>
-
                                     <td class="pro_tk">
-                                        <h6>$180,00</h6>
+                                        <h6>toplam fiyatı olacak</h6>
                                     </td>
-
                                     <td class="pro_icon">
                                         <a href="#"><i class="far fa-times"></i></a>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td class="pro_img">
-                                        <img src="images/menu2_img_2.jpg" alt="product" class="img-fluid w-100">
-                                    </td>
-
-                                    <td class="pro_name">
-                                        <a href="#">Chicken Masala</a>
-                                        <span>small</span>
-                                    </td>
-                                    <td class="pro_status">
-                                        <h6>$140.00</h6>
-                                    </td>
-
-                                    <td class="pro_select">
-                                        <div class="quentity_btn">
-                                            <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                            <input type="text" placeholder="1">
-                                            <button class="btn btn-success"><i class="fal fa-plus"></i></button>
-                                        </div>
-                                    </td>
-
-                                    <td class="pro_tk">
-                                        <h6>$140,00</h6>
-                                    </td>
-
-                                    <td class="pro_icon">
-                                        <a href="#"><i class="far fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="pro_img">
-                                        <img src="images/menu2_img_3.jpg" alt="product" class="img-fluid w-100">
-                                    </td>
-
-                                    <td class="pro_name">
-                                        <a href="#">Daria Shevtsova</a>
-                                        <span>large</span>
-                                        <p>coca-cola</p>
-                                        <p>7up</p>
-                                    </td>
-
-
-                                    <td class="pro_status">
-                                        <h6>$220.00</h6>
-                                    </td>
-
-                                    <td class="pro_select">
-                                        <div class="quentity_btn">
-                                            <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                            <input type="text" placeholder="1">
-                                            <button class="btn btn-success"><i class="fal fa-plus"></i></button>
-                                        </div>
-                                    </td>
-
-                                    <td class="pro_tk">
-                                        <h6>$220,00</h6>
-                                    </td>
-
-                                    <td class="pro_icon">
-                                        <a href="#"><i class="far fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="pro_img">
-                                        <img src="images/menu2_img_4.jpg" alt="product" class="img-fluid w-100">
-                                    </td>
-
-                                    <td class="pro_name">
-                                        <a href="#">Hyderabadi Biryani</a>
-                                        <span>medium</span>
-                                        <p>7up</p>
-                                    </td>
-
-                                    <td class="pro_status">
-                                        <h6>$150.00</h6>
-                                    </td>
-
-                                    <td class="pro_select">
-                                        <div class="quentity_btn">
-                                            <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                            <input type="text" placeholder="1">
-                                            <button class="btn btn-success"><i class="fal fa-plus"></i></button>
-                                        </div>
-                                    </td>
-
-                                    <td class="pro_tk">
-                                        <h6>$150.00</h6>
-                                    </td>
-
-                                    <td class="pro_icon">
-                                        <a href="#"><i class="far fa-times"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                                </tr>                                 
+ *@                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -185,19 +83,19 @@
                     <div class="row">
                         <div class="col-xl-7 col-md-6">
                             <div class="cart_list_footer_button_img">
-                                <img src="images/cart_offer_img.jpg" alt="cart offer" class="img-fluid w-100">
+                                <img src="/kullanici/images/cart_offer_img.jpg" alt="cart offer" class="img-fluid w-100">
                             </div>
                         </div>
                         <div class="col-xl-5 col-md-6">
                             <div class="cart_list_footer_button_text">
-                                <h6>total cart (02)</h6>
-                                <p>subtotal: <span>$124.00</span></p>
-                                <p>delivery: <span>$00.00</span></p>
-                                <p>discount: <span>$10.00</span></p>
-                                <p class="total"><span>total:</span> <span>$134.00</span></p>
+                                <h6>Toplam Sepet</h6>
+                                <p>Ara Toplam: <span>$124.00</span></p>
+                                <p>Teslimat: <span>$00.00</span></p>
+                                <p>İndirim: <span>$10.00</span></p>
+                                <p class="total"><span>Toplam:</span> <span>$134.00</span></p>
                                 <form>
-                                    <input type="text" placeholder="Coupon Code">
-                                    <button type="submit">apply</button>
+                                    <input type="text" placeholder="Kupon Uygula">
+                                    <button type="submit">Uygula</button>
                                 </form>
                                 <a class="common_btn" href="check_out.html">checkout</a>
                             </div>
@@ -208,3 +106,74 @@
         </div>
     </div>
 </section>
+<script>
+    var sepetVerisi = localStorage.getItem('Sepet');
+    var sepetArray = JSON.parse(sepetVerisi);
+    var sepetListesi = document.getElementById('sepetListesi');
+
+    if (!sepetArray || sepetArray.length === 0) {
+        sepetListesi.innerHTML = '<tr><td colspan="6">Sepetinizde ürün bulunmamaktadır.</td></tr>';
+    } else {
+        sepetArray.forEach(function (menu) {
+            var row = document.createElement('tr');
+
+            var imgCell = document.createElement('td');
+            imgCell.style.width = '191px'; // Sütun genişliği
+            var img = document.createElement('img');
+            img.src = '/img/' + menu.fotograf;
+            img.alt = menu.ad;
+            img.style.maxWidth = '100px';
+            img.style.height = 'auto';
+            imgCell.appendChild(img);
+            row.appendChild(imgCell);
+
+
+            var detailsCell = document.createElement('td');
+            detailsCell.style.width = '368px'; // Sütun genişliği
+            var nameLink = document.createElement('a');
+            nameLink.href = '#';
+            nameLink.textContent = menu.ad; // Doğru ürün adını kullanın
+            var description = document.createElement('p');
+            description.textContent = menu.aciklama; // Ürün açıklamasını kullanın
+            detailsCell.appendChild(nameLink);
+            detailsCell.appendChild(description); // Açıklamayı detay hücresine ekleyin
+            row.appendChild(detailsCell);
+
+            var priceCell = document.createElement('td');
+            priceCell.style.textAlign = 'center'; // Metni ortala
+            var price = document.createElement('h6');
+            price.textContent = menu.fiyat; // Doğru fiyatı kullanın
+            priceCell.appendChild(price);
+            row.appendChild(priceCell);
+
+
+            var quantityCell = document.createElement('td');
+            quantityCell.style.width = '160px'; // Sütun genişliği
+            var quantityInput = document.createElement('input');
+            quantityInput.type = 'text';
+            quantityInput.value = '1';
+            quantityCell.appendChild(quantityInput);
+            row.appendChild(quantityCell);
+
+            var totalCell = document.createElement('td');
+            totalCell.style.width = '60px'; // Sütun genişliği
+
+            var total = document.createElement('h6');
+            total.textContent = menu.Price;
+            totalCell.appendChild(total);
+            row.appendChild(totalCell);
+
+            var deleteCell = document.createElement('td');
+            deleteCell.style.width = '60px'; // Sütun genişliği
+
+            var deleteLink = document.createElement('a');
+            deleteLink.href = '#';
+            deleteLink.innerHTML = '<i class="far fa-times"></i>';
+            deleteCell.appendChild(deleteLink);
+            row.appendChild(deleteCell);
+
+            sepetListesi.appendChild(row);
+        });
+    }
+</script>
+

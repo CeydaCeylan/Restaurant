@@ -213,23 +213,25 @@
                 type: 'GET',
                 data: { id: deger },
                 success: function (menu) {
-                    // localStorage'da mevcut veriyi al
-                    var existingMenuJSON = localStorage.getItem('menu');
+                    // localStorage'dan mevcut veriyi al
+                    var sepetverisi = localStorage.getItem('Sepet');
 
-                    if (existingMenuJSON) {
-                        // Mevcut veriyi JSON'dan çözümleyin
-                        var existingMenu = JSON.parse(existingMenuJSON);
-                        // Yeni menü verisini mevcut veriyle birleştirin
-                        var updatedMenu = Object.assign(existingMenu, menu);
-                        // Birleştirilmiş veriyi tekrar JSON formatına dönüştürün
-                        var updatedMenuJSON = JSON.stringify(updatedMenu);
-                        // Yeni veriyi localStorage'a kaydedin
-                        localStorage.setItem('menu', updatedMenuJSON);
-                    } else {
-                        // localStorage'da mevcut bir veri yoksa, gelen veriyi doğrudan kaydedin
-                        var menuJSON = JSON.stringify(menu);
-                        localStorage.setItem('menu', menuJSON);
+                    try {
+                        // Daha önce veri varsa JSON formatından çıkar ve JavaScript nesnesine dönüştür
+                        sepetverisi = JSON.parse(sepetverisi);
+                    } catch (error) {
+                        // Eğer veri beklenen formatta değilse veya hata oluşursa, boş bir dizi oluştur
+                        sepetverisi = [];
                     }
+
+                    // Array.from yöntemi ile sepetverisi'ni diziye dönüştür, veya boş dizi oluştur
+                    var sepetArray = Array.isArray(sepetverisi) ? sepetverisi : [];
+
+                    // Yeni veriyi mevcut verinin altına eklemek için push yöntemini kullan
+                    sepetArray.push(menu);
+
+                    // Diziyi tekrar JSON formatına çevirerek localStorage'a kaydet
+                    localStorage.setItem('Sepet', JSON.stringify(sepetArray));
                 },
                 error: function (xhr, status, error) {
                     alert('Hata oluştu: ' + error);
@@ -237,6 +239,5 @@
             });
         });
     </script>
-
 </body>
 </html>

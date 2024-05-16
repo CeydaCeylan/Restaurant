@@ -33,5 +33,14 @@ namespace Restaurant.Areas.Musteri.Controllers
 
             return View(menus);
         }
+
+        // GET: /Menu/FilterMenu
+        public IActionResult FilterMenu(string searchString, string sortOrder)
+        {
+            // Burada searchString ve sortOrder parametrelerini kullanarak filtreleme işlemlerini gerçekleştirin
+            // Örneğin, menü öğelerini arama terimine göre filtreleyebilir ve belirli bir sıralama kriterine göre sıralayabilirsiniz
+            // Daha sonra filtrelenmiş ve sıralanmış verileri bir modelle birlikte bir görünüme geçirerek gösterebilirsiniz
+            return View();
+        }
     }
 }
