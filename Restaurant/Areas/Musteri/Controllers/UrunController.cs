@@ -13,21 +13,52 @@ namespace Restaurant.Areas.Musteri.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string arama, string category, int page = 1, int pageSize = 8)
         {
-            // Tüm görünür menüleri al
-            var uruns = await _context.Urunler
-                .Include(m => m.Kategori) // Menü kategorilerini dahil et
-                .Where(m => m.Gorunurluk == true)
+            // Ürünlerin temel sorgusu
+            var uruns = from m in _context.Urunler.Include(m => m.Kategori)
+                        select m;
+
+            // Arama ifadesine göre filtreleme
+            if (!string.IsNullOrEmpty(arama))
+            {
+                uruns = uruns.Where(s => s.Ad.Contains(arama));
+            }
+
+            // Kategoriye göre filtreleme
+            if (!string.IsNullOrEmpty(category))
+            {
+                uruns = uruns.Where(x => x.Kategori.Ad == category);
+            }
+
+            // Sayfalama işlemi için toplam veri sayısını alın
+            var totalItems = await uruns.CountAsync();
+
+            // Toplam sayfa sayısını hesaplayın
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            // Geçerli sayfa numarasını sınırlandırın
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            // Verileri sayfalara göre alın
+            var pagedUruns = await uruns
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
-            return View(uruns);
-        }
+            // Sayfalama verilerini view'e iletmek için ViewBag kullanabilirsiniz
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
 
-        public async Task<IActionResult> Detay(int id)
+            return View(pagedUruns);
+        }
+    
+
+    public async Task<IActionResult> Detay(int id)
         {
             var uruns = await _context.Urunler
-               .Include(m => m.Kategori) // Menü kategorilerini dahil et
+               .Include(m => m.Kategori) 
                .Where(m => m.Gorunurluk == true && m.Id == id)
                .ToListAsync();
 

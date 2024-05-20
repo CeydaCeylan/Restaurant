@@ -1,8 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 
-
-<!-- Mirrored from html.themefax.com/regfood/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 01 Apr 2024 12:02:58 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -19,10 +17,14 @@
     <link rel="stylesheet" href="~/kullanici/css/jquery.exzoom.css">
     <link rel="stylesheet" href="~/kullanici/css/style.css">
     <link rel="stylesheet" href="~/kullanici/css/responsive.css">
+
+    <!--Artı ve azaltma ikonlarının gözükmesi için-->
+    @*     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    *@
+    <link href="~/admin/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+
 </head>
-
 <body>
-
     <!--=============================
         TOPBAR START
     ==============================-->
@@ -178,7 +180,7 @@
             </div>
         </div>
     </footer>
-    @RenderSection("Scripts", required: false)
+
     <!--jquery library js-->
     <script src="~/kullanici/js/jquery-3.6.0.min.js"></script>
     <!--bootstrap js-->
@@ -204,40 +206,129 @@
     <script src="~/kullanici/js/jquery.exzoom.js"></script>
     <!--main/custom js-->
     <script src="~/kullanici/js/main.js"></script>
+
+    <script src="~/admin/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @RenderSection("Scripts", required: false)
     <script>
         $('.sepeteekle').click(function () {
             var deger = $(this).closest('div').find('#menuid').val();
+            var adet = $(this).closest('div').find('#sepetadet').val();
 
+            var degeri = $(this).closest('div').find('#urunid').val();
+            // var adeti = $(this).closest('div').find('#sepetadeti').val();
+
+
+            if (adet === null || adet === undefined || isNaN(adet) || adet <= 0 || adet === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata!',
+                    text: 'Adet bilgisi geçersiz.'
+                });
+                return;
+            
+
+            }
+
+            adet = parseInt(adet);
+            if (deger !== undefined) {
             $.ajax({
                 url: '@Url.Action("MenuSepet", "Sepet")',
                 type: 'GET',
                 data: { id: deger },
                 success: function (menu) {
-                    // localStorage'dan mevcut veriyi al
                     var sepetverisi = localStorage.getItem('Sepet');
 
                     try {
-                        // Daha önce veri varsa JSON formatından çıkar ve JavaScript nesnesine dönüştür
                         sepetverisi = JSON.parse(sepetverisi);
                     } catch (error) {
-                        // Eğer veri beklenen formatta değilse veya hata oluşursa, boş bir dizi oluştur
                         sepetverisi = [];
                     }
 
-                    // Array.from yöntemi ile sepetverisi'ni diziye dönüştür, veya boş dizi oluştur
                     var sepetArray = Array.isArray(sepetverisi) ? sepetverisi : [];
 
-                    // Yeni veriyi mevcut verinin altına eklemek için push yöntemini kullan
-                    sepetArray.push(menu);
+                    var ayniMenuVarMi = sepetArray.some(function (item) {
+                        return item.id === menu.id;
+                    });
 
-                    // Diziyi tekrar JSON formatına çevirerek localStorage'a kaydet
+                    if (ayniMenuVarMi) {
+                        // Aynı menü varsa, adet miktarını güncelle
+                        sepetArray = sepetArray.map(function (item) {
+                            if (item.id === menu.id) {
+                                item.adet = parseInt(item.adet) + adet;
+                            }
+                            return item;
+                        });
+                    } else {
+                        // Menü nesnesine adet bilgisi ekle
+                        menu.adet = adet;
+                        sepetArray.push(menu);
+                    }
+
                     localStorage.setItem('Sepet', JSON.stringify(sepetArray));
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarılı!',
+                        text: 'Menü başarıyla sepete eklendi.'
+                    });
                 },
                 error: function (xhr, status, error) {
                     alert('Hata oluştu: ' + error);
                 }
             });
+            } else if (degeri !== undefined) {
+                // Ürünü sepete ekle
+                $.ajax({
+                    url: '@Url.Action("UrunSepet", "Sepet")',
+                    type: 'GET',
+                    data: { id: degeri },
+                    success: function (urun) {
+                        var sepetverisi = localStorage.getItem('Sepet');
+
+                        try {
+                            sepetverisi = JSON.parse(sepetverisi);
+                        } catch (error) {
+                            sepetverisi = [];
+                        }
+
+                        var sepetArray = Array.isArray(sepetverisi) ? sepetverisi : [];
+
+                        var ayniUrunVarMi = sepetArray.some(function (item) {
+                            return item.id === urun.id;
+                        });
+
+                        if (ayniUrunVarMi) {
+                            // Aynı menü varsa, adet miktarını güncelle
+                            sepetArray = sepetArray.map(function (item) {
+                                if (item.id === urun.id) {
+                                    item.adet = parseInt(item.adet) + adet;
+                                }
+                                return item;
+                            });
+                        } else {
+                            // Menü nesnesine adet bilgisi ekle
+                            urun.adet = adet;
+                            sepetArray.push(urun);
+                        }
+
+                        localStorage.setItem('Sepet', JSON.stringify(sepetArray));
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Başarılı!',
+                            text: 'Menü başarıyla sepete eklendi.'
+                        });
+                    }, 
+                    
+                    error: function (xhr, status, error) {
+                        alert('Hata oluştu: ' + error);
+                    }
+                });
+            }
         });
+
     </script>
 </body>
 </html>

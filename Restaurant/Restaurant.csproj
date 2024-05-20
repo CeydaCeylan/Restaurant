@@ -26,6 +26,8 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Garson\Data\" />
+    <Folder Include="Areas\Garson\Models\" />
     <Folder Include="Areas\Musteri\Data\" />
     <Folder Include="Areas\Musteri\Models\" />
     <Folder Include="wwwroot\img\" />

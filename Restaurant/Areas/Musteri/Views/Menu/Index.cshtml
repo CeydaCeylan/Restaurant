@@ -14,22 +14,12 @@
 </section>
 <section class="menu_page mt_100 xs_mt_70 mb_100 xs_mb_70">
     <div class="container">
-       
+
+        <form class="menu_search_area" asp-action="Index" asp-controller="Menu">
             <div class="row">
-                <div class="col-lg-6 col-md-5">
+                <div class="col-lg-10 col-md-5">
                     <div class="menu_search">
-                        <input type="text" name="searchString" placeholder="arama...">
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="menu_search">
-                        <div class="select_area">
-                            <select class="select_js" name="sortOrder">
-                                <option value="Default">Seçiniz</option>
-                                <option value="LowToHigh">short by low to high</option>
-                                <option value="HighToLow">short by high to low</option>
-                            </select>
-                        </div>
+                        <input type="text" placeholder="Arama yapmak istediğiniz kelimeyi girin." name="arama">
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-3">
@@ -38,7 +28,7 @@
                     </div>
                 </div>
             </div>
-        
+        </form>
 
         <div class="row">
             @foreach (var menu in Model)
@@ -83,23 +73,26 @@
             }
         </div>
         <div class="pagination mt_50">
-            <div class="row">
-                <div class="col-12">
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-long-arrow-alt-left"></i></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-long-arrow-alt-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">
+                            <i class="fas fa-long-arrow-alt-left"></i>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">
+                            <i class="fas fa-long-arrow-alt-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </section>
@@ -194,39 +187,95 @@
     </div>
 }
 @section Scripts {
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Arttırma/Azaltma işlevleri
-        function adjustQuantity(operation, inputId) {
-            const quantityInput = document.getElementById(inputId);
-            let currentQuantity = parseInt(quantityInput.value);
-            if (!isNaN(currentQuantity)) {
-                if (operation === 'increase') {
-                    quantityInput.value = currentQuantity + 1;
-                } else if (operation === 'decrease' && currentQuantity > 1) {
-                    quantityInput.value = currentQuantity - 1;
+    <script>
+        // Arttırma butonlarını seç
+        const increaseBtns = document.querySelectorAll('.increaseBtn');
+
+        // Azaltma butonlarını seç
+        const decreaseBtns = document.querySelectorAll('.decreaseBtn');
+
+        // Arttırma butonlarına tıklama olaylarını ekle
+        increaseBtns.forEach(function (increaseBtn) {
+            increaseBtn.addEventListener('click', function () {
+                // İlgili miktar alanını bul
+                const quantityInput = this.parentNode.querySelector('#sepetadet');
+
+                // Mevcut miktarı al
+                let currentQuantity = parseInt(quantityInput.value);
+
+                // Miktarı artır
+                currentQuantity++;
+
+                // Artırılmış miktarı miktar alanına yaz
+                quantityInput.value = currentQuantity;
+            });
+        });
+        // Azaltma butonlarına tıklama olaylarını ekle
+        decreaseBtns.forEach(function (decreaseBtn) {
+            decreaseBtn.addEventListener('click', function () {
+                // İlgili miktar alanını bul
+                const quantityInput = this.parentNode.querySelector('#sepetadet');
+
+                // Mevcut miktarı al
+                let currentQuantity = parseInt(quantityInput.value);
+
+                // Miktarı azalt, ancak en düşük değer 1 olsun
+                if (currentQuantity > 1) {
+                    currentQuantity--;
                 }
-            }
-        }
 
-        // Arttırma/Azaltma düğmeleri için olay dinleyicileri atanması
-        document.querySelectorAll('.increaseBtn').forEach(item => {
-            item.addEventListener('click', () => {
-                const inputId = item.dataset.inputId;
-                adjustQuantity('increase', inputId);
+                // Azaltılmış miktarı miktar alanına yaz
+                quantityInput.value = currentQuantity;
             });
         });
 
-        document.querySelectorAll('.decreaseBtn').forEach(item => {
-            item.addEventListener('click', () => {
-                const inputId = item.dataset.inputId;
-                adjustQuantity('decrease', inputId);
-            });
-        });
-    });
+    </script>
+
+  <script>
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     // Arttırma/Azaltma işlevleri
+    //     function adjustQuantity(operation, inputId) {
+    //         const quantityInput = document.getElementById(inputId);
+    //         let currentQuantity = parseInt(quantityInput.value);
+    //         if (!isNaN(currentQuantity)) {
+    //             if (operation === 'increase') {
+    //                 quantityInput.value = currentQuantity + 1;
+    //             } else if (operation === 'decrease' && currentQuantity > 1) {
+    //                 quantityInput.value = currentQuantity - 1;
+    //             }
+    //         }
+    //     }
+
+    //     // Arttırma/Azaltma düğmeleri için olay dinleyicileri atanması
+    //     document.querySelectorAll('.increaseBtn').forEach(item => {
+    //         item.addEventListener('click', () => {
+    //             const inputId = item.dataset.inputId;
+    //             adjustQuantity('increase', inputId);
+    //         });
+    //     });
+
+    //     document.querySelectorAll('.decreaseBtn').forEach(item => {
+    //         item.addEventListener('click', () => {
+    //             const inputId = item.dataset.inputId;
+    //             adjustQuantity('decrease', inputId);
+    //         });
+    //     });
+    // });
 </script>
 
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+            var errorMessage = "@Html.Raw(TempData["ErrorMessage"].ToString().Replace("\"", "\\\""))";
+            Swal.fire({
+                icon: "error",
+                title: "HATA!",
+                text: errorMessage,
+            });
+        </script>
+    }
 
-    
-  
+
+
+
 }

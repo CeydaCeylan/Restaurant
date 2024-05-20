@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Masa>
+
+<head>
+    <link href="~/admin/vendor/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/admin/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/admin/css/style.css" rel="stylesheet">
+
+</head>
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="col-12">
+                <div class="row">
+                    @foreach (var masa in Model)
+                    {
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="card-title text-center">Masa @masa.Id</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center mb-3" id="qrcode_@masa.Id"></div>
+                                    <p class="card-text"><strong>Kod:</strong> @masa.Kod</p>
+                                    <p class="card-text"><strong>Kategori:</strong> @masa.Kategori?.Ad</p>
+                                    <p class="card-text"><strong>Kapasite:</strong> @masa.Kapasite</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function generateQRCode(elementId, text) {
+            var qrcode = new QRCode(elementId, {
+                text: text,
+                width: 80,
+                height: 80,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // QR kodunu indirmek için fonksiyon
+            function downloadQRCode() {
+                var canvas = document.getElementById(elementId).getElementsByTagName('canvas')[0];
+
+                // Canvas'ı bir Image elementine dönüştür
+                var img = new Image();
+                img.src = canvas.toDataURL();
+
+                // İndirme işlemi için yeni bir Canvas oluştur
+                var newCanvas = document.createElement('canvas');
+                var newContext = newCanvas.getContext('2d');
+                newCanvas.width = 220; // Yeni genişlik
+                newCanvas.height = 220; // Yeni yükseklik
+                newContext.drawImage(img, 0, 0, newCanvas.width, newCanvas.height);
+
+                // Tarayıcıya göre indirme işlemi
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(newCanvas.msToBlob(), 'QRCode.png');
+                } else {
+                    var link = document.createElement('a');
+                    link.href = newCanvas.toDataURL();
+                    link.download = 'QRCode.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+
+            // QR koduna tıklanınca indirme işlemini başlat
+            document.getElementById(elementId).addEventListener('click', downloadQRCode);
+        }
+
+        // Sayfa yüklendiğinde QR kodlarını oluştur
+        // Sayfa yüklendiğinde QR kodlarını oluştur
+        window.onload = function () {
+        @foreach (var masa in Model)
+        {
+            <text>
+                    generateQRCode("qrcode_@masa.Id", "https://192.168.137.123:5001/Musteri");
+
+                // QR koduna tıklanınca yönlendirme işlemi
+                document.getElementById("qrcode_@masa.Id").addEventListener('click', function () {
+                    redirectToPage("https://192.168.137.123:5001/Musteri");
+                });
+            </text>
+        }
+                };
+
+
+    </script>
+
+    <script>
+        // SweetAlert ile bildirim gösterme
+        document.addEventListener('DOMContentLoaded', function () {
+            var successMessage = '@TempData["success"]';
+            var errorMessage = '@TempData["error"]';
+
+            if (successMessage) {
+                Swal.fire({
+                    title: "İşlem Başarılı!",
+                    html: successMessage,
+                    icon: "success"
+                });
+            }
+        });
+    </script>
+
+  
+   
+
+    <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>
+    <script src="~/admin/js/plugins-init/select2-init.js"></script>
+
+}
+
+

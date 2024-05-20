@@ -13,34 +13,82 @@ namespace Restaurant.Areas.Musteri.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
-        {
-            // Tüm görünür menüleri al
-            var menus = await _context.Menuler
-                .Include(m => m.Kategori) // Menü kategorilerini dahil et
-                .Where(m => m.Gorunurluk == true)
-                .ToListAsync();
+        private const int PageSize = 8;
+        private readonly List<string> SampleData = Enumerable.Range(1, 300).Select(i => $"Item {i}").ToList();
+        //public async Task<IActionResult> Index(string arama)
+        //{
+        //    var menusQuery = _context.Menuler
+        //                        .Include(m => m.Kategori) // Menü kategorilerini dahil et
+        //                        .Where(m => m.Gorunurluk == true);
 
-            return View(menus);
+        //    if (!string.IsNullOrEmpty(arama))
+        //    {
+        //        menusQuery = menusQuery.Where(m => m.Ad.Contains(arama));
+        //    }
+
+        //    var menus = await menusQuery.ToListAsync();
+
+        //    if (menus.Count == 0)
+        //    {
+        //        TempData["ErrorMessage"] = "EŞLEŞEN BİR SONUÇ BULUNAMADI!";
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View(menus);
+        //}
+
+        public async Task<IActionResult> Index(string arama, int page = 1)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            var menusQuery = _context.Menuler
+                                .Include(m => m.Kategori)
+                                .Where(m => m.Gorunurluk == true);
+
+            if (!string.IsNullOrEmpty(arama))
+            {
+                menusQuery = menusQuery.Where(m => m.Ad.Contains(arama));
+            }
+            var menus = await menusQuery.ToListAsync();
+
+            if (menus.Count == 0)
+            {
+                TempData["ErrorMessage"] = "EŞLEŞEN BİR SONUÇ BULUNAMADI!";
+                return RedirectToAction("Index");
+            }
+                 
+            var totalItems = await menusQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
+
+            if (page > totalPages)
+            {
+                page = totalPages;
+            }
+
+            var startIndex = (page - 1) * PageSize;
+            var endIndex = Math.Min(startIndex + PageSize - 1, totalItems - 1);
+
+            var pageData = await menusQuery.Skip(startIndex).Take(PageSize).ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            ViewBag.SearchTerm = arama;
+
+            return View(pageData);
         }
 
         public async Task<IActionResult> Detay(int id)
         {
             var menus = await _context.Menuler
-               .Include(m => m.Kategori) // Menü kategorilerini dahil et
-               .Where(m => m.Gorunurluk == true && m.Id == id )
+               .Include(m => m.Kategori) 
+               .Where(m => m.Gorunurluk == true && m.Id == id)
                .ToListAsync();
 
             return View(menus);
-        }
-
-        // GET: /Menu/FilterMenu
-        public IActionResult FilterMenu(string searchString, string sortOrder)
-        {
-            // Burada searchString ve sortOrder parametrelerini kullanarak filtreleme işlemlerini gerçekleştirin
-            // Örneğin, menü öğelerini arama terimine göre filtreleyebilir ve belirli bir sıralama kriterine göre sıralayabilirsiniz
-            // Daha sonra filtrelenmiş ve sıralanmış verileri bir modelle birlikte bir görünüme geçirerek gösterebilirsiniz
-            return View();
         }
     }
 }
