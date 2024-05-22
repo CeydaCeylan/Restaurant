@@ -107,6 +107,10 @@ namespace Restaurant.Models
             builder.Entity<Menu>
              ().Property(u => u.IndirimliFiyat)
              .HasColumnType("decimal (10,2)");
+
+            builder.Entity<MasaSiparis>
+             ().Property(u => u.Tutar)
+             .HasColumnType("decimal (10,2)");
         }
     }
 }

@@ -17,7 +17,7 @@ public partial class Siparis
     
     public int? YorumId { get; set; }
 
-    public int AdresId { get; set; }
+    public int? AdresId { get; set; }
 
 	public bool? Gorunurluk { get; set; }
 
@@ -30,5 +30,9 @@ public partial class Siparis
     public ICollection<TeslimatSiparis> TeslimatSiparislers { get; set; } = new List<TeslimatSiparis>();
 
     public ICollection<Odeme> Odemeler { get; set; } = new List<Odeme>();
+
+    public ICollection<SiparisMenu> SiparisMenuler { get; set; } = new List<SiparisMenu>();
+
+    public ICollection<SiparisUrun> SiparisUrunler { get; set; } = new List<SiparisUrun>();
 
 }

@@ -88,41 +88,59 @@ namespace Restaurant.Areas.Musteri.Controllers
 
             var Siparis = new Siparis
             {
-                Id = id,
+              Gorunurluk = true,
+
             };
+            _context.Siparisler.Add(Siparis);          
+            var masaSiparis = new MasaSiparis
+            {
+                Masa = masa,
+                Siparis = Siparis,
+                Tutar = 0
+            };
+
+            _context.MasaSiparisler.Add(masaSiparis);
 
             foreach (var item in siparisArray)
             {
                 if (item.tur == 1)
                 {
+                    var menu = await _context.Menuler.FindAsync(item.id);
+                    if (menu == null)
+                    {
+                        BadRequest("Menü Boş.");
+                    }
+                    var fiyat = menu.IndirimliFiyat.HasValue ? menu.IndirimliFiyat.Value : menu.Fiyat;
+
                     var siparisMenu = new SiparisMenu
                     {
-                        SiparisId = Siparis.Id,
-                        MenuId = item.id, // item'dan MenuId alıyoruz
-                        Miktar = item.adet
+                        Siparis = Siparis,
+                        MenuId = menu.Id, 
+                        Miktar = item.adet,
+                        
                     };
-
+                    masaSiparis.Tutar += (fiyat * item.adet);
                     _context.SiparisMenuler.Add(siparisMenu);
                 }
                 else if (item.tur == 2)
                 {
+                    var urun = await _context.Urunler.FindAsync(item.id);
+                    if (urun == null)
+                    {
+                        BadRequest("Ürün Boş.");
+                    }
+                    var fiyat = urun.IndirimliFiyat.HasValue ? urun.IndirimliFiyat.Value : urun.Fiyat;
                     var siparisUrun = new SiparisUrun
                     {
-                        SiparisId = Siparis.Id,
-                        UrunId = item.id,
-                        Miktar = item.adet
-                    };
+                        Siparis = Siparis,
+                        UrunId = urun.Id,
+                        Miktar = item.adet,
 
+                    };
+                    masaSiparis.Tutar += (fiyat * item.adet);
                     _context.SiparisUrunler.Add(siparisUrun);
                 }
-            }
-                var masaSiparis = new MasaSiparis
-                {
-                    Masa = masa,
-                    Siparis = Siparis,
-                };
-
-                _context.MasaSiparisler.Add(masaSiparis);
+            }               
                 _context.SaveChanges();
 
                 return Json(siparisArray);

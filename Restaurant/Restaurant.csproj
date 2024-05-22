@@ -29,10 +29,8 @@
     <Folder Include="Areas\Garson\Data\" />
     <Folder Include="Areas\Garson\Models\" />
     <Folder Include="Areas\Musteri\Data\" />
-    <Folder Include="Areas\Mutfak\Controllers\" />
     <Folder Include="Areas\Mutfak\Data\" />
     <Folder Include="Areas\Mutfak\Models\" />
-    <Folder Include="Areas\Mutfak\Views\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

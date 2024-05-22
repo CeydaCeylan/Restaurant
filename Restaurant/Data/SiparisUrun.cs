@@ -9,13 +9,13 @@ public partial class SiparisUrun
 
 	public int? Miktar { get; set; }
 
-    public int SiparisId { get; set; }
+    public int? SiparisId { get; set; }
 
-    public int UrunId { get; set; }
+    public int? UrunId { get; set; }
 	public bool? Gorunurluk { get; set; }
 
-	public Siparis Siparis { get; set; } = null!;
+	public Siparis? Siparis { get; set; } = null!;
 
-    public Urun Urun { get; set; } = null!;
+    public Urun? Urun { get; set; } = null!;
 
 }

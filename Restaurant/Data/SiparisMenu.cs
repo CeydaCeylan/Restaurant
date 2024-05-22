@@ -9,14 +9,14 @@ public partial class SiparisMenu
 
 	public int? Miktar { get; set; }
 
-    public int MenuId { get; set; }
+    public int? MenuId { get; set; }
 
-    public int SiparisId { get; set; }
+    public int? SiparisId { get; set; }
 	public bool? Gorunurluk { get; set; }
 
-	public Menu Menu { get; set; } = null!;
+	public Menu? Menu { get; set; } = null!;
 
-    public Siparis Siparis { get; set; } = null!;
+    public Siparis? Siparis { get; set; } = null!;
 
 
    

@@ -71,7 +71,7 @@
                         <ul class="navbar-nav header-right">               
                             <li class="nav-item dropdown  header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                                    <img src="/admin/images/avatar/profile-1.jpg" width="56" alt="" />
+                                    <img src="/admin/images/avatar/mutfak.jpg" width="56" alt="" />
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a href="app-profile.html" class="dropdown-item ai-icon">
@@ -99,29 +99,24 @@
                         </a>
                     </li>
                     <li>
-                        <a  asp-controller="Masa" asp-action="Index"  aria-expanded="false">
-                            <i class="fa-regular fa-table-picnic"></i>
-                            <span class="nav-text">Masa Listesi</span>
+                        <a asp-controller="MasaSiparis" asp-action="Onayla"  aria-expanded="false">
+                            <i class="fa-solid fa-check"></i>
+                            <span class="nav-text">Onaylanacaklar</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="MasaSiparis" asp-action="Index" aria-expanded="false">
+                        <a asp-controller="Mutfak" asp-action="Index" aria-expanded="false">
                             <i class="fa-regular fa-table-picnic"></i>
-                            <span class="nav-text">Masa Siparişleri</span>
+                            <span class="nav-text">Hazırlanacaklar</span>
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Masa" asp-action="MutfakSiparis" aria-expanded="false">
+                        <a asp-controller="Mutfak" asp-action="MutfakSiparis" aria-expanded="false">
                             <i class="fa-regular fa-table-picnic"></i>
-                            <span class="nav-text">Mutfak Siparişleri</span>
+                            <span class="nav-text">Hazırlananlar</span>
                         </a>
                     </li>
-                    <li>
-                        <a @* asp-controller="Home" asp-action="Index" *@ aria-expanded="false">
-                            <i class="flaticon-025-dashboard"></i>
-                            <span class="nav-text">Sipariş Oluştur</span>
-                        </a>
-                    </li>
+                 
 
 
                 </ul>

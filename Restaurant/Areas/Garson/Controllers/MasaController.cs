@@ -8,7 +8,6 @@ using Restaurant.Models;
 namespace Restaurant.Areas.Garson.Controllers
 {
     [Area("Garson")]
-
     public class MasaController : Controller
     {
         private readonly IdentityDataContext _context;

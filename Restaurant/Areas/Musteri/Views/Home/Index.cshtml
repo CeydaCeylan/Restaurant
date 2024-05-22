@@ -777,25 +777,7 @@
 </section>
 
 @section Scripts{
-    <script>
-        // Kalp ikonuna tıklandığında çalışacak JavaScript işlevi
-        function addToFavorites(menuId) {
-            // AJAX kullanarak sunucuya menüyü ekleyin
-            $.ajax({
-                url: '/Home/AddToFavorites', // Sunucu tarafı işleve gidecek URL'yi belirtin
-                type: 'POST',
-                data: { menuId: menuId }, // Menü ID'sini sunucuya gönderin
-                success: function (response) {
-                    // Başarılı bir şekilde eklendiyse, kullanıcıya bir geribildirim verin
-                    alert('Menu favorilere eklendi!');
-                },
-                error: function (xhr, status, error) {
-                    // Hata durumunda kullanıcıya bir hata mesajı gösterin
-                    alert('Hata oluştu: ' + error);
-                }
-            });
-        }
-    </script>
+
     <script>
         $(document).ready(function () {
             $(".menu_filter button").click(function () {
