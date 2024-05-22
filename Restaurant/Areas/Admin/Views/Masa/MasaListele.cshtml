@@ -89,67 +89,70 @@
     </div>
 </div>
 @section Scripts {
-<script>
-    function generateQRCode(elementId, text) {
-        var qrcode = new QRCode(elementId, {
-            text: text,
-            width: 80,
-            height: 80,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
+    <script>
+        function generateQRCode(elementId, text) {
+            var qrcode = new QRCode(elementId, {
+                text: text,
+                width: 80,
+                height: 80,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
 
-        // QR kodunu indirmek için fonksiyon
-        function downloadQRCode() {
-            var canvas = document.getElementById(elementId).getElementsByTagName('canvas')[0];
+            // QR kodunu indirmek için fonksiyon
+            function downloadQRCode() {
+                var canvas = document.getElementById(elementId).getElementsByTagName('canvas')[0];
 
-            // Canvas'ı bir Image elementine dönüştür
-            var img = new Image();
-            img.src = canvas.toDataURL();
+                // Canvas'ı bir Image elementine dönüştür
+                var img = new Image();
+                img.src = canvas.toDataURL();
 
-            // İndirme işlemi için yeni bir Canvas oluştur
-            var newCanvas = document.createElement('canvas');
-            var newContext = newCanvas.getContext('2d');
-            newCanvas.width = 220; // Yeni genişlik
-            newCanvas.height = 220; // Yeni yükseklik
-            newContext.drawImage(img, 0, 0, newCanvas.width, newCanvas.height);
+                // İndirme işlemi için yeni bir Canvas oluştur
+                var newCanvas = document.createElement('canvas');
+                var newContext = newCanvas.getContext('2d');
+                newCanvas.width = 220; // Yeni genişlik
+                newCanvas.height = 220; // Yeni yükseklik
+                newContext.drawImage(img, 0, 0, newCanvas.width, newCanvas.height);
 
-            // Tarayıcıya göre indirme işlemi
-            if (navigator.msSaveBlob) { // IE 10+
-                navigator.msSaveBlob(newCanvas.msToBlob(), 'QRCode.png');
-            } else {
-                var link = document.createElement('a');
-                link.href = newCanvas.toDataURL();
-                link.download = 'QRCode.png';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                // Tarayıcıya göre indirme işlemi
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(newCanvas.msToBlob(), 'QRCode.png');
+                } else {
+                    var link = document.createElement('a');
+                    link.href = newCanvas.toDataURL();
+                    link.download = 'QRCode.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
             }
+
+            // QR koduna tıklanınca indirme işlemini başlat
+            document.getElementById(elementId).addEventListener('click', downloadQRCode);
         }
 
-        // QR koduna tıklanınca indirme işlemini başlat
-        document.getElementById(elementId).addEventListener('click', downloadQRCode);
-    }
-
-    // Sayfa yüklendiğinde QR kodlarını oluştur
         // Sayfa yüklendiğinde QR kodlarını oluştur
         window.onload = function () {
         @foreach (var masa in Model)
         {
             <text>
-                    generateQRCode("qrcode_@masa.Id", "https://192.168.137.123:5001/Musteri");
+                            // Her masa için QR kodunu oluştur ve benzersiz URL ekle
+                            var masaId = "@masa.Id";
+                var masaKod = "@masa.Kod";
+                var elementId = "qrcode_" + masaId;
+                var qrText = "https://192.168.137.123:5001/Musteri/Menu/Index/" + masaKod;
+                generateQRCode(elementId, qrText);
 
-                // QR koduna tıklanınca yönlendirme işlemi
-                document.getElementById("qrcode_@masa.Id").addEventListener('click', function () {
-                    redirectToPage("https://192.168.137.123:5001/Musteri");
+                // QR koduna tıklanınca yönlendirme işlemini başlat
+                document.getElementById(elementId).addEventListener('click', function () {
+                    window.location.href = qrText;
                 });
             </text>
         }
-        };
+            };
+    </script>
 
-
-</script>
 
     <script>
         // SweetAlert ile bildirim gösterme

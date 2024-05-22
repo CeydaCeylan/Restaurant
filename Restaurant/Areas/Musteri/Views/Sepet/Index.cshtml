@@ -62,15 +62,15 @@
                         <div class="col-xl-5 col-md-6">
                             <div class="cart_list_footer_button_text">
                                 <h6>Toplam Sepet</h6>
-                                <p>Ara Toplam: <span>$124.00</span></p>
-                                <p>Teslimat: <span>$00.00</span></p>
-                                <p>İndirim: <span>$10.00</span></p>
-                                <p class="total"><span>Toplam:</span> <span>$134.00</span></p>
-                                <form>
-                                    <input type="text" placeholder="Kupon Uygula">
+                                <p>Ara Toplam: <span id="subtotal">$0.00</span></p>
+                                <p>Teslimat: <span>$0.00</span></p>
+                                <p>İndirim: <span id="discount">$0.00</span></p>
+                                <p class="total"><span>Toplam:</span> <span id="totalAmount">$0.00</span></p>
+                                <form id="discountForm">
+                                    <input type="text" id="couponCode" placeholder="Kupon Uygula">
                                     <button type="submit">Uygula</button>
                                 </form>
-                                <a class="common_btn" href="check_out.html">checkout</a>
+                                <a class="common_btn" href="javascript:void(0);" onclick="sendOrderToServer()">Sepeti Onayla</a>
                             </div>
                         </div>
                     </div>
@@ -79,6 +79,7 @@
         </div>
     </div>
 </section>
+@section Scripts{
 <script>
     var sepetVerisi = localStorage.getItem('Sepet');
     var sepetArray = JSON.parse(sepetVerisi);
@@ -131,83 +132,6 @@
     }
 </script>
 
-<script>
-
-
-    // var sepetVerisi = localStorage.getItem('Sepet');
-    // var sepetArray = JSON.parse(sepetVerisi);
-    // var sepetListesi = document.getElementById('sepetListesi');
-
-
-
-
-
-    // if (!sepetArray || sepetArray.length === 0) {
-    //     sepetListesi.innerHTML = '<tr><td colspan="6">Sepetinizde ürün bulunmamaktadır.</td></tr>';
-    // } else {
-    //     sepetArray.forEach(function (menu) {
-    //         var row = document.createElement('tr');
-
-    //         var imgCell = document.createElement('td');
-    //         imgCell.style.width = '191px'; // Sütun genişliği
-    //         var img = document.createElement('img');
-    //         img.src = '/img/' + menu.fotograf;
-    //         img.alt = menu.ad;
-    //         img.style.maxWidth = '100px';
-    //         img.style.height = 'auto';
-    //         imgCell.appendChild(img);
-    //         row.appendChild(imgCell);
-
-
-    //         var detailsCell = document.createElement('td');
-    //         detailsCell.style.width = '368px'; // Sütun genişliği
-    //         var nameLink = document.createElement('a');
-    //         nameLink.href = '#';
-    //         nameLink.textContent = menu.ad; // Doğru ürün adını kullanın
-    //         var description = document.createElement('p');
-    //         description.textContent = menu.aciklama; // Ürün açıklamasını kullanın
-    //         detailsCell.appendChild(nameLink);
-    //         detailsCell.appendChild(description); // Açıklamayı detay hücresine ekleyin
-    //         row.appendChild(detailsCell);
-
-    //         var priceCell = document.createElement('td');
-    //         priceCell.style.textAlign = 'center'; // Metni ortala
-    //         var price = document.createElement('h6');
-    //         price.textContent = menu.fiyat; // Doğru fiyatı kullanın
-    //         priceCell.appendChild(price);
-    //         row.appendChild(priceCell);
-
-
-    //         var quantityCell = document.createElement('td');
-    //         quantityCell.style.width = '160px'; // Sütun genişliği
-    //         var quantityInput = document.createElement('input');
-    //         quantityInput.type = 'text';
-    //         quantityInput.value = '1';
-    //         quantityCell.appendChild(quantityInput);
-    //         row.appendChild(quantityCell);
-
-    //         var totalCell = document.createElement('td');
-    //         totalCell.style.width = '60px'; // Sütun genişliği
-
-    //         var total = document.createElement('h6');
-    //         total.textContent = menu.Price;
-    //         totalCell.appendChild(total);
-    //         row.appendChild(totalCell);
-
-    //         var deleteCell = document.createElement('td');
-    //         deleteCell.style.width = '60px'; // Sütun genişliği
-
-    //         var deleteLink = document.createElement('a');
-    //         deleteLink.href = '#';
-    //         deleteLink.innerHTML = '<i class="far fa-times"></i>';
-    //         deleteCell.appendChild(deleteLink);
-    //         row.appendChild(deleteCell);
-
-    //         sepetListesi.appendChild(row);
-    //     });
-    // }
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     function deleteItem(event) {
@@ -243,6 +167,8 @@
                                 'Seçilen öğe başarıyla silindi.',
                                 'success'
                             );
+                            sepetsayisigetir()
+
                         }
                     });
                 }
@@ -275,11 +201,14 @@
             if (result.isConfirmed) {
                 localStorage.removeItem('Sepet'); // Sepet verilerini temizle
                 document.getElementById('sepetListesi').innerHTML = ''; // Tabloyu temizle
+
                 Swal.fire(
                     'Temizlendi!',
                     'Sepetiniz başarıyla temizlendi.',
                     'success'
                 );
+                sepetsayisigetir()
+
             }
         });
     }
@@ -289,5 +218,134 @@
     clearAllLink.addEventListener('click', clearAllItems);
 </script>
 
+<script>
+    // Sepet verilerini localStorage'dan al
+    var sepetVerisi = localStorage.getItem('Sepet');
+    var sepetArray = JSON.parse(sepetVerisi);
 
+    // HTML elementlerini seç
+    var subtotalElement = document.getElementById('subtotal');
+    var totalAmountElement = document.getElementById('totalAmount');
+    var discountElement = document.getElementById('discount');
 
+    // İndirim miktarını buraya tanımlayın veya dinamik olarak hesaplayın
+    var discount = 0.00;
+
+    // Ara toplam ve toplam tutar değişkenlerini tanımlayın
+    var subtotal = 0.00;
+    var totalAmount = 0.00;
+
+    // Sepet verilerini kontrol et ve hesapla
+    if (sepetArray && sepetArray.length > 0) {
+        sepetArray.forEach(function (menu) {
+            var itemTotal = menu.indirimliFiyat ? menu.indirimliFiyat * menu.adet : menu.fiyat * menu.adet;
+            subtotal += itemTotal;
+        });
+
+        // Ara toplamı HTML elementine yaz
+        subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+
+        // İndirimi uygulayarak toplam tutarı hesapla
+        totalAmount = subtotal - discount;
+        totalAmountElement.textContent = `$${totalAmount.toFixed(2)}`;
+    } else {
+        subtotalElement.textContent = `$0.00`;
+        totalAmountElement.textContent = `$0.00`;
+    }
+
+    // İndirim miktarını HTML elementine yaz (sabit veya dinamik)
+    discountElement.textContent = `$${discount.toFixed(2)}`;
+    function updateTotals() {
+        // Sepet verilerini localStorage'dan tekrar al
+        var sepetVerisi = localStorage.getItem('Sepet');
+        var sepetArray = JSON.parse(sepetVerisi);
+
+        // Ara toplam ve toplam tutar değişkenlerini sıfırla
+        var subtotal = 0.00;
+        var totalAmount = 0.00;
+
+        // Sepet verilerini kontrol et ve hesapla
+        if (sepetArray && sepetArray.length > 0) {
+            sepetArray.forEach(function (menu) {
+                var itemTotal = menu.indirimliFiyat ? menu.indirimliFiyat * menu.adet : menu.fiyat * menu.adet;
+                subtotal += itemTotal;
+            });
+
+            // Ara toplamı HTML elementine yaz
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+
+            // İndirimi uygulayarak toplam tutarı hesapla
+            totalAmount = subtotal - discount;
+            totalAmountElement.textContent = `$${totalAmount.toFixed(2)}`;
+        } else {
+            subtotalElement.textContent = `$0.00`;
+            totalAmountElement.textContent = `$0.00`;
+        }
+    }
+
+    // Ürün silme veya miktar değişikliğinde bu fonksiyonu çağırın
+    // Örneğin, ürün silme butonuna tıklanınca:
+    document.querySelectorAll('.delete-row').forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            deleteItem(event); // Ürünü sil
+            updateTotals(); // Toplam tutarı güncelle
+        });
+    });
+
+</script>
+
+<script>
+    var masaKodu = '@Context.GetRouteValue("id")'; // localStorage'dan masa kodunu al
+
+    function sendOrderToServer() {
+        // LocalStorage'den sepet verisini al
+        var sepetVerisi = localStorage.getItem('Sepet');
+        var sepetArray = JSON.parse(sepetVerisi);
+
+        // Eğer sepet boş değilse devam et
+        if (sepetArray && sepetArray.length > 0) {
+
+            var gonderme = JSON.stringify(sepetArray); // Sepet verilerini JSON formatında gönder
+            // Sunucuya göndermek için AJAX isteği oluştur
+            $.ajax({
+                url: '@Url.Action("SiparisVer", "Sepet")',
+                type: 'GET',
+                contentType: 'application/json',
+                data: { sepet: gonderme, masaKodu: masaKodu }, // Masa kodunu burada da ekleyin
+                success: function (response) {
+                    // Başarılı istek sonrası yapılacak işlemler
+                    console.log('Order successfully sent to server:', response);
+                    // Sepeti temizle
+                    localStorage.removeItem('Sepet');
+                    // Başarı mesajı göster veya kullanıcıyı yönlendir
+                    Swal.fire({
+                        title: 'Başarılı!',
+                        text: 'Siparişiniz başarıyla gönderildi.',
+                        icon: 'success'
+                    }).then(() => {
+                        // Başka bir sayfaya yönlendirmek isterseniz buraya ekleyebilirsiniz
+                        window.location.href = 'thank_you.html';
+                    });
+                },
+                error: function (error) {
+                    // Hata durumunda yapılacak işlemler
+                    console.error('Error sending order to server:', error);
+                    Swal.fire({
+                        title: 'Hata!',
+                        text: 'Sipariş gönderilirken bir hata oluştu.',
+                        icon: 'error'
+                    });
+                }
+            });
+        } else {
+            // Eğer sepet boşsa kullanıcıya mesaj göster
+            Swal.fire({
+                title: 'Sepet Boş',
+                text: 'Lütfen sepetinize ürün ekleyin.',
+                icon: 'warning'
+            });
+        }
+    }
+</script>
+
+}

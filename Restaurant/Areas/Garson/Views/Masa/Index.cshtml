@@ -5,32 +5,32 @@
     <link href="~/admin/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
     <link href="/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="/admin/css/style.css" rel="stylesheet">
-
 </head>
 <div class="content-body">
     <div class="container-fluid">
+        <h1 class="text-center mb-4">Masa Listesi</h1>
         <div class="col-12">
-                <div class="row">
-                    @foreach (var masa in Model)
-                    {
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <h5 class="card-title text-center">Masa @masa.Id</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center mb-3" id="qrcode_@masa.Id"></div>
-                                    <p class="card-text"><strong>Kod:</strong> @masa.Kod</p>
-                                    <p class="card-text"><strong>Kategori:</strong> @masa.Kategori?.Ad</p>
-                                    <p class="card-text"><strong>Kapasite:</strong> @masa.Kapasite</p>
-                                </div>
+            <div class="row">
+                @foreach (var masa in Model)
+                {
+                    <div class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-header bg-primary">
+                                <p class="card-text text-white mx-auto"><strong>@masa.Kod</strong></p>
+                            </div>
+                            <div class="card-body text-center"> 
+                                <div class="text-center mb-3" id="qrcode_@masa.Id"></div>
+                                <p class="card-text"><strong>Kategori:</strong> @masa.Kategori?.Ad</p>
                             </div>
                         </div>
-                    }
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
+
+
 @section Scripts {
     <script>
         function generateQRCode(elementId, text) {
@@ -91,27 +91,7 @@
         }
                 };
 
-
     </script>
-
-    <script>
-        // SweetAlert ile bildirim gösterme
-        document.addEventListener('DOMContentLoaded', function () {
-            var successMessage = '@TempData["success"]';
-            var errorMessage = '@TempData["error"]';
-
-            if (successMessage) {
-                Swal.fire({
-                    title: "İşlem Başarılı!",
-                    html: successMessage,
-                    icon: "success"
-                });
-            }
-        });
-    </script>
-
-  
-   
 
     <script src="~/admin/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
     <script src="~/admin/vendor/select2/js/select2.full.min.js"></script>

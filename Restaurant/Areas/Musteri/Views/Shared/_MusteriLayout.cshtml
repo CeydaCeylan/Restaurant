@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -18,16 +17,13 @@
     <link rel="stylesheet" href="~/kullanici/css/style.css">
     <link rel="stylesheet" href="~/kullanici/css/responsive.css">
 
-    <!--Artı ve azaltma ikonlarının gözükmesi için-->
-    @*     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    *@
     <link href="~/admin/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
 
 </head>
 <body>
-    <!--=============================
-        TOPBAR START
-    ==============================-->
+    @{
+        var id = Context.GetRouteValue("id");
+    }
     <section class="topbar">
         <div class="container">
             <div class="row">
@@ -37,9 +33,9 @@
                             <a href="mailto:example@gmail.com"><i class="fas fa-envelope"></i> examplemail@gmail.com</a>
                         </li>
                         <li class="d-none d-md-block">
-                            <a href="callto:123456789">
+                            <a href="tel:05464918132">
                                 <i class="fas fa-phone-alt"></i>
-                                +96487452145214
+                                +905464918132
                             </a>
                         </li>
                     </ul>
@@ -55,12 +51,6 @@
             </div>
         </div>
     </section>
-    <!--=============================
-        TOPBAR END
-    ==============================-->
-    <!--=============================
-        MENU START
-    ==============================-->
     <nav class="navbar navbar-expand-lg main_menu">
         <div class="container">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">
@@ -74,26 +64,26 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" aria-current="page" asp-controller="Home" asp-action="Index">Anasayfa</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" aria-current="page" asp-controller="Home" asp-action="Index" asp-route-id="@id" >Anasayfa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Hakkimizda" ? "active" : "")" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Hakkimizda" ? "active" : "")" asp-controller="Home" asp-action="Hakkimizda" asp-route-id="@id">Hakkımızda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Menu" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Menu" asp-action="Index">Menüler</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Menu" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Menu" asp-action="Index" asp-route-id="@id">Menüler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Urun" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Urun" asp-action="Index">Ürünler</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Urun" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Urun" asp-action="Index" asp-route-id="@id">Ürünler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "İletisim" ? "active" : "")" asp-controller="Home" asp-action="İletisim">İletişim</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "İletisim" ? "active" : "")" asp-controller="Home" asp-action="İletisim" asp-route-id="@id">İletişim</a>
                     </li>
                 </ul>
                 <ul class="menu_icon d-flex flex-wrap">
                     <li>
-                        <a class="cart_icon" asp-controller="Sepet" asp-action="Index">
+                        <a class="cart_icon" asp-controller="Sepet" asp-action="Index" asp-route-id="@id">
                             <i class="fas fa-shopping-basket"></i>
-                            <span>05</span>
+                            <span id ="sepetsayisi"></span>
                         </a>
                     </li>
                     <li><a href="#"><i class="fal fa-heart"></i></a></li>
@@ -105,9 +95,6 @@
 
         </div>
     </nav>
-    <!--=============================
-        MENU END
-    ==============================-->
     @RenderBody()
 
     <footer style="background: url(/kullanici/images/footer_bg.jpg);">
@@ -210,15 +197,14 @@
     <script src="~/admin/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     @RenderSection("Scripts", required: false)
     <script>
         $('.sepeteekle').click(function () {
             var deger = $(this).closest('div').find('#menuid').val();
             var adet = $(this).closest('div').find('#sepetadet').val();
 
-            var degeri = $(this).closest('div').find('#urunid').val();
-            // var adeti = $(this).closest('div').find('#sepetadeti').val();
-
+            var degeri = $(this).closest('div').find('#urunid').val();  
 
             if (adet === null || adet === undefined || isNaN(adet) || adet <= 0 || adet === '') {
                 Swal.fire({
@@ -227,59 +213,55 @@
                     text: 'Adet bilgisi geçersiz.'
                 });
                 return;
-            
-
             }
 
             adet = parseInt(adet);
             if (deger !== undefined) {
-            $.ajax({
-                url: '@Url.Action("MenuSepet", "Sepet")',
-                type: 'GET',
-                data: { id: deger },
-                success: function (menu) {
-                    var sepetverisi = localStorage.getItem('Sepet');
+                $.ajax({
+                    url: '@Url.Action("MenuSepet", "Sepet")',
+                    type: 'GET',
+                    data: { id: deger },
+                    success: function (menu) {
+                        var sepetverisi = localStorage.getItem('Sepet');
 
-                    try {
-                        sepetverisi = JSON.parse(sepetverisi);
-                    } catch (error) {
-                        sepetverisi = [];
-                    }
+                        try {
+                            sepetverisi = JSON.parse(sepetverisi);
+                        } catch (error) {
+                            sepetverisi = [];
+                        }
 
-                    var sepetArray = Array.isArray(sepetverisi) ? sepetverisi : [];
+                        var sepetArray = Array.isArray(sepetverisi) ? sepetverisi : [];
 
-                    var ayniMenuVarMi = sepetArray.some(function (item) {
-                        return item.id === menu.id;
-                    });
-
-                    if (ayniMenuVarMi) {
-                        // Aynı menü varsa, adet miktarını güncelle
-                        sepetArray = sepetArray.map(function (item) {
-                            if (item.id === menu.id) {
-                                item.adet = parseInt(item.adet) + adet;
-                            }
-                            return item;
+                        var ayniMenuVarMi = sepetArray.some(function (item) {
+                            return item.id === menu.id;
                         });
-                    } else {
-                        // Menü nesnesine adet bilgisi ekle
-                        menu.adet = adet;
-                        sepetArray.push(menu);
+
+                        if (ayniMenuVarMi) {
+                            sepetArray = sepetArray.map(function (item) {
+                                if (item.id === menu.id) {
+                                    item.adet = parseInt(item.adet) + adet;
+                                }
+                                return item;
+                            });
+                        } else {
+                            menu.adet = adet;                         
+                            sepetArray.push(menu);                          
+                        }
+
+                        localStorage.setItem('Sepet', JSON.stringify(sepetArray));
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Başarılı!',
+                            text: 'Menü başarıyla sepete eklendi.'
+                        });
+                        sepetsayisigetir()
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Hata oluştu: ' + error);
                     }
-
-                    localStorage.setItem('Sepet', JSON.stringify(sepetArray));
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Başarılı!',
-                        text: 'Menü başarıyla sepete eklendi.'
-                    });
-                },
-                error: function (xhr, status, error) {
-                    alert('Hata oluştu: ' + error);
-                }
-            });
+                });
             } else if (degeri !== undefined) {
-                // Ürünü sepete ekle
                 $.ajax({
                     url: '@Url.Action("UrunSepet", "Sepet")',
                     type: 'GET',
@@ -300,7 +282,6 @@
                         });
 
                         if (ayniUrunVarMi) {
-                            // Aynı menü varsa, adet miktarını güncelle
                             sepetArray = sepetArray.map(function (item) {
                                 if (item.id === urun.id) {
                                     item.adet = parseInt(item.adet) + adet;
@@ -308,7 +289,6 @@
                                 return item;
                             });
                         } else {
-                            // Menü nesnesine adet bilgisi ekle
                             urun.adet = adet;
                             sepetArray.push(urun);
                         }
@@ -318,17 +298,33 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Başarılı!',
-                            text: 'Menü başarıyla sepete eklendi.'
+                            text: 'Ürün başarıyla sepete eklendi.'
                         });
-                    }, 
-                    
+                        sepetsayisigetir()
+                    },
+
                     error: function (xhr, status, error) {
                         alert('Hata oluştu: ' + error);
                     }
                 });
             }
         });
+        sepetsayisigetir()
+        function sepetsayisigetir(){
+            var localsayi = localStorage.getItem("Sepet"); 
+            var sepetDizisi = JSON.parse(localsayi); 
+            if (sepetDizisi !== null) {
+                var siparissayisi = sepetDizisi.length;
 
+                if (siparissayisi > 0) {
+                    $('#sepetsayisi').text(siparissayisi);
+                    $('#sepetsayisi').show();
+                }
+            }
+            else {
+                $('#sepetsayisi').hide();
+            }          
+        }
     </script>
 </body>
 </html>

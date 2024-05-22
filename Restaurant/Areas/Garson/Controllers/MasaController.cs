@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Restaurant.Data;
 using Restaurant.Models;
 
 namespace Restaurant.Areas.Garson.Controllers
@@ -32,5 +34,7 @@ namespace Restaurant.Areas.Garson.Controllers
 
             return View(masa);
         }
+
+       
     }
 }
