@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Models;
 
 namespace Restaurant.Areas.Garson.Controllers
 {
     [Area("Garson")]
+    [Authorize(Roles = "Garson")]
+
     public class MasaSiparisController : Controller
     {
         private readonly IdentityDataContext _context;

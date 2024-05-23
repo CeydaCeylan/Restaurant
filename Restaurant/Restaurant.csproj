@@ -28,6 +28,8 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Garson\Data\" />
     <Folder Include="Areas\Garson\Models\" />
+    <Folder Include="Areas\Kasa\Data\" />
+    <Folder Include="Areas\Kasa\Models\" />
     <Folder Include="Areas\Musteri\Data\" />
     <Folder Include="Areas\Mutfak\Data\" />
     <Folder Include="Areas\Mutfak\Models\" />

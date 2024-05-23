@@ -5,7 +5,8 @@ namespace Restaurant.Areas.Admin.Controllers
 {
 	
 	[Area("Admin")]
-	public class HomeController : Controller
+    [Authorize(Roles = "Admin")]
+    public class HomeController : Controller
 	{
 		public IActionResult Index()
 		{
