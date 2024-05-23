@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Restaurant.Areas.Kasa.Controllers
 {
 	[Area("Kasa")]
-	public class HomeController : Controller
+    [Authorize(Roles = "Kasa")]
+
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {

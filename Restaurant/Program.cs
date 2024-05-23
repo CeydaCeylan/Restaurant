@@ -46,7 +46,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     //Kullanýcýnýn authorize olmasý için gelecek sayfa
     options.LoginPath = "/Account/Login";
     //yetkisiz giriþlerde gönderilen sayfa  
-    options.AccessDeniedPath = "/Account/Accessdenied";
+    options.AccessDeniedPath = "/Yetkisiz/Index";
     //eðer kullanýcý sitede aktif ise cookie süresi sýfýrlanýr
     options.SlidingExpiration = true;
     //cookie saklama zamaný - //oturum sonlandýrma zamaný.

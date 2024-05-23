@@ -28,7 +28,7 @@ public partial class Menu
 
     public DateOnly? IndirimTarihi { get; set; }
     [Required(ErrorMessage = "*Zorunlu Alan")]
-    public int KategoriId { get; set; }
+    public int? KategoriId { get; set; }
 
     public Kategori? Kategori { get; set; }
 

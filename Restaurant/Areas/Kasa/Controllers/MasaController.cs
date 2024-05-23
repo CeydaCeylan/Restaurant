@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Models;
@@ -6,6 +7,8 @@ using Restaurant.Models;
 namespace Restaurant.Areas.Kasa.Controllers
 {
     [Area("Kasa")]
+    [Authorize(Roles = "Kasa")]
+
     public class MasaController : Controller
     {
         private readonly IdentityDataContext _context;

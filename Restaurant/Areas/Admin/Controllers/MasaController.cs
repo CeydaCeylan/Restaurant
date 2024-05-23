@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Data;
 using Restaurant.Models;
-using System.Runtime.ConstrainedExecution;
+
 
 namespace Restaurant.Areas.Admin.Controllers
 {
@@ -51,17 +51,13 @@ namespace Restaurant.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.Gorunurluk = true;
-
-                // Check if a table with the same code already exists
-                // Check if a table with the same code already exists
+                 //Aynı masa kodundan varsa hata verdir.
                 var existingTable = await _context.Masalar.FirstOrDefaultAsync(m => m.Kod == model.Kod);
                 if (existingTable != null)
                 {
-                    // If a table with the same code exists, show SweetAlert error message
                     TempData["error"] = "Bu masa kodu zaten mevcut.";
                     return RedirectToAction("MasaListele");
                 }
-
 
                 if (id == 0)
                 {
@@ -214,7 +210,7 @@ namespace Restaurant.Areas.Admin.Controllers
         {
             try
             {
-                // Her seçilen özellik için yeni bir MasaOzellik kaydı oluşturun
+                // Her seçilen özellik için yeni bir MasaOzellik kaydı oluşturma
                 foreach (var ozellikId in ozellikid)
                 {
                     var masaozellik = new MasaOzellik
@@ -224,9 +220,7 @@ namespace Restaurant.Areas.Admin.Controllers
                         Gorunurluk = true,
                     };
                     await _context.MasaOzellikler.AddAsync(masaozellik);
-                }
-
-                // Değişiklikleri veritabanına kaydedin
+                }             
                 await _context.SaveChangesAsync();
 
                 // Başarılı bir şekilde özellikler atanmışsa, başlangıç sayfasına yönlendirin veya isteğe bağlı olarak bir başarı mesajı gösterin
@@ -235,12 +229,11 @@ namespace Restaurant.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                // Hata durumunda yapılacak işlemler...
+                // Hata durumunda yapılacak işlem.
                 TempData["error"] = "Masa özellikleri atanırken bir hata oluştu: " + ex.Message;
-                return RedirectToAction(nameof(MasaListele)); // veya isteğe bağlı olarak hata mesajı gösterin
+                return RedirectToAction(nameof(MasaListele)); // 
             }
         }
-
 
         public async Task<IActionResult> MasaSil(int id)
         {

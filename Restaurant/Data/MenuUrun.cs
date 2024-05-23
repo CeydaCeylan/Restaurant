@@ -10,13 +10,13 @@ public partial class MenuUrun
 
     public int? Miktar { get; set; }
 
-    public int UrunId { get; set; }
+    public int? UrunId { get; set; }
 
-    public int MenuId { get; set; }
+    public int? MenuId { get; set; }
 
 	public bool? Gorunurluk { get; set; }
 
-	public Menu Menu { get; set; } = null!;
+	public Menu? Menu { get; set; } = null!;
 
-    public Urun Urun { get; set; } = null!;
+    public Urun? Urun { get; set; } = null!;
 }

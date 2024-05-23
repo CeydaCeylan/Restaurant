@@ -89,7 +89,7 @@ namespace Restaurant.Areas.Admin.Controllers
 
                     foreach (var item in rezervasyon.MasaRezervasyonlar.Where(x => x.Gorunurluk == true))
                     {
-                        if(MasaId.Contains(item.MasaId))
+                        if(MasaId.Contains((int)(item.MasaId)))
                         {
                             item.Gorunurluk = true;
                             await _context.MasaRezervasyonlar.AddAsync(item);

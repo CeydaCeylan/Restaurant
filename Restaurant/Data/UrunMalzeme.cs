@@ -13,11 +13,11 @@ public partial class UrunMalzeme
 
     public bool? Gorunurluk { get; set; }
 
-    public int MalzemeId { get; set; }
+    public int? MalzemeId { get; set; }
 
     public Malzeme? Malzeme { get; set; }
 
-    public int UrunId { get; set; }
+    public int? UrunId { get; set; }
 
     public Urun? Urun { get; set; }
 }

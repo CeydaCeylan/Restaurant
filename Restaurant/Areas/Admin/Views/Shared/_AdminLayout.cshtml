@@ -520,29 +520,16 @@
                             <li><a asp-controller="Urun" asp-action="UrunEkle">Ürün Ekle</a></li>
                             <li><a asp-controller="Urun" asp-action="UrunListele">Ürün Listesi</a></li>
                         </ul>
-                    </li>
-                    @*   <li>
-                    <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                    <i class="fa-sharp fa-solid fa-box"></i>
-                    <span class="nav-text">Malzeme İşlemleri</span>
-                    </a>
-                    <ul aria-expanded="false">
-                    <li><a asp-controller="Malzeme" asp-action="MalzemeEkle">Malzeme Ekle</a></li>
-                    <li><a asp-controller="Malzeme" asp-action="MalzemeListele">Malzeme Listesi</a></li>
-                    </ul>
-                    </li> *@
+                    </li>                 
                     <li>
                         <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                             <i class="fa-duotone fa-table-picnic"></i>
                             <span class="nav-text">Masa İşlemleri</span>
                         </a>
                         <ul aria-expanded="false">
-@*                             <li><a asp-controller="Masa" asp-action="MasaEkle">Masa Ekle</a></li>
- *@                            <li><a asp-controller="Masa" asp-action="MasaListele">Masa Listesi</a></li>
-@*                             <li><a asp-controller="Masa" asp-action="OzellikEkle">Özellik Ekle</a></li>
- *@                            <li><a asp-controller="Masa" asp-action="OzellikListele">Özellik Listesi</a></li>
+                            <li><a asp-controller="Masa" asp-action="MasaListele">Masa Listesi</a></li>
+                            <li><a asp-controller="Masa" asp-action="OzellikListele">Özellik Listesi</a></li>
                             <li><a asp-controller="Masa" asp-action="MasaOzellikListele">Masa Özellik Listesi</a></li>
-
                         </ul>
                     </li>
                     <li>
@@ -595,9 +582,7 @@
                             <i class="fa-solid fa-pencil"></i>
                             <span class="nav-text">Stok İşlemleri</span>
                         </a>
-                        <ul aria-expanded="false">
-                                @*                          <li><a asp-controller="Malzeme" asp-action="StokGirdi">Stok Girdi Ekle</a></li>
-                            *@
+                        <ul aria-expanded="false">                             
                             <li><a asp-controller="Malzeme" asp-action="StokGirdiListele">Stok Girdi Listesi</a></li>
                             <li><a asp-controller="Malzeme" asp-action="StokCiktiListele">Stok Çıktı Listesi</a></li>
                             <li><a asp-controller="Malzeme" asp-action="MalzemeListele">Stok Listesi</a></li>
