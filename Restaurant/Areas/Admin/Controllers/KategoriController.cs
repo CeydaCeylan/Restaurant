@@ -6,7 +6,6 @@ using Restaurant.Models;
 
 namespace Restaurant.Areas.Admin.Controllers
 {
-
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
 

@@ -86,12 +86,24 @@ namespace Restaurant.Areas.Musteri.Controllers
             var masa = await _context.Masalar
                .FirstOrDefaultAsync(m => m.Kod == masaKodu);
 
+
             var Siparis = new Siparis
             {
               Gorunurluk = true,
-
+              Tarih = DateTime.Now,
+              
             };
-            _context.Siparisler.Add(Siparis);          
+
+            var durum = new Durum
+            {
+                Siparis = Siparis,
+                Ad = 1,
+                Zaman = DateTime.Now,
+                Yer = 1,            
+            };
+
+            _context.Durumlar.Add(durum);
+
             var masaSiparis = new MasaSiparis
             {
                 Masa = masa,
@@ -138,9 +150,12 @@ namespace Restaurant.Areas.Musteri.Controllers
 
                     };
                     masaSiparis.Tutar += (fiyat * item.adet);
+                    Siparis.Tutar = (int)(masaSiparis.Tutar);
+                    _context.Siparisler.Add(Siparis);
                     _context.SiparisUrunler.Add(siparisUrun);
                 }
-            }               
+            }     
+            
                 _context.SaveChanges();
 
                 return Json(siparisArray);

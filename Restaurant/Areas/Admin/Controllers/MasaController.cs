@@ -182,7 +182,6 @@ namespace Restaurant.Areas.Admin.Controllers
         public async Task<IActionResult> MasaOzellikListele()
         {
 
-
            var masaozellik = await _context.MasaOzellikler
                                                .Include(m => m.Masa)
                                                .Include(muhammed => muhammed.Ozellik)

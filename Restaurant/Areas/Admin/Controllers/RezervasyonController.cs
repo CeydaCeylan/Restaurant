@@ -116,7 +116,11 @@ namespace Restaurant.Areas.Admin.Controllers
             }
             else
             {
-                ViewBag.Masalar = new SelectList(await _context.Masalar.ToListAsync(), "Id", "MasaKod");
+                ViewBag.Masalar = await _context.Masalar.Select(k => new SelectListItem
+                {
+                    Value = k.Id.ToString(),
+                    Text = k.Kod
+                }).ToListAsync();
                 return View(model);
             }
         }

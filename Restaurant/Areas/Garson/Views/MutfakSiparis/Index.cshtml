@@ -2,7 +2,7 @@
 
 <div class="content-body">
     <div class="container-fluid">
-        <h1 class="text-center mb-4">Onaylanacak Siparişler</h1>
+        <h1 class="text-center mb-4">Masa Sipariş Listesi</h1>
         <div class="col-12">
             <div class="row">
                 @foreach (var masaSiparis in Model)
@@ -22,18 +22,10 @@
                                         }
                                         @foreach (var siparisUrun in masaSiparis.Siparis.SiparisUrunler)
                                         {
-                                            <li>Sipariş Adı: @siparisUrun.Urun.Ad - Adet: @siparisUrun.Miktar</li>
+                                            <li>Sipariş Adı: @siparisUrun.Urun.Ad - Adet: @siparisUrun.Miktar</li>                                       
                                         }
                                     </ul>
                                     <p class="card-text"><strong>Toplam Tutar: </strong> @masaSiparis.Tutar₺</p>
-                                    <button type="button" class="btn btn-danger btn-sm">
-                                        İptal Et <span class="btn-icon-end"><i class="fas fa-times"></i></span>
-                                    </button>
-                                    <button type="submit" class="btn btn-success btn-sm btn-onayla">
-                                        Onayla <span class="btn-icon-end">
-                                            <i class="fa fa-check"></i>
-                                        </span>
-                                    </button>
                                 </div>
                             </div>
                         </form>

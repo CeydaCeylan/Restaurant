@@ -16,6 +16,8 @@ public partial class Personel
     public string? Soyad { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [EmailAddress(ErrorMessage = "Geçerli bir email adresi giriniz.")]
+    [DataType(DataType.EmailAddress)]
     public string? Eposta { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]

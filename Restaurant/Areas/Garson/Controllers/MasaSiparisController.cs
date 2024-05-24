@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Restaurant.Data;
 using Restaurant.Models;
 
 namespace Restaurant.Areas.Garson.Controllers
@@ -31,5 +32,37 @@ namespace Restaurant.Areas.Garson.Controllers
             return View(masasiparisler);
         }
 
+        
+
+
+        public IActionResult MutfakSiparisOnayla()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult MutfakSiparisOnayla(int id)
+        {
+            var siparis = _context.Siparisler
+                .Include(a => a.Durumlars)
+                .FirstOrDefault(m => m.Id == id);
+            if (siparis == null)
+            {
+                return NotFound();
+            }
+
+            var durum = new Durum
+            {
+                Siparis = siparis,
+                Ad = 2,
+                Zaman = DateTime.Now,
+                Yer = 2,
+            };
+
+            _context.Durumlar.Add(durum);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }
