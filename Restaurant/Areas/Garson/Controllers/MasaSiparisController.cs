@@ -32,8 +32,6 @@ namespace Restaurant.Areas.Garson.Controllers
             return View(masasiparisler);
         }
 
-        
-
 
         public IActionResult MutfakSiparisOnayla()
         {

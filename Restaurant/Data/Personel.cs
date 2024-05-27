@@ -24,6 +24,7 @@ public partial class Personel
     public string? Telefon { get; set; }
 
     [Required(ErrorMessage = "*Zorunlu Alan")]
+    [RegularExpression("^[0-9]*$", ErrorMessage = "Sadece sayısal değerler kabul edilir.")]
     [Range(0, double.MaxValue, ErrorMessage = "Maaş negatif olamaz.")]
     public decimal? Maas { get; set; }
 

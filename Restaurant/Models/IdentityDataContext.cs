@@ -80,6 +80,7 @@ namespace Restaurant.Models
 
         public DbSet<KayitsizMusteri> KayitsizMusteriler { get; set; }
 
+		//Veritabanında decimalleri virgülden sonra 2 basamak göstermek için.
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -8,7 +8,7 @@
                 @foreach (var masaSiparis in Model)
                 {
                     <div class="col-md-3">
-                        <form>
+                        <form method="post" action="@Url.Action("MutfakHazırlanacakOnayla", "MasaSiparis", new { id = masaSiparis.Siparis.Id })">
                             <div class="card mb-3">
                                 <div class="card-header bg-primary">
                                     <p class="card-text text-white mx-auto"><strong>@masaSiparis.Masa?.Kod</strong></p>
@@ -30,7 +30,7 @@
                                         İptal Et <span class="btn-icon-end"><i class="fas fa-times"></i></span>
                                     </button>
                                     <button type="submit" class="btn btn-success btn-sm btn-onayla">
-                                        Onayla <span class="btn-icon-end">
+                                        Okundu <span class="btn-icon-end">
                                             <i class="fa fa-check"></i>
                                         </span>
                                     </button>
@@ -43,3 +43,16 @@
         </div>
     </div>
 </div>
+@section Scripts { 
+    <script>
+        $(document).ready(function () {
+            $('.btn-onayla').click(function () {
+                Swal.fire({
+                    title: "İşlem Başarılı!",
+                    text: "Sipariş onaylandı!",
+                    icon: "success"
+                });
+            });
+        });
+    </script>
+}

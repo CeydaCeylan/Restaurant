@@ -13,29 +13,8 @@ namespace Restaurant.Areas.Musteri.Controllers
         {
             _context = context;
         }
-        private const int PageSize = 8;
-        private readonly List<string> SampleData = Enumerable.Range(1, 300).Select(i => $"Item {i}").ToList();
-        //public async Task<IActionResult> Index(string arama)
-        //{
-        //    var menusQuery = _context.Menuler
-        //                        .Include(m => m.Kategori) // Menü kategorilerini dahil et
-        //                        .Where(m => m.Gorunurluk == true);
-
-        //    if (!string.IsNullOrEmpty(arama))
-        //    {
-        //        menusQuery = menusQuery.Where(m => m.Ad.Contains(arama));
-        //    }
-
-        //    var menus = await menusQuery.ToListAsync();
-
-        //    if (menus.Count == 0)
-        //    {
-        //        TempData["ErrorMessage"] = "EŞLEŞEN BİR SONUÇ BULUNAMADI!";
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(menus);
-        //}
+        private const int PageSize = 4;
+        private readonly List<string> SampleData = Enumerable.Range(1, 300).Select(i => $"Item {i}").ToList();      
 
         public async Task<IActionResult> Index(string arama, int page = 1)
         {

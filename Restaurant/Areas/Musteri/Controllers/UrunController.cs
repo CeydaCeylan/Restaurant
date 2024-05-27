@@ -14,7 +14,7 @@ namespace Restaurant.Areas.Musteri.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string arama, string category, int page = 1, int pageSize = 8)
+        public async Task<IActionResult> Index(string arama, string category, int page = 1, int pageSize = 4)
         {
             // Ürünlerin temel sorgusu
             var uruns = from m in _context.Urunler.Include(m => m.Kategori)
